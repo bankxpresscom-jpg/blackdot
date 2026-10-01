@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice | Blackdot Publication</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 14c8-4 16-4 24 0v34c-8-4-16-4-24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M56 14c-8-4-16-4-24 0v34c8-4 16-4 24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='30' r='4.5' fill='%23000'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style id="page-size">@page{size:A4;margin:0;}</style>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{--ink:#111;--muted:#5F6672;--line:#D9D9D9;--soft:#F6F6F4;--gold:#B8892B;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;}
+  body{font-family:var(--sans);color:var(--ink);background:#E9E9E6;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .toolbar{position:sticky;top:0;z-index:10;background:#111;color:#fff;padding:12px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;box-shadow:0 6px 20px -10px rgba(0,0,0,.5);}
+  .toolbar .title{font:600 15px var(--sans);margin-right:auto;}
+  .toolbar .title small{display:block;font-weight:400;color:#aaa;font-size:12px;}
+  .seg{display:inline-flex;border:1px solid #444;border-radius:6px;overflow:hidden;}
+  .seg button{background:none;border:0;color:#ccc;padding:9px 14px;font:500 13px var(--sans);cursor:pointer;}
+  .seg button.on{background:#fff;color:#111;}
+  .tb-btn{background:var(--gold);color:#fff;border:0;border-radius:6px;padding:10px 18px;font:600 13px var(--sans);cursor:pointer;display:inline-flex;gap:8px;align-items:center;}
+  .tb-btn.ghost{background:transparent;border:1px solid #555;color:#ddd;}
+  .tb-btn svg{width:16px;height:16px;}
+  #sheets{padding:28px 12px 60px;display:flex;flex-direction:column;align-items:center;gap:26px;}
+  .state{padding:80px 20px;text-align:center;color:var(--muted);font-size:15px;}
+  .state a{color:var(--ink);}
+
+  /* ---------- A4 invoice ---------- */
+  .a4{width:210mm;min-height:297mm;background:#fff;box-shadow:0 10px 40px -12px rgba(0,0,0,.3);padding:14mm 14mm 12mm;position:relative;display:flex;flex-direction:column;}
+  .inv-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:6mm;border-bottom:2px solid var(--ink);}
+  .inv-head img{height:15mm;width:auto;}
+  .biz{font-size:9pt;color:var(--muted);line-height:1.5;margin-top:3mm;max-width:95mm;white-space:pre-line;}
+  .biz strong{color:var(--ink);font-size:10pt;}
+  .doc-title{text-align:right;}
+  .doc-title h1{font:600 22pt/1 var(--serif);letter-spacing:.02em;}
+  .doc-title .sub{font-size:8.5pt;color:var(--muted);margin-top:1.5mm;letter-spacing:.08em;text-transform:uppercase;}
+  .meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;overflow:hidden;}
+  .meta-grid div{padding:3mm 3.5mm;border-right:1px solid var(--line);}
+  .meta-grid div:last-child{border-right:0;}
+  .meta-grid span{display:block;font-size:7.5pt;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1mm;}
+  .meta-grid strong{font-size:9.5pt;font-weight:600;word-break:break-word;}
+  .parties{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm;}
+  .party h3{font-size:7.5pt;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1.5mm;font-weight:600;}
+  .party p{font-size:9.5pt;line-height:1.5;white-space:pre-line;}
+  table.items{width:100%;border-collapse:collapse;margin-top:7mm;font-size:9.5pt;}
+  table.items th{background:var(--ink);color:#fff;font-weight:600;font-size:8pt;text-transform:uppercase;letter-spacing:.05em;padding:2.5mm 3mm;text-align:left;}
+  table.items th.n,table.items td.n{text-align:right;white-space:nowrap;}
+  table.items td{padding:3mm;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.items td small{display:block;color:var(--muted);font-size:8pt;margin-top:.5mm;}
+  table.items tr:nth-child(even) td{background:#FAFAF8;}
+  .totals{display:flex;justify-content:space-between;gap:8mm;margin-top:5mm;align-items:flex-start;}
+  .words{font-size:9pt;max-width:95mm;}
+  .words span{display:block;font-size:7.5pt;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1mm;}
+  .tbox{min-width:70mm;font-size:9.5pt;}
+  .tbox .r{display:flex;justify-content:space-between;padding:1.6mm 0;}
+  .tbox .r.grand{border-top:2px solid var(--ink);margin-top:1.5mm;padding-top:2.5mm;font-size:12pt;font-weight:700;}
+  .paid-stamp{display:inline-block;margin-top:3mm;border:2px solid #15803D;color:#15803D;font-weight:700;font-size:9pt;letter-spacing:.12em;padding:1.2mm 3mm;border-radius:1.5mm;transform:rotate(-3deg);}
+  .notes{margin-top:7mm;font-size:8.5pt;color:var(--muted);line-height:1.6;border-top:1px solid var(--line);padding-top:4mm;}
+  .inv-foot{margin-top:auto;padding-top:6mm;display:flex;justify-content:space-between;align-items:flex-end;gap:10mm;font-size:8.5pt;color:var(--muted);}
+  .inv-foot .thanks{font:italic 500 13pt var(--serif);color:var(--ink);}
+  .sign{text-align:center;min-width:55mm;}
+  .sign .line{border-top:1px solid var(--ink);margin-top:12mm;padding-top:1.5mm;color:var(--ink);font-size:8.5pt;}
+  .watermark{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%) rotate(-24deg);font:700 64pt var(--sans);color:rgba(180,35,24,.08);letter-spacing:.1em;pointer-events:none;white-space:nowrap;}
+
+  /* ---------- 4x6 shipping label ---------- */
+  .label{width:4in;height:6in;background:#fff;box-shadow:0 10px 40px -12px rgba(0,0,0,.3);padding:.16in;display:flex;flex-direction:column;font-size:9pt;overflow:hidden;}
+  .lb{border:2px solid #000;flex:1;display:flex;flex-direction:column;}
+  .lb-row{border-bottom:2px solid #000;padding:.08in .11in;}
+  .lb-row:last-child{border-bottom:0;}
+  .lb-top{display:flex;justify-content:space-between;align-items:center;}
+  .lb-top img{height:.34in;}
+  .prepaid{background:#000;color:#fff;font-weight:700;font-size:10pt;padding:.04in .1in;letter-spacing:.06em;text-align:center;line-height:1.2;}
+  .prepaid small{display:block;font-size:6.5pt;font-weight:500;letter-spacing:.02em;}
+  .lb-k{font-size:7pt;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.03in;}
+  .lb-to{flex:1;}
+  .lb-to .name{font-size:14pt;font-weight:700;line-height:1.15;}
+  .lb-to .addr{font-size:11pt;line-height:1.3;margin-top:.04in;white-space:pre-line;}
+  .lb-to .pin{font-size:20pt;font-weight:700;letter-spacing:.06em;margin-top:.04in;}
+  .lb-to .ph{font-size:11pt;font-weight:600;margin-top:.03in;}
+  .lb-bar{text-align:center;}
+  .lb-bar svg{width:100%;height:.62in;display:block;}
+  .lb-bar .code{font:700 10pt var(--sans);letter-spacing:.18em;margin-top:.02in;}
+  .lb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.06in;font-size:8pt;}
+  .lb-grid b{display:block;font-size:9.5pt;}
+  .lb-from{font-size:8pt;line-height:1.35;white-space:pre-line;}
+  .lb-contents{font-size:7.5pt;line-height:1.35;}
+
+  /* ---------- combined A4: label + invoice ---------- */
+  .combo{padding:10mm 12mm;}
+  .combo .label-half{display:flex;gap:6mm;align-items:stretch;}
+  .combo .label{box-shadow:none;padding:0;height:auto;min-height:4.5in;}
+  .combo .lb-bar svg{height:.5in;}
+  .combo .mini .biz{display:none;}
+  .combo .mini .meta-grid div{padding:2mm 3mm;}
+  .combo .mini .notes{font-size:7.5pt;}
+  .combo .mini .totals .tbox .r{padding:1mm 0;}
+  .combo .slip{flex:1;border:1px solid var(--line);border-radius:2mm;padding:4mm;font-size:9pt;display:flex;flex-direction:column;gap:3mm;}
+  .combo .slip h3{font:600 15pt var(--serif);}
+  .combo .slip table{width:100%;border-collapse:collapse;font-size:9pt;}
+  .combo .slip td{padding:1.6mm 0;border-bottom:1px dashed var(--line);vertical-align:top;}
+  .combo .slip td.q{text-align:right;font-weight:700;width:14mm;}
+  .check{display:flex;gap:2mm;align-items:center;font-size:8.5pt;color:var(--muted);}
+  .check i{width:3.6mm;height:3.6mm;border:1.2px solid var(--ink);display:inline-block;border-radius:.6mm;}
+  .cut{position:relative;border-top:1.5px dashed #999;margin:5mm 0 4mm;}
+  .cut span{position:absolute;left:50%;top:-2.6mm;transform:translateX(-50%);background:#fff;padding:0 3mm;font-size:7.5pt;color:#888;letter-spacing:.1em;text-transform:uppercase;}
+  .combo .mini .inv-head{padding-bottom:3mm;}
+  .combo .mini .inv-head img{height:10mm;}
+  .combo .mini .doc-title h1{font-size:17pt;}
+  .combo .mini .meta-grid{margin-top:3mm;}
+  .combo .mini .parties{display:none;}
+  .combo .mini table.items{margin-top:4mm;font-size:8.5pt;}
+  .combo .mini table.items td{padding:1.8mm 2.5mm;}
+  .combo .mini .totals{margin-top:3mm;}
+  .combo .mini .notes{margin-top:3mm;padding-top:2mm;}
+
+  @media print{
+    body{background:#fff;}
+    .toolbar{display:none !important;}
+    #sheets{padding:0;gap:0;display:block;}
+    .a4,.label{box-shadow:none;margin:0;break-after:page;page-break-after:always;}
+    .a4:last-child,.label:last-child{break-after:auto;page-break-after:auto;}
+    .combo .label{break-after:auto;page-break-after:auto;}
+  }
+  @media screen and (max-width:820px){
+    #sheets{align-items:flex-start;overflow-x:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="toolbar" id="toolbar">
+  <div class="title" id="tb-title">Blackdot Publication<small>Loading…</small></div>
+  <div class="seg" id="type-seg" hidden>
+    <button type="button" data-type="invoice">Invoice (A4)</button>
+    <button type="button" data-type="label">Label (4×6)</button>
+    <button type="button" data-type="combined">Label + Invoice (A4)</button>
+  </div>
+  <button class="tb-btn" type="button" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3"/><rect x="7" y="14" width="10" height="7"/></svg>Print / Save PDF</button>
+</div>
+<div id="sheets"><div class="state">Loading…</div></div>
+
+<script>
+(function(){
+  const LOGO = 'https://res.cloudinary.com/dhn6pvsr1/image/upload/v1784738286/Logo_nwdku8.png';
+  const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  const money = (p) => '₹' + (Number(p || 0) / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const day = (s) => {
+    if(!s) return '';
+    const d = new Date(/Z$/.test(s) ? s : String(s).replace(' ', 'T') + 'Z');
+    return isNaN(d) ? s : d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+  };
+  const METHOD = { upi:'UPI', card:'Card', netbanking:'Net Banking', wallet:'Wallet' };
+
+  // ---- amount in words (Indian numbering) ----
+  const ONES = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const TENS = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  function two(n){ return n < 20 ? ONES[n] : TENS[Math.floor(n/10)] + (n % 10 ? ' ' + ONES[n % 10] : ''); }
+  function three(n){ return (n >= 100 ? ONES[Math.floor(n/100)] + ' Hundred' + (n % 100 ? ' ' : '') : '') + (n % 100 ? two(n % 100) : ''); }
+  function words(n){
+    if(n === 0) return 'Zero';
+    const parts = [];
+    const crore = Math.floor(n / 1e7); n %= 1e7;
+    const lakh = Math.floor(n / 1e5); n %= 1e5;
+    const thousand = Math.floor(n / 1e3); n %= 1e3;
+    if(crore) parts.push(words(crore) + ' Crore');
+    if(lakh) parts.push(two(lakh) + ' Lakh');
+    if(thousand) parts.push(two(thousand) + ' Thousand');
+    if(n) parts.push(three(n));
+    return parts.join(' ');
+  }
+  function amountWords(paise){
+    const r = Math.floor(paise / 100), p = paise % 100;
+    return 'Indian Rupees ' + words(r) + (p ? ' and ' + two(p) + ' Paise' : '') + ' Only';
+  }
+
+  // ---- Code 128 (set B) barcode as SVG ----
+  const C128 = ['212222','222122','222221','121223','121322','131222','122213','122312','132212','221213','221312','231212','112232','122132','122231','113222','123122','123221','223211','221132','221231','213212','223112','312131','311222','321122','321221','312212','322112','322211','212123','212321','232121','111323','131123','131321','112313','132113','132311','211313','231113','231311','112133','112331','132131','113123','113321','133121','313121','211331','231131','213113','213311','213131','311123','311321','331121','312113','312311','332111','314111','221411','431111','111224','111422','121124','121421','141122','141221','112214','112412','122114','122411','142112','142211','241211','221114','413111','241112','134111','111242','121142','121241','114212','124112','124211','411212','421112','421211','212141','214121','412121','111143','111341','131141','114113','114311','411113','411311','113141','114131','311141','411131','211412','211214','211232','2331112'];
+  function barcode(text){
+    const codes = [104];
+    for(const ch of text){ const c = ch.charCodeAt(0) - 32; if(c >= 0 && c <= 94) codes.push(c + 0); }
+    let sum = 104;
+    for(let i = 1; i < codes.length; i++) sum += codes[i] * i;
+    codes.push(sum % 103, 106);
+    let x = 10, bars = '';
+    for(const c of codes){
+      const pat = C128[c];
+      for(let i = 0; i < pat.length; i++){
+        const w = parseInt(pat[i], 10);
+        if(i % 2 === 0) bars += `<rect x="${x}" y="0" width="${w}" height="60"/>`;
+        x += w;
+      }
+    }
+    return `<svg viewBox="0 0 ${x + 10} 60" preserveAspectRatio="none" role="img" aria-label="Barcode ${esc(text)}"><g fill="#000">${bars}</g></svg>`;
+  }
+
+  // ---- data ----
+  const params = new URLSearchParams(location.search);
+  const ids = params.get('ids');
+  const isCustomer = !ids;
+  let type = isCustomer ? 'invoice' : (['invoice','label','combined'].includes(params.get('type')) ? params.get('type') : 'invoice');
+  let orders = [], biz = {};
+
+  function invoiceTitle(){ return biz.business_gstin ? 'Bill of Supply' : 'Invoice'; }
+  function bizBlock(){
+    return [
+      biz.business_address,
+      biz.business_gstin ? 'GSTIN: ' + biz.business_gstin : '',
+      biz.business_pan ? 'PAN: ' + biz.business_pan : '',
+      [biz.business_email, biz.business_phone].filter(Boolean).join(' · '),
+    ].filter(Boolean).join('\n');
+  }
+  function shipTo(o){ return `${o.buyer_name}\n${o.shipping_address}\nPhone: +91 ${o.buyer_phone}`; }
+  function itemsCount(o){ return o.items.reduce((s, it) => s + it.quantity, 0); }
+
+  function invoiceInner(o, mini){
+    const paid = o.payment_status === 'paid';
+    const rows = o.items.map((it, i) => `
+      <tr><td>${i + 1}</td><td><strong>${esc(it.title)}</strong><small>${esc([it.author, it.format].filter(Boolean).join(' · '))}</small></td>
+      <td>${esc(it.hsn || '4901')}</td><td class="n">${it.quantity}</td><td class="n">${money(it.unit_price_paise)}</td><td class="n">${money(it.unit_price_paise * it.quantity)}</td></tr>`).join('');
+    return `
+      ${paid ? '' : '<div class="watermark">NOT PAID</div>'}
+      <div class="inv-head">
+        <div><img src="${LOGO}" alt="Blackdot Publication"><div class="biz"><strong>${esc(biz.business_name || 'Blackdot Publication')}</strong>${bizBlock() ? '\n' + esc(bizBlock()) : ''}</div></div>
+        <div class="doc-title"><h1>${invoiceTitle()}</h1><div class="sub">${paid ? 'Original for recipient' : 'Proforma · payment pending'}</div>${paid ? '<div class="paid-stamp">PAID</div>' : ''}</div>
+      </div>
+      <div class="meta-grid">
+        <div><span>Invoice No.</span><strong>${esc(o.invoice_no || '—')}</strong></div>
+        <div><span>Invoice Date</span><strong>${esc(day(o.paid_at || o.created_at))}</strong></div>
+        <div><span>Order No.</span><strong>#${o.id}</strong></div>
+        <div><span>Payment</span><strong>${paid ? esc(METHOD[o.payment_method] ? 'Prepaid · ' + METHOD[o.payment_method] : 'Prepaid (Online)') : 'Pending'}</strong></div>
+      </div>
+      <div class="parties">
+        <div class="party"><h3>Bill To</h3><p>${esc(o.buyer_name)}${o.buyer_email ? '\n' + esc(o.buyer_email) : ''}\n+91 ${esc(o.buyer_phone)}</p></div>
+        <div class="party"><h3>Ship To</h3><p>${esc(shipTo(o))}</p></div>
+      </div>
+      <table class="items">
+        <thead><tr><th style="width:8mm">#</th><th>Item</th><th style="width:16mm">HSN</th><th class="n" style="width:12mm">Qty</th><th class="n" style="width:26mm">Rate</th><th class="n" style="width:28mm">Amount</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="totals">
+        <div class="words"><span>Amount in words</span>${esc(amountWords(o.amount_paise))}</div>
+        <div class="tbox">
+          <div class="r"><span>Subtotal</span><span>${money(o.subtotal_paise)}</span></div>
+          <div class="r"><span>Shipping</span><span>${o.shipping_paise ? money(o.shipping_paise) : 'Free'}</span></div>
+          <div class="r"><span>GST</span><span>Nil</span></div>
+          <div class="r grand"><span>${paid ? 'Total Paid' : 'Total Due'}</span><span>${money(o.amount_paise)}</span></div>
+        </div>
+      </div>
+      <div class="notes">
+        Printed books (HSN 4901) are exempt from GST under Notification 2/2017-Central Tax (Rate); no tax is charged on this supply.
+        ${o.razorpay_payment_id ? `<br>Payment reference: ${esc(o.razorpay_payment_id)}.` : ''}
+        ${mini ? '' : '<br>For returns or replacements, contact us within 7 days of delivery. See blackdotpublication.com/refund-policy/'}
+      </div>
+      ${mini ? '' : `
+      <div class="inv-foot">
+        <div><div class="thanks">${esc(biz.invoice_footer || 'Thank you for reading with Blackdot Publication.')}</div><div style="margin-top:2mm">This is a computer-generated document and does not require a physical signature.</div></div>
+        <div class="sign">For ${esc(biz.business_name || 'Blackdot Publication')}<div class="line">Authorised Signatory</div></div>
+      </div>`}`;
+  }
+
+  function labelHtml(o){
+    const contents = o.items.map(it => `${it.quantity} × ${it.title}`).join(', ');
+    return `
+      <div class="label"><div class="lb">
+        <div class="lb-row lb-top"><img src="${LOGO}" alt="Blackdot"><div class="prepaid">PREPAID<small>Do not collect cash</small></div></div>
+        <div class="lb-row lb-to"><div class="lb-k">Deliver To</div>
+          <div class="name">${esc(o.buyer_name)}</div>
+          <div class="addr">${esc(o.address_line || o.shipping_address)}${o.city ? '\n' + esc(o.city) + ', ' + esc(o.state) : ''}</div>
+          ${o.pincode ? `<div class="pin">PIN ${esc(o.pincode)}</div>` : ''}
+          <div class="ph">☎ +91 ${esc(o.buyer_phone)}</div>
+        </div>
+        <div class="lb-row lb-bar">${barcode('BD' + o.id)}<div class="code">BD${o.id}</div></div>
+        <div class="lb-row lb-grid">
+          <div>Order<b>#${o.id}</b></div><div>Date<b>${esc(day(o.paid_at || o.created_at))}</b></div>
+          <div>Items<b>${itemsCount(o)} book${itemsCount(o) === 1 ? '' : 's'}</b></div><div>Value<b>${money(o.amount_paise)}</b></div>
+          ${o.tracking_number ? `<div style="grid-column:1/-1">${esc(o.courier_name || 'AWB')}<b>${esc(o.tracking_number)}</b></div>` : ''}
+        </div>
+        <div class="lb-row lb-contents"><div class="lb-k">Contents</div>${esc(contents)}</div>
+        <div class="lb-row lb-from"><div class="lb-k">Return Address</div>${esc(biz.business_name || 'Blackdot Publication')}${biz.business_address ? '\n' + esc(biz.business_address) : ''}${biz.business_phone ? '\n' + esc(biz.business_phone) : ''}</div>
+      </div></div>`;
+  }
+
+  function render(){
+    const sheets = document.getElementById('sheets');
+    document.querySelectorAll('#type-seg button').forEach(b => b.classList.toggle('on', b.dataset.type === type));
+    document.getElementById('page-size').textContent = type === 'label' ? '@page{size:4in 6in;margin:0;}' : '@page{size:A4;margin:0;}';
+    if(type === 'invoice') sheets.innerHTML = orders.map(o => `<div class="a4">${invoiceInner(o)}</div>`).join('');
+    else if(type === 'label') sheets.innerHTML = orders.map(labelHtml).join('');
+    else sheets.innerHTML = orders.map(o => `
+      <div class="a4 combo">
+        <div class="label-half">${labelHtml(o)}
+          <div class="slip"><h3>Packing Slip · #${o.id}</h3>
+            <table>${o.items.map(it => `<tr><td>${esc(it.title)}<br><small style="color:var(--muted)">${esc(it.format || 'Paperback')}</small></td><td class="q">× ${it.quantity}</td></tr>`).join('')}</table>
+            <div style="margin-top:auto;display:flex;flex-direction:column;gap:2mm">
+              <div class="check"><i></i> Books checked for print defects</div>
+              <div class="check"><i></i> Packed with protective wrap</div>
+              <div class="check"><i></i> Invoice placed inside parcel</div>
+              ${o.tracking_number ? `<div style="font-size:8.5pt">AWB: <strong>${esc(o.tracking_number)}</strong></div>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="cut"><span>Cut here · Invoice goes inside the parcel</span></div>
+        <div class="mini">${invoiceInner(o, true)}</div>
+      </div>`).join('');
+    const n = orders.length;
+    document.getElementById('tb-title').innerHTML = `Blackdot Publication<small>${n === 1 ? 'Order #' + orders[0].id : n + ' orders'} · ${type === 'label' ? 'Shipping labels (4×6 in)' : type === 'combined' ? 'Dispatch sheets (A4)' : 'Invoices (A4)'}</small>`;
+    document.title = (n === 1 ? (type === 'label' ? 'Label' : 'Invoice') + ' #' + orders[0].id : n + ' orders') + ' | Blackdot Publication';
+  }
+
+  function fail(msg, link){
+    document.getElementById('sheets').innerHTML = `<div class="state">${esc(msg)}${link ? `<br><br><a href="${link[0]}">${esc(link[1])}</a>` : ''}</div>`;
+    document.getElementById('tb-title').innerHTML = 'Blackdot Publication<small>Unavailable</small>';
+  }
+
+  async function load(){
+    let url;
+    if(isCustomer){
+      const id = params.get('id'), t = params.get('t');
+      if(!id || !t) return fail('This invoice link is incomplete.', ['/order/', 'Find your order']);
+      url = `/api/orders/lookup?id=${encodeURIComponent(id)}&t=${encodeURIComponent(t)}`;
+    } else {
+      const src = params.get('src') === 'vendor' ? 'vendor' : 'admin';
+      url = `/api/${src}/invoices?ids=${encodeURIComponent(ids)}`;
+      document.getElementById('type-seg').hidden = false;
+    }
+    let data;
+    try {
+      const res = await fetch(url, { headers: { 'content-type':'application/json' } });
+      data = await res.json().catch(() => ({}));
+      if(res.status === 401 || res.status === 403) return fail('Please sign in to print invoices.', [params.get('src') === 'vendor' ? '/vendor' : '/admin', 'Sign in']);
+      if(!res.ok) return fail(data.error || 'Could not load this invoice.');
+    } catch(e){ return fail('Could not load this invoice. Please check your connection.'); }
+    orders = data.order ? [data.order] : (data.orders || []);
+    biz = data.business || {};
+    if(!orders.length) return fail('No printable orders found. Only paid orders assigned to you can be printed.');
+    if(isCustomer && orders[0].payment_status !== 'paid') return fail('An invoice is available once the payment is confirmed.', ['/order/?id=' + orders[0].id + '&t=' + encodeURIComponent(params.get('t')), 'View order status']);
+    render();
+    if(params.get('print') === '1') setTimeout(() => window.print(), 600);
+  }
+
+  document.getElementById('type-seg').addEventListener('click', e => {
+    const b = e.target.closest('[data-type]');
+    if(!b) return;
+    type = b.dataset.type;
+    const p = new URLSearchParams(location.search); p.set('type', type);
+    history.replaceState(null, '', '?' + p.toString());
+    render();
+  });
+  load();
+})();
+</script>
+</body>
+</html>

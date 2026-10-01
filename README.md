@@ -4,6 +4,13 @@ Everything in this folder is one Cloudflare Pages project:
 
 ```
 index.html          → public 1-pager (site)
+books/index.html    → Bookstore: all titles in a grid, categories, search, sort
+book/index.html     → Book detail page template, served at /books/<id>-<title>
+checkout/index.html → Cart → Details → Payment checkout (Razorpay)
+order/index.html    → Track Order page for customers (+ invoice download)
+invoice/index.html  → Printable invoice (A4), shipping label (4×6) and dispatch sheet
+assets/store.css    → shared storefront styles (header, cart drawer, stars, toasts)
+assets/store.js     → shared storefront logic (cart, API helpers, header, drawer)
 publish/index.html  → manuscript submission / publishing enquiry page
 admin/index.html    → Main Admin Panel   (blackdotpublication.com/admin)
 vendor/index.html   → Vendor Admin Panel (blackdotpublication.com/vendor)
@@ -30,9 +37,9 @@ e.g. `blackdot_db`.
 Open its **Console** tab and paste the entire contents of `schema.sql`, then
 run it. This creates the tables and inserts the "Ishq Afsari" row.
 
-**Already deployed once before?** Don't re-run the whole file, it would try
-to insert a duplicate row. Skip to "Migrating an existing database" near the
-end of this file instead, and run only the small snippet there.
+**Already deployed once before?** Don't run anything. The Worker upgrades
+the existing database by itself, see "Upgrading an existing deployment"
+near the end of this file.
 
 ---
 
@@ -67,6 +74,7 @@ and *Preview* if you use preview deploys):
 | `RAZORPAY_KEY_SECRET` | **Secret** | your Razorpay **Key Secret** |
 | `SESSION_SECRET` | **Secret** | any long random string (e.g. generate 40 random characters), used to pepper password hashes |
 | `SETUP_TOKEN` | **Secret** | a password *you* invent. Used to create the first admin login (step 6) and also doubles as your permanent password reset key, so store it somewhere safe like a password manager |
+| `RAZORPAY_WEBHOOK_SECRET` | **Secret** (optional, recommended) | the secret you type when creating a webhook in Razorpay (see "Razorpay webhook" below) |
 | `SEND_FROM_EMAIL` | Plaintext | the address manuscript emails are sent from, e.g. `no-reply@blackdotpublication.com`. Must belong to the domain you onboard in step 5 |
 
 Never put these in the HTML or JS. The worker is the only place that reads
@@ -169,18 +177,22 @@ directly in Excel or Google Sheets.
 
 ## How orders flow end to end
 
-1. Visitor clicks **Buy Now** → fills quantity/name/phone/address →
-   `POST /api/razorpay/create-order` creates a D1 order row (`payment_status:
-   created`) and a matching Razorpay order.
+1. Visitor adds books to the cart (or clicks **Buy Now** for a single
+   title) → fills delivery details on `/checkout/` →
+   `POST /api/razorpay/create-order` prices the cart from the database (never
+   from the browser), creates a D1 order row plus its `order_items`
+   (`payment_status: created`) and a matching Razorpay order.
 2. Razorpay Checkout opens client-side with the public `key_id` only.
 3. On successful payment, the browser calls `POST /api/razorpay/verify`,
    which recomputes the HMAC signature server-side with your secret key and
-   only then marks the order `paid`.
+   only then marks the order `paid` and assigns its invoice number. The
+   webhook (below) does the same if the browser never comes back.
 4. Paid orders show up in **Main Admin → Orders**, showing the order date,
    the buyer's shipping address, and the fulfillment status, where you set
    the fulfillment status and/or assign a vendor.
-5. The assigned vendor sees the order in **/vendor** and can only push it
-   forward one stage at a time.
+5. The assigned vendor sees the order in **/vendor**, prints the label and
+   invoice, and can only push it forward one stage at a time
+   (Received → Packing → Shipped → Delivered).
 
 If Razorpay isn't configured yet (keys missing), `create-order` will return
 a 502 with the gateway error, and the person can still reach you directly
@@ -214,53 +226,91 @@ the form warns authors above 4 MB and asks for a shareable link instead.
 
 ---
 
-## Migrating an existing database
+## Upgrading an existing deployment (bookstore, reviews, invoices)
 
-You already ran `schema.sql` once and created your admin login, so don't
-run the full file again. Open the D1 **Console** tab for `blackdot_db` and
-run this instead:
+**Nothing to run by hand.** Upload the new zip. On its first request, the
+Worker checks the database and automatically:
 
-```sql
-CREATE TABLE IF NOT EXISTS manuscripts (
-  id                  INTEGER PRIMARY KEY AUTOINCREMENT,
-  name                TEXT NOT NULL,
-  email               TEXT NOT NULL,
-  phone               TEXT,
-  genre               TEXT,
-  book_title          TEXT,
-  message             TEXT,
-  manuscript_link     TEXT,
-  attachment_filename TEXT,
-  created_at          TEXT NOT NULL DEFAULT (datetime('now'))
-);
+- creates the new `order_items`, `reviews` and `settings` tables,
+- adds the new columns to `books` (tagline, category, MRP, ISBN, author bio…)
+  and `orders` (city/state/pincode, invoice number, courier, tracking…).
 
-UPDATE books
-SET cover_url = 'https://res.cloudinary.com/dhn6pvsr1/image/upload/v1784984695/WhatsApp_Image_2026-07-17_at_11.35.52_AM_wjvpyk.jpg',
-    price_paise = 19900,
-    updated_at = datetime('now')
-WHERE title = 'Ishq Afsari';
-```
+Existing books, orders, admins and vendors are untouched. Orders placed
+before the upgrade keep working everywhere (admin, vendor portal, invoices)
+and get an invoice number the first time one is printed.
 
-That creates the new table for manuscript records and updates the existing
-"Ishq Afsari" row to the new cover and the new ₹199 price. Everything else
-in `schema.sql` (the `admins`, `sessions`, `orders`, `leads` tables) is
-untouched, so your existing admin login and any orders already placed are
-unaffected.
+After uploading:
 
-### Adding the multi-image (gallery) column
+1. **Main Admin → Settings**: fill in your business address (printed as the
+   return address on labels and on invoices), optional GSTIN / PAN, shipping
+   charge and free-shipping threshold, and the delivery-days estimate.
+2. **Main Admin → Books → Edit** each title: add a category, tagline, MRP,
+   language, pages, ISBN, author bio etc. Everything is optional except title,
+   author, price and one image.
+3. (Recommended) set up the Razorpay webhook below.
 
-If your database was created before the "up to 5 images per book" feature
-was added, run this once too (also safe, only adds a column):
+## What customers get
 
-```sql
-ALTER TABLE books ADD COLUMN images TEXT;
-```
+- **/books/**: Amazon-style grid with categories (built from the Category you
+  set on each book), "Coming Soon" tab, search, sorting, star ratings,
+  MRP/discount and a "Get it by <date>" estimate.
+- **/books/<id>-<title>**: gallery with zoom, format, stock, pincode delivery
+  check, quantity, Buy Now / Add to Cart, About the Book / Author, Product
+  Details, Customer Reviews, FAQs and "You May Also Like". Title, description,
+  Open Graph tags and Google star-rating structured data are rendered on the
+  server, so shared links and search results look right.
+- **Cart drawer** on every store page and the homepage.
+- **/checkout/**: delivery form (pincode auto-fills city/state), editable
+  order summary, payment method choice (UPI / card / net banking / wallet,
+  all through Razorpay) and a confirmation screen with invoice download.
+- **/order/**: track by order number + mobile number, see status timeline and
+  courier tracking number, download the invoice, write a review.
+- Order confirmation and "shipped" emails (if the `EMAIL` binding is set up
+  and the buyer gave an email).
 
-Existing titles will keep working immediately, showing their current
-`cover_url` as a single image, until you re-save them from **Main Admin →
-Books → Edit** with additional image links filled in.
+## Reviews
 
----
+Anyone can write a review on a book page. If they enter their order number
+and the mobile number used at checkout, and that paid order contains the
+book, the review is marked **✓ Verified Purchase** and (by default) goes live
+immediately. All other reviews wait in **Main Admin → Reviews** until you
+approve them. You can hide, delete or publicly reply to any review. The
+"Write a review" link on the customer's Track Order page fills in the order
+details for them.
+
+## Invoices, labels and dispatch
+
+From **Main Admin → Orders** (or the vendor portal) tick one or more paid
+orders and choose:
+
+- **Label + Invoice (A4)**: one A4 sheet per order. Top half is the shipping
+  label (with barcode, PREPAID mark, return address) plus a packing checklist;
+  bottom half is the invoice to cut off and put inside the parcel.
+- **Invoices (A4)**: full invoice per page.
+- **Labels (4×6)**: for thermal label printers.
+
+Invoices are numbered `BD/<financial year>/<order no.>` (prefix editable in
+Settings). Printed books (HSN 4901) are GST-exempt, so the invoice shows GST
+as Nil; if you enter a GSTIN in Settings the document is titled "Bill of
+Supply", otherwise "Invoice".
+
+Vendors only see paid orders assigned to them. When they mark an order
+**Shipped** they can enter the courier and AWB number; the customer sees it on
+the Track Order page and gets an email.
+
+## Razorpay webhook (safety net)
+
+If a buyer pays but closes the tab before returning to the site, the order
+would stay "Awaiting payment". The webhook fixes this automatically:
+
+1. Razorpay Dashboard → **Settings → Webhooks → Add New Webhook**
+2. URL: `https://blackdotpublication.com/api/razorpay/webhook`
+3. Secret: any long random string; save the same value as
+   `RAZORPAY_WEBHOOK_SECRET` in Pages → Settings → Variables (Secret).
+4. Active events: `payment.captured` and `order.paid`.
+
+Without the webhook you can still open the order in **Main Admin → Orders →
+View** and click **Check payment with Razorpay**.
 
 ## Redeploying after edits
 

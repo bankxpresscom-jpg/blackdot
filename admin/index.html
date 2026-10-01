@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin | Blackdot Publication</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 14c8-4 16-4 24 0v34c-8-4-16-4-24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M56 14c-8-4-16-4-24 0v34c8-4 16-4 24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='30' r='4.5' fill='%23000'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--black:#000;--bg:#FAFAFA;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
+  :root{--black:#000;--bg:#F6F6F4;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--gold:#B8892B;--gold-soft:#F7F0E1;--green:#15803D;--red:#B42318;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:var(--sans);background:var(--bg);color:#111;}
+  body{font-family:var(--sans);background:var(--bg);color:#111;font-size:14px;}
   a{color:inherit;}
   h1,h2{font-family:var(--serif);font-weight:600;}
   button{font-family:inherit;cursor:pointer;}
@@ -17,60 +18,130 @@
 
   /* ---------- Login ---------- */
   #login-view{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
-  .login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);padding:44px 36px;}
-  .login-box h1{font-size:28px;margin-bottom:6px;text-align:center;}
-  .login-box .sub{text-align:center;color:var(--sec);font-size:13px;margin-bottom:30px;letter-spacing:.04em;text-transform:uppercase;}
-  .field{margin-bottom:18px;}
-  .field label{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);margin-bottom:6px;}
-  .field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid var(--border);background:#fff;font-size:14px;}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#000;}
-  .btn{display:inline-block;padding:12px 24px;background:#000;color:#fff;border:1px solid #000;font-size:13px;letter-spacing:.06em;text-transform:uppercase;transition:.25s;}
+  .login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);padding:44px 36px;border-radius:10px;}
+  .login-box h1{font-size:30px;margin-bottom:6px;text-align:center;}
+  .login-box .sub{text-align:center;color:var(--sec);font-size:12px;margin-bottom:30px;letter-spacing:.08em;text-transform:uppercase;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12px;font-weight:500;color:#333;margin-bottom:6px;}
+  .field label .muted{font-weight:400;}
+  .field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid #D6D6D6;background:#fff;font-size:14px;border-radius:6px;}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;background:#111;color:#fff;border:1px solid #111;font-size:13px;font-weight:500;border-radius:6px;transition:.2s;white-space:nowrap;text-decoration:none;}
   .btn:hover{background:#333;}
-  .btn.outline{background:transparent;color:#000;}
-  .btn.outline:hover{background:#000;color:#fff;}
-  .btn.danger{background:#fff;color:#B00020;border-color:#B00020;}
-  .btn.danger:hover{background:#B00020;color:#fff;}
-  .btn.small{padding:7px 14px;font-size:11px;}
-  .btn.block{width:100%;text-align:center;}
-  .err{color:#B00020;font-size:13px;margin-top:10px;min-height:16px;}
+  .btn.gold{background:var(--gold);border-color:var(--gold);}
+  .btn.gold:hover{background:#9A7020;}
+  .btn.outline{background:#fff;color:#111;border-color:#D6D6D6;}
+  .btn.outline:hover{border-color:#111;}
+  .btn.danger{background:#fff;color:var(--red);border-color:#F2C4BF;}
+  .btn.danger:hover{background:var(--red);color:#fff;}
+  .btn.small{padding:6px 11px;font-size:12px;}
+  .btn.block{width:100%;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .err{color:var(--red);font-size:13px;margin-top:10px;min-height:16px;}
 
   /* ---------- Shell ---------- */
   #app-view{display:none;}
-  header.topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10;}
-  .topbar-inner{max-width:1200px;margin:0 auto;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;}
-  .brand{font-family:var(--serif);font-size:20px;font-weight:600;}
-  .brand span{color:var(--sec);font-family:var(--sans);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-left:10px;}
-  .who{font-size:12px;color:var(--sec);display:flex;align-items:center;gap:16px;}
-  nav.tabs{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;gap:2px;border-bottom:1px solid var(--border);background:#fff;}
-  nav.tabs button{padding:14px 20px;font-size:13px;letter-spacing:.03em;border-bottom:2px solid transparent;color:var(--sec);background:none;}
-  nav.tabs button.active{color:#000;border-color:#000;font-weight:500;}
-  main{max-width:1200px;margin:0 auto;padding:32px 28px 80px;}
+  header.topbar{position:sticky;top:0;background:#111;color:#fff;z-index:20;}
+  .topbar-inner{max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .brand{font-family:var(--serif);font-size:22px;font-weight:600;}
+  .brand span{color:#aaa;font-family:var(--sans);font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-left:10px;}
+  .who{font-size:12px;color:#bbb;display:flex;align-items:center;gap:14px;}
+  .who a{color:#ddd;text-decoration:none;}
+  .who a:hover{color:#fff;}
+  .who .btn{background:transparent;border-color:#555;color:#ddd;}
+  .who .btn:hover{border-color:#fff;color:#fff;}
+  nav.tabs{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:57px;z-index:15;}
+  nav.tabs .in{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;gap:2px;overflow-x:auto;}
+  nav.tabs button{padding:14px 16px;font-size:13.5px;border:0;border-bottom:2px solid transparent;color:var(--sec);background:none;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+  nav.tabs button.active{color:#000;border-color:#000;font-weight:600;}
+  .count{background:var(--gold);color:#fff;font-size:10.5px;font-weight:600;border-radius:9px;padding:1px 6px;min-width:18px;text-align:center;}
+  .count:empty,.count[data-n="0"]{display:none;}
+  main{max-width:1280px;margin:0 auto;padding:24px 24px 80px;}
   .panel{display:none;}
   .panel.active{display:block;}
-  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
-  .panel-head h2{font-size:24px;}
-
-  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);}
-  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:top;}
-  th{background:var(--bg);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);}
-  tr:last-child td{border-bottom:none;}
-  td img{width:40px;height:54px;object-fit:cover;}
-  .badge{display:inline-block;padding:3px 10px;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--border);}
-  .badge.paid{border-color:#111;color:#111;}
-  .badge.created{color:var(--sec);}
-  .badge.failed{border-color:#B00020;color:#B00020;}
-  select.status-select{padding:6px 8px;border:1px solid var(--border);font-size:12.5px;}
-
-  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
-  .modal-bg.open{display:flex;}
-  .modal{background:#fff;max-width:520px;width:100%;padding:32px;max-height:88vh;overflow:auto;}
-  .modal h3{font-size:20px;margin-bottom:20px;}
-  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .empty{padding:40px;text-align:center;color:var(--sec);border:1px dashed var(--border);background:#fff;}
-  .toolbar-btn-wrap{display:flex;gap:10px;}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px;}
+  .panel-head h2{font-size:28px;}
   .muted{color:var(--sec);font-size:12px;}
-  @media(max-width:700px){.row2{grid-template-columns:1fr;} table{font-size:12px;} th,td{padding:9px 8px;}}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+  .kpi{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+  .kpi span{display:block;font-size:12px;color:var(--sec);margin-bottom:6px;}
+  .kpi strong{font-size:24px;font-weight:600;}
+  .kpi small{display:block;font-size:12px;color:var(--sec);margin-top:2px;}
+  .kpi.attn strong{color:var(--gold);}
+  @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr);}}
+
+  .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  .chipbtn{padding:7px 12px;border:1px solid #D6D6D6;border-radius:20px;background:#fff;font-size:12.5px;color:#333;}
+  .chipbtn.on{background:#111;color:#fff;border-color:#111;}
+  .filters input[type=search],.filters select{padding:8px 11px;border:1px solid #D6D6D6;border-radius:6px;font-size:13px;background:#fff;}
+  .filters input[type=search]{min-width:240px;flex:1;max-width:360px;}
+  .bulkbar{display:none;align-items:center;gap:8px;flex-wrap:wrap;background:#111;color:#fff;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px;}
+  .bulkbar.show{display:flex;}
+  .bulkbar .btn{background:#fff;color:#111;border-color:#fff;}
+  .bulkbar .btn:hover{background:#eee;}
+  .bulkbar select{padding:6px 8px;border-radius:6px;border:0;font-size:12.5px;}
+  .bulkbar .sp{flex:1;}
+
+  .table-wrap{overflow-x:auto;background:#fff;border:1px solid var(--border);border-radius:10px;}
+  table{width:100%;border-collapse:collapse;background:#fff;}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid #EFEFEF;font-size:13px;vertical-align:top;}
+  th{background:#FAFAFA;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);font-weight:600;white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:#FCFCFB;}
+  td img.cv{width:40px;height:56px;object-fit:cover;border-radius:2px;}
+  td .t{font-weight:600;}
+  .badge{display:inline-block;padding:2px 9px;font-size:11px;font-weight:600;border-radius:10px;background:#EEE;color:#555;white-space:nowrap;}
+  .badge.paid,.badge.approved,.badge.yes{background:#E7F6EC;color:var(--green);}
+  .badge.created,.badge.pending{background:#FFF4E0;color:#8A5A00;}
+  .badge.failed,.badge.hidden,.badge.no{background:#FDECEA;color:var(--red);}
+  .badge.gold{background:var(--gold-soft);color:#9A7020;}
+  select.inline{padding:6px 8px;border:1px solid #D6D6D6;font-size:12.5px;border-radius:6px;background:#fff;max-width:150px;}
+  .row-actions{display:flex;gap:6px;flex-wrap:wrap;}
+  .items-cell{max-width:260px;}
+  .items-cell div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  input[type=checkbox]{width:16px;height:16px;accent-color:#111;}
+  .empty{padding:40px;text-align:center;color:var(--sec);border:1px dashed #D6D6D6;background:#fff;border-radius:10px;}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:30px 16px;overflow-y:auto;}
+  .modal-bg.open{display:flex;}
+  .modal{background:#fff;max-width:560px;width:100%;padding:28px;border-radius:12px;margin:auto 0;}
+  .modal.wide{max-width:860px;}
+  .modal h3{font:600 24px var(--serif);margin-bottom:18px;}
+  .modal h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--sec);margin:18px 0 10px;padding-top:14px;border-top:1px solid var(--border);}
+  .modal h4:first-of-type{border-top:0;padding-top:0;margin-top:0;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .checks{display:flex;gap:20px;flex-wrap:wrap;}
+  .checks label{display:flex;align-items:center;gap:7px;font-size:13px;}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .box{border:1px solid var(--border);border-radius:8px;padding:14px;}
+  .box .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--sec);margin-bottom:6px;font-weight:600;}
+  .pre{white-space:pre-line;}
+  .kv{display:flex;justify-content:space-between;gap:10px;padding:4px 0;font-size:13px;}
+  .kv span:first-child{color:var(--sec);}
+  .linkrow{display:flex;gap:6px;}
+  .linkrow input{flex:1;font-size:12px;padding:7px 9px;border:1px solid #D6D6D6;border-radius:6px;background:#FAFAFA;}
+
+  .review-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:12px;}
+  .review-card .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;}
+  .review-card .stars{color:#E3A21A;letter-spacing:2px;font-size:15px;}
+  .review-card .body{margin-top:8px;white-space:pre-line;line-height:1.55;}
+  .review-card .reply{margin-top:10px;padding:10px 12px;background:#FAFAF8;border-left:3px solid var(--gold);font-size:13px;white-space:pre-line;}
+  .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:22px;}
+  .card h3{font:600 20px var(--serif);margin-bottom:14px;}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:11px 18px;border-radius:8px;font-size:13.5px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;}
+  .toast.show{opacity:1;}
+  .toast.bad{background:var(--red);}
+  @media(max-width:760px){
+    .row2,.row3,.detail-grid,.settings-grid{grid-template-columns:1fr;}
+    main{padding:18px 14px 80px;}
+    .topbar-inner{padding:12px 14px;}
+    nav.tabs .in{padding:0 8px;}
+    .who #who-name{display:none;}
+  }
 </style>
 </head>
 <body>
@@ -81,8 +152,8 @@
     <h1>Blackdot</h1>
     <div class="sub">Main Admin</div>
     <form id="login-form">
-      <div class="field"><label>Username</label><input type="text" id="username" required autocomplete="username"></div>
-      <div class="field"><label>Password</label><input type="password" id="password" required autocomplete="current-password"></div>
+      <div class="field"><label for="username">Username</label><input type="text" id="username" required autocomplete="username"></div>
+      <div class="field"><label for="password">Password</label><input type="password" id="password" required autocomplete="current-password"></div>
       <button class="btn block" type="submit">Sign In</button>
       <div class="err" id="login-err"></div>
     </form>
@@ -95,90 +166,233 @@
     <div class="topbar-inner">
       <div class="brand">Blackdot <span>Main Admin</span></div>
       <div class="who">
+        <a href="/books/" target="_blank" rel="noopener">View store ↗</a>
         <span id="who-name"></span>
-        <button class="btn outline small" id="logout-btn">Logout</button>
+        <button class="btn small" id="logout-btn">Logout</button>
       </div>
     </div>
   </header>
-  <nav class="tabs">
-    <button data-tab="books" class="active">Books</button>
-    <button data-tab="orders">Orders</button>
+  <nav class="tabs"><div class="in">
+    <button data-tab="orders" class="active">Orders <span class="count" id="count-orders"></span></button>
+    <button data-tab="books">Books</button>
+    <button data-tab="reviews">Reviews <span class="count" id="count-reviews"></span></button>
     <button data-tab="vendors">Vendors</button>
     <button data-tab="manuscripts">Manuscripts</button>
-  </nav>
+    <button data-tab="settings">Settings</button>
+  </div></nav>
   <main>
+    <!-- ORDERS -->
+    <section class="panel active" id="panel-orders">
+      <div class="kpis">
+        <div class="kpi"><span>Revenue (paid orders)</span><strong id="k-rev">₹0</strong><small id="k-rev-sub"></small></div>
+        <div class="kpi attn"><span>To dispatch</span><strong id="k-todo">0</strong><small>Paid, not yet shipped</small></div>
+        <div class="kpi attn"><span>Unassigned</span><strong id="k-unassigned">0</strong><small>Paid orders without a vendor</small></div>
+        <div class="kpi"><span>Books sold</span><strong id="k-copies">0</strong><small id="k-copies-sub"></small></div>
+      </div>
+      <div class="panel-head">
+        <h2>Orders</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn outline small" id="refresh-orders-btn">↻ Refresh</button>
+          <button class="btn outline small" id="export-orders-btn">Download Excel</button>
+        </div>
+      </div>
+      <div class="filters">
+        <button class="chipbtn on" data-pay="paid">Paid</button>
+        <button class="chipbtn" data-pay="created">Awaiting payment</button>
+        <button class="chipbtn" data-pay="failed">Failed</button>
+        <button class="chipbtn" data-pay="all">All</button>
+        <select id="status-filter" aria-label="Fulfilment status"><option value="">Any status</option><option>Received</option><option>Processing</option><option>Sent</option><option>Delivered</option><option value="open">Not shipped yet</option></select>
+        <input type="search" id="order-search" placeholder="Search name, phone, order #, city, book…">
+      </div>
+      <div class="bulkbar" id="bulkbar">
+        <strong id="bulk-count">0 selected</strong>
+        <button class="btn small" data-print="combined">🖨 Label + Invoice</button>
+        <button class="btn small" data-print="invoice">Invoices</button>
+        <button class="btn small" data-print="label">Labels (4×6)</button>
+        <span class="sp"></span>
+        <select id="bulk-vendor" aria-label="Assign vendor"><option value="">Assign vendor…</option></select>
+        <select id="bulk-status" aria-label="Set status"><option value="">Set status…</option><option>Received</option><option>Processing</option><option>Sent</option><option>Delivered</option></select>
+        <button class="btn small" id="bulk-clear">Clear</button>
+      </div>
+      <div class="table-wrap">
+        <table id="orders-table">
+          <thead><tr><th><input type="checkbox" id="check-all" aria-label="Select all"></th><th>Order</th><th>Items</th><th>Buyer</th><th>Amount</th><th>Payment</th><th>Status</th><th>Vendor</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="empty" id="orders-empty" style="display:none;margin-top:14px;">No orders match these filters.</div>
+    </section>
+
     <!-- BOOKS -->
-    <section class="panel active" id="panel-books">
+    <section class="panel" id="panel-books">
       <div class="panel-head">
         <h2>Book Titles</h2>
-        <button class="btn" id="add-book-btn">+ Add Title</button>
+        <button class="btn gold" id="add-book-btn">+ Add Title</button>
       </div>
-      <table id="books-table">
-        <thead><tr><th>Cover</th><th>Title / Author</th><th>Price</th><th>Available</th><th>Featured</th><th>Actions</th></tr></thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-wrap">
+        <table id="books-table">
+          <thead><tr><th>Cover</th><th>Title / Author</th><th>Price</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
       <div class="empty" id="books-empty" style="display:none;margin-top:14px;">No titles yet. Add your first one.</div>
     </section>
 
-    <!-- ORDERS -->
-    <section class="panel" id="panel-orders">
-      <div class="panel-head"><h2>Orders</h2><button class="btn outline small" id="export-orders-btn">Download Excel</button></div>
-      <table id="orders-table">
-        <thead><tr><th>#</th><th>Date</th><th>Book</th><th>Buyer</th><th>Address</th><th>Qty</th><th>Amount</th><th>Payment</th><th>Status</th><th>Vendor</th><th>Actions</th></tr></thead>
-        <tbody></tbody>
-      </table>
-      <div class="empty" id="orders-empty" style="display:none;margin-top:14px;">No orders yet.</div>
+    <!-- REVIEWS -->
+    <section class="panel" id="panel-reviews">
+      <div class="panel-head"><h2>Reviews</h2></div>
+      <p class="muted" style="margin-bottom:14px">Reviews with a matching order number + phone are marked <strong>Verified Purchase</strong> and (if enabled in Settings) go live instantly. Everything else waits here for your approval.</p>
+      <div class="filters">
+        <button class="chipbtn on" data-rv="pending">Pending</button>
+        <button class="chipbtn" data-rv="approved">Published</button>
+        <button class="chipbtn" data-rv="hidden">Hidden</button>
+        <button class="chipbtn" data-rv="all">All</button>
+      </div>
+      <div id="reviews-list"></div>
+      <div class="empty" id="reviews-empty" style="display:none;">Nothing here.</div>
     </section>
 
     <!-- VENDORS -->
     <section class="panel" id="panel-vendors">
       <div class="panel-head">
         <h2>Print Vendors</h2>
-        <button class="btn" id="add-vendor-btn">+ Add Vendor</button>
+        <button class="btn gold" id="add-vendor-btn">+ Add Vendor</button>
       </div>
-      <table id="vendors-table">
-        <thead><tr><th>Username</th><th>Name</th><th>Status</th><th>Created</th></tr></thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-wrap">
+        <table id="vendors-table">
+          <thead><tr><th>Username</th><th>Name</th><th>Open orders</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
       <div class="empty" id="vendors-empty" style="display:none;margin-top:14px;">No vendor accounts yet.</div>
     </section>
 
     <!-- MANUSCRIPTS -->
     <section class="panel" id="panel-manuscripts">
       <div class="panel-head"><h2>Manuscript Submissions</h2></div>
-      <p class="muted" style="margin-bottom:16px;">Every submission is also emailed to info@blackdotpublication.com with the manuscript attached. This table is just a running record.</p>
-      <table id="manuscripts-table">
-        <thead><tr><th>Submitted</th><th>Name / Contact</th><th>Book / Genre</th><th>Message</th><th>Manuscript</th></tr></thead>
-        <tbody></tbody>
-      </table>
+      <p class="muted" style="margin-bottom:16px;">Every submission is also emailed to info@blackdotpublication.com with the manuscript attached. This table is a running record.</p>
+      <div class="table-wrap">
+        <table id="manuscripts-table">
+          <thead><tr><th>Submitted</th><th>Name / Contact</th><th>Book / Genre</th><th>Message</th><th>Manuscript</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
       <div class="empty" id="manuscripts-empty" style="display:none;margin-top:14px;">No submissions yet.</div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="panel" id="panel-settings">
+      <div class="panel-head"><h2>Store Settings</h2><button class="btn gold" id="save-settings-btn">Save Settings</button></div>
+      <form id="settings-form" class="settings-grid">
+        <div class="card">
+          <h3>Invoice &amp; business details</h3>
+          <p class="muted" style="margin-bottom:14px">Printed on every invoice and shipping label.</p>
+          <div class="field"><label>Business name</label><input name="business_name"></div>
+          <div class="field"><label>Address <span class="muted">(return address on labels)</span></label><textarea name="business_address" rows="3"></textarea></div>
+          <div class="row2">
+            <div class="field"><label>GSTIN <span class="muted">(optional)</span></label><input name="business_gstin" maxlength="15"></div>
+            <div class="field"><label>PAN <span class="muted">(optional)</span></label><input name="business_pan" maxlength="10"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label>Email</label><input name="business_email"></div>
+            <div class="field"><label>Phone</label><input name="business_phone"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label>Invoice prefix</label><input name="invoice_prefix" maxlength="10"><div class="muted" style="margin-top:4px">e.g. BD → BD/2026-27/00042</div></div>
+          </div>
+          <div class="field"><label>Invoice thank-you line</label><input name="invoice_footer"></div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:20px">
+            <h3>Shipping &amp; delivery</h3>
+            <div class="row2">
+              <div class="field"><label>Shipping charge (₹)</label><input name="shipping_flat" type="number" min="0" step="1"><div class="muted" style="margin-top:4px">0 = free shipping on every order</div></div>
+              <div class="field"><label>Free shipping above (₹)</label><input name="free_above" type="number" min="0" step="1"><div class="muted" style="margin-top:4px">0 = never waive the charge</div></div>
+            </div>
+            <div class="row2">
+              <div class="field"><label>Delivery estimate, fastest (days)</label><input name="delivery_min_days" type="number" min="1" max="60"></div>
+              <div class="field"><label>Delivery estimate, slowest (days)</label><input name="delivery_max_days" type="number" min="1" max="60"></div>
+            </div>
+            <p class="muted">Shown as “Get it by …” on book pages and at checkout.</p>
+          </div>
+          <div class="card">
+            <h3>Reviews</h3>
+            <label style="display:flex;gap:8px;align-items:flex-start;font-size:13.5px"><input type="checkbox" name="review_auto_approve_verified" style="margin-top:2px"> Publish Verified Purchase reviews instantly (others always wait for approval)</label>
+          </div>
+        </div>
+      </form>
+      <div class="err" id="settings-err"></div>
     </section>
   </main>
 </div>
 
 <!-- BOOK MODAL -->
 <div class="modal-bg" id="book-modal-bg">
-  <div class="modal">
+  <div class="modal wide">
     <h3 id="book-modal-title">Add Title</h3>
     <form id="book-form">
       <input type="hidden" id="book-id">
-      <div class="field"><label>Title</label><input type="text" id="b-title" required></div>
-      <div class="field"><label>Author</label><input type="text" id="b-author" required></div>
-      <div class="field"><label>Description</label><textarea id="b-description" rows="3"></textarea></div>
-      <div class="field"><label>Image 1 URL (cover / primary)</label><input type="url" id="b-image-1" placeholder="https://..." required></div>
-      <div class="field"><label>Image 2 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-2" placeholder="https://..."></div>
-      <div class="field"><label>Image 3 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-3" placeholder="https://..."></div>
-      <div class="field"><label>Image 4 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-4" placeholder="https://..."></div>
-      <div class="field"><label>Image 5 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-5" placeholder="https://..."></div>
-      <p class="muted" style="margin:-10px 0 16px;">Paste up to 5 image links. Visitors will be able to swipe through all of them on the website; the first one is used as the cover thumbnail.</p>
-      <div class="field"><label>Price (₹)</label><input type="number" id="b-price" min="1" required></div>
+      <h4>Basics</h4>
       <div class="row2">
-        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox" id="b-available" checked style="width:auto;"> Available for sale</label>
-        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox" id="b-featured" style="width:auto;"> Featured on homepage</label>
+        <div class="field"><label>Title *</label><input type="text" id="b-title" required maxlength="200"></div>
+        <div class="field"><label>Author *</label><input type="text" id="b-author" required maxlength="200"></div>
       </div>
+      <div class="field"><label>Tagline <span class="muted">(one line under the title, e.g. “A story of love, dreams and destiny.”)</span></label><input type="text" id="b-tagline" maxlength="200"></div>
+      <div class="row3">
+        <div class="field"><label>Category</label><input type="text" id="b-category" list="cat-list" placeholder="Fiction, Non-Fiction, Poetry…" maxlength="60"><datalist id="cat-list"><option>Fiction</option><option>Non-Fiction</option><option>Poetry</option><option>Memoir</option><option>Self-help</option><option>Children's</option><option>Academic</option><option>Business</option></datalist></div>
+        <div class="field"><label>Language</label><input type="text" id="b-language" placeholder="Hindi, English…" maxlength="60"></div>
+        <div class="field"><label>Display order <span class="muted">(lower first)</span></label><input type="number" id="b-sort" value="0"></div>
+      </div>
+      <div class="field"><label>About the book</label><textarea id="b-description" rows="5"></textarea></div>
+
+      <h4>Pricing</h4>
+      <div class="row3">
+        <div class="field"><label>Selling price (₹) *</label><input type="number" id="b-price" min="1" step="1" required></div>
+        <div class="field"><label>M.R.P. (₹) <span class="muted">(optional, shown struck-through)</span></label><input type="number" id="b-mrp" min="0" step="1"></div>
+        <div class="field"><label>Binding</label><input type="text" id="b-binding" placeholder="Paperback" maxlength="40"></div>
+      </div>
+
+      <h4>Images</h4>
+      <div class="field"><label>Image 1 URL (cover) *</label><input type="url" id="b-image-1" placeholder="https://..." required></div>
+      <div class="row2">
+        <div class="field"><label>Image 2 URL</label><input type="url" id="b-image-2" placeholder="https://..."></div>
+        <div class="field"><label>Image 3 URL</label><input type="url" id="b-image-3" placeholder="https://..."></div>
+        <div class="field"><label>Image 4 URL</label><input type="url" id="b-image-4" placeholder="https://..."></div>
+        <div class="field"><label>Image 5 URL</label><input type="url" id="b-image-5" placeholder="https://..."></div>
+      </div>
+      <p class="muted" style="margin:-6px 0 4px;">Cloudinary links are automatically resized and compressed for fast loading.</p>
+
+      <h4>Product details</h4>
+      <div class="row3">
+        <div class="field"><label>Pages</label><input type="number" id="b-pages" min="0"></div>
+        <div class="field"><label>ISBN</label><input type="text" id="b-isbn" maxlength="40"></div>
+        <div class="field"><label>Published</label><input type="text" id="b-published" placeholder="e.g. July 2026" maxlength="40"></div>
+        <div class="field"><label>Dimensions</label><input type="text" id="b-dimensions" placeholder="e.g. 14 × 21.6 cm" maxlength="80"></div>
+        <div class="field"><label>Weight (grams)</label><input type="number" id="b-weight" min="0"></div>
+      </div>
+
+      <h4>Author</h4>
+      <div class="field"><label>About the author</label><textarea id="b-author-bio" rows="3"></textarea></div>
+      <div class="field"><label>Author photo URL</label><input type="url" id="b-author-photo" placeholder="https://..."></div>
+
+      <h4>Extras</h4>
+      <div class="row2">
+        <div class="field"><label>“Look Inside” sample link <span class="muted">(PDF / Google Drive preview)</span></label><input type="url" id="b-sample" placeholder="https://..."></div>
+        <div class="field"><label>eBook store link <span class="muted">(Kindle, Google Play…)</span></label><input type="url" id="b-ebook-url" placeholder="https://..."></div>
+        <div class="field"><label>eBook price (₹) <span class="muted">(display only)</span></label><input type="number" id="b-ebook-price" min="0"></div>
+      </div>
+
+      <h4>Visibility</h4>
+      <div class="checks">
+        <label><input type="checkbox" id="b-available" checked> Visible in store</label>
+        <label><input type="checkbox" id="b-in-stock" checked> In stock</label>
+        <label><input type="checkbox" id="b-coming-soon"> Coming soon (not purchasable)</label>
+        <label><input type="checkbox" id="b-featured"> Featured on homepage</label>
+      </div>
+      <div class="err" id="book-err"></div>
       <div class="modal-actions">
-        <button type="button" class="btn outline small" onclick="closeBookModal()">Cancel</button>
-        <button type="submit" class="btn small">Save</button>
+        <button type="button" class="btn outline" data-close>Cancel</button>
+        <button type="submit" class="btn gold" id="book-save">Save</button>
       </div>
     </form>
   </div>
@@ -190,29 +404,72 @@
     <h3>Add Print Vendor</h3>
     <form id="vendor-form">
       <div class="field"><label>Display Name</label><input type="text" id="v-name" required></div>
-      <div class="field"><label>Username</label><input type="text" id="v-username" required></div>
-      <div class="field"><label>Password</label><input type="password" id="v-password" required minlength="8"></div>
-      <p class="muted">Share these credentials with the print vendor. They will log in at <code>/vendor</code> and will only ever see orders you assign to them.</p>
+      <div class="field"><label>Username</label><input type="text" id="v-username" required autocomplete="off"></div>
+      <div class="field"><label>Password <span class="muted">(min 8 characters)</span></label><input type="password" id="v-password" required minlength="8" autocomplete="new-password"></div>
+      <p class="muted">Share these credentials with the print vendor. They log in at <code>/vendor</code>, see only orders you assign to them, and can print labels and invoices for those orders.</p>
+      <div class="err" id="vendor-err"></div>
       <div class="modal-actions">
-        <button type="button" class="btn outline small" onclick="closeVendorModal()">Cancel</button>
-        <button type="submit" class="btn small">Create Vendor</button>
+        <button type="button" class="btn outline" data-close>Cancel</button>
+        <button type="submit" class="btn gold">Create Vendor</button>
       </div>
     </form>
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- ORDER DETAIL MODAL -->
+<div class="modal-bg" id="order-modal-bg">
+  <div class="modal wide" id="order-modal"></div>
+</div>
+
+<!-- REPLY MODAL -->
+<div class="modal-bg" id="reply-modal-bg">
+  <div class="modal">
+    <h3>Reply to review</h3>
+    <form id="reply-form">
+      <input type="hidden" id="reply-id">
+      <div class="field"><label>Your public reply <span class="muted">(shown under the review as “Response from Blackdot”; leave empty to remove)</span></label><textarea id="reply-text" rows="5" maxlength="2000"></textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn outline" data-close>Cancel</button>
+        <button type="submit" class="btn gold">Save Reply</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <script>
 const $ = (s, el=document) => el.querySelector(s);
 const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const STAGES = ['Received','Processing','Sent','Delivered'];
+
+// Everything rendered with innerHTML goes through esc(): order, review and
+// manuscript fields are typed by the public.
+const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const safeUrl = (u) => /^https?:\/\//i.test(String(u || '')) ? esc(u) : '#';
+const rupees = paise => (Number(paise || 0)/100).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+const parseDate = (s) => new Date(/Z$/.test(s) ? s : String(s).replace(' ', 'T') + 'Z');
+const fmtDate = (s) => s ? parseDate(s).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '';
+const fmtTime = (s) => s ? parseDate(s).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' }) : '';
 
 async function api(path, opts={}){
   const res = await fetch(path, { headers: {'content-type':'application/json'}, ...opts });
   const data = await res.json().catch(()=>({}));
+  if(res.status === 401 && !path.startsWith('/api/auth')){ showLogin(); throw new Error('Your session expired, please sign in again'); }
   if(!res.ok) throw new Error(data.error || 'Request failed');
   return data;
 }
-const rupees = paise => (paise/100).toLocaleString('en-IN');
+let toastTimer;
+function toast(msg, bad){
+  const t = $('#toast');
+  t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : '');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.className = 'toast', 2600);
+}
+async function run(fn, okMsg){
+  try { const r = await fn(); if(okMsg) toast(okMsg); return r; }
+  catch(e){ toast(e.message, true); throw e; }
+}
 
 // ---------- Auth ----------
 $('#login-form').addEventListener('submit', async (e) => {
@@ -227,12 +484,11 @@ $('#login-form').addEventListener('submit', async (e) => {
     showApp();
   } catch(ex){ err.textContent = ex.message; }
 });
-
 $('#logout-btn').addEventListener('click', async () => {
-  await api('/api/auth/logout', { method:'POST' });
+  await api('/api/auth/logout', { method:'POST' }).catch(() => {});
   location.reload();
 });
-
+function showLogin(){ $('#app-view').style.display = 'none'; $('#login-view').style.display = 'flex'; }
 async function checkSession(){
   try{
     const data = await api('/api/auth/me');
@@ -240,238 +496,545 @@ async function checkSession(){
       $('#who-name').textContent = data.admin.name || data.admin.username;
       showApp();
     }
-  } catch(ex){ /* not logged in, show login */ }
+  } catch(ex){ /* not logged in */ }
 }
-function showApp(){
+async function showApp(){
   $('#login-view').style.display = 'none';
   $('#app-view').style.display = 'block';
-  loadBooks(); loadOrders(); loadVendors(); loadManuscripts();
+  await loadVendors().catch(() => {});
+  loadOrders().catch(e => toast(e.message, true));
+  loadBooks().catch(() => {});
+  loadReviews().catch(() => {});
+  loadManuscripts().catch(() => {});
+  loadSettings().catch(() => {});
 }
 checkSession();
 
-// ---------- Tabs ----------
-$$('nav.tabs button').forEach(btn => btn.addEventListener('click', () => {
-  $$('nav.tabs button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  $$('.panel').forEach(p => p.classList.remove('active'));
-  $('#panel-' + btn.dataset.tab).classList.add('active');
+// ---------- Tabs & modals ----------
+function showTab(name){
+  $$('nav.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  $$('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  try { sessionStorage.setItem('bd_admin_tab', name); } catch(e){}
+}
+$$('nav.tabs button').forEach(btn => btn.addEventListener('click', () => showTab(btn.dataset.tab)));
+try { const t = sessionStorage.getItem('bd_admin_tab'); if(t && $('#panel-' + t)) showTab(t); } catch(e){}
+
+function openModal(id){ $('#' + id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(el){ (el.closest ? el.closest('.modal-bg') : el).classList.remove('open'); if(!$('.modal-bg.open')) document.body.style.overflow = ''; }
+$$('.modal-bg').forEach(bg => bg.addEventListener('click', e => {
+  if(e.target === bg || e.target.closest('[data-close]')) closeModal(bg);
 }));
+document.addEventListener('keydown', e => { if(e.key === 'Escape') $$('.modal-bg.open').forEach(closeModal); });
 
-// ---------- Books ----------
+// ---------- Vendors ----------
 let vendorsCache = [];
-
-async function loadBooks(){
-  const data = await api('/api/admin/books-all');
-  const tbody = $('#books-table tbody');
-  tbody.innerHTML = '';
-  $('#books-empty').style.display = data.books.length ? 'none' : 'block';
-  data.books.forEach(b => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${b.cover_url ? `<img src="${b.cover_url}" alt="">${b.images && b.images.length > 1 ? `<div class="muted" style="font-size:11px;margin-top:4px;">${b.images.length} photos</div>` : ''}` : 'No cover'}</td>
-      <td><strong>${b.title}</strong><br><span class="muted">${b.author}</span></td>
-      <td>₹${rupees(b.price_paise)}</td>
-      <td>${b.available ? 'Yes' : 'No'}</td>
-      <td>${b.featured ? 'Yes' : 'No'}</td>
-      <td><div class="toolbar-btn-wrap">
-        <button class="btn outline small" data-edit="${b.id}">Edit</button>
-        <button class="btn danger small" data-del="${b.id}">Delete</button>
-      </div></td>`;
-    tbody.appendChild(tr);
-  });
-  tbody.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', () => openBookModal(data.books.find(b => b.id == btn.dataset.edit))));
-  tbody.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', async () => {
-    if(!confirm('Delete this title? This cannot be undone.')) return;
-    await api('/api/admin/books/' + btn.dataset.del, { method:'DELETE' });
-    loadBooks();
-  }));
+async function loadVendors(){
+  const data = await api('/api/admin/vendors');
+  vendorsCache = data.vendors;
+  renderVendors();
+  const bulk = $('#bulk-vendor');
+  bulk.innerHTML = '<option value="">Assign vendor…</option><option value="none">Unassign</option>' +
+    vendorsCache.filter(v => v.active).map(v => `<option value="${v.id}">${esc(v.name || v.username)}</option>`).join('');
 }
-
-function openBookModal(book){
-  $('#book-modal-title').textContent = book ? 'Edit Title' : 'Add Title';
-  $('#book-id').value = book ? book.id : '';
-  $('#b-title').value = book ? book.title : '';
-  $('#b-author').value = book ? book.author : '';
-  $('#b-description').value = book ? (book.description||'') : '';
-  const imgs = book ? (Array.isArray(book.images) && book.images.length ? book.images : (book.cover_url ? [book.cover_url] : [])) : [];
-  for(let i = 0; i < 5; i++){ $('#b-image-' + (i+1)).value = imgs[i] || ''; }
-  $('#b-price').value = book ? Math.round(book.price_paise/100) : '';
-  $('#b-available').checked = book ? !!book.available : true;
-  $('#b-featured').checked = book ? !!book.featured : false;
-  $('#book-modal-bg').classList.add('open');
+function renderVendors(){
+  const tbody = $('#vendors-table tbody');
+  $('#vendors-empty').style.display = vendorsCache.length ? 'none' : 'block';
+  tbody.innerHTML = vendorsCache.map(v => {
+    const open = ordersCache.filter(o => o.assigned_vendor_id == v.id && o.payment_status === 'paid' && !['Sent','Delivered'].includes(o.fulfillment_status)).length;
+    return `<tr><td>${esc(v.username)}</td><td>${esc(v.name || '')}</td><td>${open}</td>
+      <td><span class="badge ${v.active ? 'yes' : 'no'}">${v.active ? 'Active' : 'Disabled'}</span></td><td>${fmtDate(v.created_at)}</td>
+      <td><button class="btn outline small" data-toggle-vendor="${v.id}" data-active="${v.active ? 1 : 0}">${v.active ? 'Disable' : 'Enable'}</button></td></tr>`;
+  }).join('');
 }
-function closeBookModal(){ $('#book-modal-bg').classList.remove('open'); }
-$('#add-book-btn').addEventListener('click', () => openBookModal(null));
-
-$('#book-form').addEventListener('submit', async (e) => {
+$('#vendors-table').addEventListener('click', async e => {
+  const b = e.target.closest('[data-toggle-vendor]');
+  if(!b) return;
+  const enable = b.dataset.active !== '1';
+  if(!enable && !confirm('Disable this vendor? They will be signed out and can no longer log in. Their assigned orders stay assigned.')) return;
+  await run(() => api('/api/admin/vendors/' + b.dataset.toggleVendor, { method:'PUT', body: JSON.stringify({ active: enable }) }), enable ? 'Vendor enabled' : 'Vendor disabled');
+  loadVendors();
+});
+$('#add-vendor-btn').addEventListener('click', () => { $('#vendor-form').reset(); $('#vendor-err').textContent = ''; openModal('vendor-modal-bg'); });
+$('#vendor-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const id = $('#book-id').value;
-  const images = [1,2,3,4,5].map(i => $('#b-image-' + i).value.trim()).filter(Boolean);
-  const payload = {
-    title: $('#b-title').value,
-    author: $('#b-author').value,
-    description: $('#b-description').value,
-    images,
-    price_paise: Math.round(parseFloat($('#b-price').value) * 100),
-    available: $('#b-available').checked,
-    featured: $('#b-featured').checked,
-  };
-  if(id){ await api('/api/admin/books/' + id, { method:'PUT', body: JSON.stringify(payload) }); }
-  else { await api('/api/admin/books', { method:'POST', body: JSON.stringify(payload) }); }
-  closeBookModal();
-  loadBooks();
+  try {
+    await api('/api/admin/vendors', { method:'POST', body: JSON.stringify({
+      name: $('#v-name').value, username: $('#v-username').value, password: $('#v-password').value
+    })});
+    closeModal($('#vendor-modal-bg'));
+    toast('Vendor created');
+    await loadVendors();
+    renderOrders();
+  } catch(ex){ $('#vendor-err').textContent = ex.message; }
 });
 
 // ---------- Orders ----------
 let ordersCache = [];
+const orderFilter = { pay: 'paid', status: '', q: '' };
+const selected = new Set();
 
 async function loadOrders(){
   const data = await api('/api/admin/orders');
   ordersCache = data.orders;
-  const tbody = $('#orders-table tbody');
-  tbody.innerHTML = '';
-  $('#orders-empty').style.display = data.orders.length ? 'none' : 'block';
-  data.orders.forEach(o => {
-    const placed = new Date(o.created_at);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>#${o.id}</td>
-      <td>${placed.toLocaleDateString()}<br><span class="muted">${placed.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span></td>
-      <td>${o.book_title}</td>
-      <td>${o.buyer_name}<br><span class="muted">${o.buyer_phone || ''}</span></td>
-      <td style="max-width:220px;white-space:pre-wrap;">${o.shipping_address || ''}</td>
-      <td>${o.quantity}</td>
-      <td>₹${rupees(o.amount_paise)}</td>
-      <td><span class="badge ${o.payment_status}">${o.payment_status}</span></td>
-      <td></td>
-      <td></td>
-      <td></td>`;
-    const statusTd = tr.children[8];
-    const vendorTd = tr.children[9];
-    const actionsTd = tr.children[10];
+  renderKpis();
+  renderOrders();
+  renderVendors();
+}
+$('#refresh-orders-btn').addEventListener('click', () => run(loadOrders, 'Orders refreshed'));
 
-    const statusSelect = document.createElement('select');
-    statusSelect.className = 'status-select';
-    ['Received','Processing','Sent','Delivered'].forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s; opt.textContent = s; if(s === o.fulfillment_status) opt.selected = true;
-      statusSelect.appendChild(opt);
-    });
-    statusSelect.addEventListener('change', async () => {
-      await api('/api/admin/orders/' + o.id, { method:'PUT', body: JSON.stringify({ fulfillment_status: statusSelect.value }) });
-    });
-    statusTd.appendChild(statusSelect);
+function renderKpis(){
+  const paid = ordersCache.filter(o => o.payment_status === 'paid');
+  const rev = paid.reduce((s, o) => s + o.amount_paise, 0);
+  const now = new Date(); const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthRev = paid.filter(o => parseDate(o.paid_at || o.created_at) >= monthStart).reduce((s, o) => s + o.amount_paise, 0);
+  const todo = paid.filter(o => !['Sent','Delivered'].includes(o.fulfillment_status));
+  const copies = paid.reduce((s, o) => s + (o.item_count || o.quantity || 0), 0);
+  $('#k-rev').textContent = '₹' + rupees(rev);
+  $('#k-rev-sub').textContent = `₹${rupees(monthRev)} this month · ${paid.length} paid orders`;
+  $('#k-todo').textContent = todo.length;
+  $('#k-unassigned').textContent = paid.filter(o => !o.assigned_vendor_id && !['Sent','Delivered'].includes(o.fulfillment_status)).length;
+  $('#k-copies').textContent = copies;
+  $('#k-copies-sub').textContent = `${new Set(paid.map(o => o.buyer_phone)).size} customers`;
+  const c = $('#count-orders'); c.textContent = todo.length || ''; c.dataset.n = todo.length;
+}
 
-    const vendorSelect = document.createElement('select');
-    vendorSelect.className = 'status-select';
-    const noneOpt = document.createElement('option');
-    noneOpt.value = ''; noneOpt.textContent = 'Unassigned';
-    vendorSelect.appendChild(noneOpt);
-    vendorsCache.forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = v.id; opt.textContent = v.name || v.username;
-      if(o.assigned_vendor_id == v.id) opt.selected = true;
-      vendorSelect.appendChild(opt);
-    });
-    vendorSelect.addEventListener('change', async () => {
-      await api('/api/admin/orders/' + o.id, { method:'PUT', body: JSON.stringify({ assigned_vendor_id: vendorSelect.value || null }) });
-    });
-    vendorTd.appendChild(vendorSelect);
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'btn danger small';
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.addEventListener('click', async () => {
-      if(!confirm(`Delete order #${o.id} (${o.book_title}, ${o.buyer_name})? This cannot be undone.`)) return;
-      await api('/api/admin/orders/' + o.id, { method:'DELETE' });
-      loadOrders();
-    });
-    actionsTd.appendChild(deleteBtn);
-
-    tbody.appendChild(tr);
+function filteredOrders(){
+  const q = orderFilter.q.trim().toLowerCase();
+  return ordersCache.filter(o => {
+    if(orderFilter.pay !== 'all' && o.payment_status !== orderFilter.pay) return false;
+    if(orderFilter.status === 'open'){ if(['Sent','Delivered'].includes(o.fulfillment_status)) return false; }
+    else if(orderFilter.status && o.fulfillment_status !== orderFilter.status) return false;
+    if(q){
+      const hay = [o.id, '#' + o.id, o.invoice_no, o.buyer_name, o.buyer_phone, o.buyer_email, o.city, o.state, o.pincode, o.shipping_address, o.tracking_number, ...(o.items || []).map(i => i.title)].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
   });
 }
 
+function vendorOptions(selectedId){
+  return '<option value="">Unassigned</option>' + vendorsCache.map(v =>
+    `<option value="${v.id}"${selectedId == v.id ? ' selected' : ''}${!v.active && selectedId != v.id ? ' disabled' : ''}>${esc(v.name || v.username)}${v.active ? '' : ' (disabled)'}</option>`).join('');
+}
+function statusOptions(cur){ return STAGES.map(s => `<option${s === cur ? ' selected' : ''}>${s}</option>`).join(''); }
+
+function renderOrders(){
+  const list = filteredOrders();
+  const tbody = $('#orders-table tbody');
+  $('#orders-empty').style.display = list.length ? 'none' : 'block';
+  // drop selections that are no longer visible
+  [...selected].forEach(id => { if(!list.some(o => o.id === id)) selected.delete(id); });
+  tbody.innerHTML = list.map(o => `
+    <tr data-id="${o.id}">
+      <td><input type="checkbox" data-sel="${o.id}"${selected.has(o.id) ? ' checked' : ''} aria-label="Select order ${o.id}"></td>
+      <td><span class="t">#${o.id}</span><br><span class="muted">${fmtDate(o.created_at)}<br>${fmtTime(o.created_at)}</span></td>
+      <td class="items-cell">${(o.items || []).map(i => `<div title="${esc(i.title)}">${esc(i.title)} <strong>× ${i.quantity}</strong></div>`).join('')}</td>
+      <td>${esc(o.buyer_name)}<br><span class="muted">${esc(o.buyer_phone || '')}${o.city ? '<br>' + esc(o.city) + (o.pincode ? ' ' + esc(o.pincode) : '') : ''}</span></td>
+      <td><strong>₹${rupees(o.amount_paise)}</strong>${o.shipping_paise ? `<br><span class="muted">incl. ₹${rupees(o.shipping_paise)} ship</span>` : ''}</td>
+      <td><span class="badge ${esc(o.payment_status)}">${esc(o.payment_status)}</span></td>
+      <td><select class="inline" data-status="${o.id}" aria-label="Status">${statusOptions(o.fulfillment_status)}</select>${o.tracking_number ? `<br><span class="muted" title="Tracking">${esc(o.tracking_number)}</span>` : ''}</td>
+      <td><select class="inline" data-vendor="${o.id}" aria-label="Vendor">${vendorOptions(o.assigned_vendor_id)}</select></td>
+      <td><div class="row-actions">
+        <button class="btn outline small" data-view="${o.id}">View</button>
+        ${o.payment_status === 'paid' ? `<a class="btn outline small" href="/invoice/?ids=${o.id}&type=combined" target="_blank" rel="noopener" title="Print label + invoice">🖨</a>` : ''}
+      </div></td>
+    </tr>`).join('');
+  updateBulk();
+}
+
+$('#orders-table').addEventListener('change', async e => {
+  const t = e.target;
+  if(t.dataset.sel){ const id = +t.dataset.sel; t.checked ? selected.add(id) : selected.delete(id); updateBulk(); return; }
+  if(t.id === 'check-all'){ filteredOrders().forEach(o => t.checked ? selected.add(o.id) : selected.delete(o.id)); renderOrders(); return; }
+  const o = ordersCache.find(x => x.id === +(t.dataset.status || t.dataset.vendor));
+  if(!o) return;
+  if(t.dataset.status){
+    const prev = o.fulfillment_status;
+    try { await run(() => api('/api/admin/orders/' + o.id, { method:'PUT', body: JSON.stringify({ fulfillment_status: t.value }) }), `Order #${o.id} → ${t.value}`); o.fulfillment_status = t.value; renderKpis(); }
+    catch(err){ t.value = prev; }
+  } else {
+    const prev = o.assigned_vendor_id;
+    try { await run(() => api('/api/admin/orders/' + o.id, { method:'PUT', body: JSON.stringify({ assigned_vendor_id: t.value || null }) }), t.value ? `Assigned to ${t.selectedOptions[0].textContent}` : 'Vendor removed'); o.assigned_vendor_id = t.value ? +t.value : null; renderKpis(); renderVendors(); }
+    catch(err){ t.value = prev || ''; }
+  }
+});
+$('#orders-table').addEventListener('click', e => {
+  const v = e.target.closest('[data-view]');
+  if(v) openOrder(+v.dataset.view);
+});
+
+function updateBulk(){
+  $('#bulkbar').classList.toggle('show', selected.size > 0);
+  $('#bulk-count').textContent = `${selected.size} selected`;
+  const visible = filteredOrders();
+  const all = $('#check-all');
+  all.checked = visible.length > 0 && visible.every(o => selected.has(o.id));
+  all.indeterminate = !all.checked && visible.some(o => selected.has(o.id));
+}
+$$('#bulkbar [data-print]').forEach(b => b.addEventListener('click', () => {
+  const ids = [...selected].filter(id => (ordersCache.find(o => o.id === id) || {}).payment_status === 'paid');
+  if(!ids.length){ toast('Only paid orders can be printed', true); return; }
+  if(ids.length < selected.size) toast(`${selected.size - ids.length} unpaid order(s) skipped`);
+  window.open(`/invoice/?ids=${ids.join(',')}&type=${b.dataset.print}`, '_blank', 'noopener');
+}));
+$('#bulk-clear').addEventListener('click', () => { selected.clear(); renderOrders(); });
+$('#bulk-vendor').addEventListener('change', async e => {
+  const val = e.target.value; if(!val) return;
+  const vid = val === 'none' ? null : +val;
+  const ids = [...selected];
+  await run(() => Promise.all(ids.map(id => api('/api/admin/orders/' + id, { method:'PUT', body: JSON.stringify({ assigned_vendor_id: vid }) }))), `${ids.length} order(s) updated`).catch(() => {});
+  e.target.value = '';
+  loadOrders();
+});
+$('#bulk-status').addEventListener('change', async e => {
+  const val = e.target.value; if(!val) return;
+  const ids = [...selected];
+  if(!confirm(`Set ${ids.length} order(s) to “${val}”?${val === 'Sent' ? ' Customers with an email address will be notified.' : ''}`)){ e.target.value = ''; return; }
+  await run(() => Promise.all(ids.map(id => api('/api/admin/orders/' + id, { method:'PUT', body: JSON.stringify({ fulfillment_status: val }) }))), `${ids.length} order(s) updated`).catch(() => {});
+  e.target.value = '';
+  loadOrders();
+});
+
+$$('[data-pay]').forEach(b => b.addEventListener('click', () => {
+  orderFilter.pay = b.dataset.pay;
+  $$('[data-pay]').forEach(x => x.classList.toggle('on', x === b));
+  renderOrders();
+}));
+$('#status-filter').addEventListener('change', e => { orderFilter.status = e.target.value; renderOrders(); });
+let searchT;
+$('#order-search').addEventListener('input', e => { clearTimeout(searchT); searchT = setTimeout(() => { orderFilter.q = e.target.value; renderOrders(); }, 150); });
+
+function openOrder(id){
+  const o = ordersCache.find(x => x.id === id);
+  if(!o) return;
+  const paid = o.payment_status === 'paid';
+  const trackLink = o.access_token ? `${location.origin}/order/?id=${o.id}&t=${o.access_token}` : '';
+  $('#order-modal').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+      <h3 style="margin:0">Order #${o.id}</h3>
+      <div class="row-actions">
+        ${paid ? `<a class="btn small" href="/invoice/?ids=${o.id}&type=combined" target="_blank" rel="noopener">🖨 Label + Invoice</a>
+        <a class="btn outline small" href="/invoice/?ids=${o.id}&type=invoice" target="_blank" rel="noopener">Invoice</a>
+        <a class="btn outline small" href="/invoice/?ids=${o.id}&type=label" target="_blank" rel="noopener">Label</a>` : ''}
+      </div>
+    </div>
+    <p class="muted" style="margin:6px 0 18px">Placed ${fmtDate(o.created_at)} ${fmtTime(o.created_at)}${o.invoice_no ? ' · Invoice ' + esc(o.invoice_no) : ''}</p>
+    <div class="detail-grid">
+      <div class="box"><div class="k">Items</div>
+        ${(o.items || []).map(i => `<div class="kv"><span style="color:#111">${esc(i.title)} × ${i.quantity}</span><span>₹${rupees(i.unit_price_paise * i.quantity)}</span></div>`).join('')}
+        <div class="kv" style="border-top:1px solid var(--border);margin-top:6px;padding-top:8px"><span>Subtotal</span><span>₹${rupees(o.subtotal_paise)}</span></div>
+        <div class="kv"><span>Shipping</span><span>${o.shipping_paise ? '₹' + rupees(o.shipping_paise) : 'Free'}</span></div>
+        <div class="kv"><strong>Total</strong><strong>₹${rupees(o.amount_paise)}</strong></div>
+      </div>
+      <div class="box"><div class="k">Ship to</div>
+        <div class="pre"><strong>${esc(o.buyer_name)}</strong>\n${esc(o.shipping_address)}</div>
+        <div style="margin-top:8px"><a href="tel:+91${esc(o.buyer_phone)}">+91 ${esc(o.buyer_phone)}</a>${o.buyer_email ? ` · <a href="mailto:${esc(o.buyer_email)}">${esc(o.buyer_email)}</a>` : ''}</div>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn outline small" type="button" id="copy-addr">Copy address</button>
+          <a class="btn outline small" href="https://wa.me/91${esc(o.buyer_phone)}?text=${encodeURIComponent('Hi ' + o.buyer_name + ', this is Blackdot Publication about your order #' + o.id + '.')}" target="_blank" rel="noopener">WhatsApp buyer</a>
+        </div>
+      </div>
+      <div class="box"><div class="k">Payment</div>
+        <div class="kv"><span>Status</span><span class="badge ${esc(o.payment_status)}">${esc(o.payment_status)}</span></div>
+        ${o.payment_method ? `<div class="kv"><span>Chosen method</span><span>${esc(o.payment_method)}</span></div>` : ''}
+        <div class="kv"><span>Razorpay order</span><span style="font-size:12px">${esc(o.razorpay_order_id || '—')}</span></div>
+        <div class="kv"><span>Payment ID</span><span style="font-size:12px">${esc(o.razorpay_payment_id || '—')}</span></div>
+        ${o.paid_at ? `<div class="kv"><span>Paid at</span><span>${fmtDate(o.paid_at)} ${fmtTime(o.paid_at)}</span></div>` : ''}
+        ${!paid && o.razorpay_order_id ? `<button class="btn outline small" type="button" id="sync-pay" style="margin-top:8px">Check payment with Razorpay</button><div class="muted" style="margin-top:6px">Use this if a customer says they paid but the order still shows unpaid.</div>` : ''}
+      </div>
+      <div class="box"><div class="k">Dispatch</div>
+        <div class="row2">
+          <div class="field" style="margin-bottom:8px"><label>Status</label><select id="od-status">${statusOptions(o.fulfillment_status)}</select></div>
+          <div class="field" style="margin-bottom:8px"><label>Vendor</label><select id="od-vendor">${vendorOptions(o.assigned_vendor_id)}</select></div>
+          <div class="field" style="margin-bottom:8px"><label>Courier</label><input id="od-courier" value="${esc(o.courier_name || '')}" placeholder="India Post, Delhivery…" list="couriers"></div>
+          <div class="field" style="margin-bottom:8px"><label>Tracking / AWB no.</label><input id="od-awb" value="${esc(o.tracking_number || '')}"></div>
+        </div>
+        <datalist id="couriers"><option>India Post</option><option>Delhivery</option><option>DTDC</option><option>Blue Dart</option><option>Ekart</option><option>Shiprocket</option><option>Xpressbees</option></datalist>
+        <div class="field" style="margin-bottom:8px"><label>Internal notes <span class="muted">(never shown to customer)</span></label><textarea id="od-notes" rows="2">${esc(o.admin_notes || '')}</textarea></div>
+        ${o.dispatched_at ? `<div class="muted">Dispatched ${fmtDate(o.dispatched_at)}${o.delivered_at ? ' · Delivered ' + fmtDate(o.delivered_at) : ''}</div>` : ''}
+      </div>
+    </div>
+    ${trackLink ? `<div class="field" style="margin-top:16px"><label>Customer tracking &amp; invoice link</label><div class="linkrow"><input readonly value="${esc(trackLink)}" id="od-link"><button class="btn outline small" type="button" id="copy-link">Copy</button></div></div>` : ''}
+    <div class="modal-actions" style="justify-content:space-between">
+      <button class="btn danger" type="button" id="od-delete">Delete order</button>
+      <div style="display:flex;gap:8px"><button class="btn outline" type="button" data-close>Close</button><button class="btn gold" type="button" id="od-save">Save changes</button></div>
+    </div>`;
+  openModal('order-modal-bg');
+  const copy = async (text, msg) => { try { await navigator.clipboard.writeText(text); toast(msg); } catch(e){ prompt('Copy:', text); } };
+  $('#copy-addr').onclick = () => copy(`${o.buyer_name}\n${o.shipping_address}\nPhone: +91 ${o.buyer_phone}`, 'Address copied');
+  if($('#copy-link')) $('#copy-link').onclick = () => copy(trackLink, 'Link copied');
+  if($('#sync-pay')) $('#sync-pay').onclick = async () => {
+    const r = await run(() => api(`/api/admin/orders/${o.id}/sync`, { method:'POST' }));
+    toast(r.payment_status === 'paid' ? 'Payment found, order marked as paid' : (r.message || 'No captured payment yet'), r.payment_status !== 'paid');
+    await loadOrders(); openOrder(o.id);
+  };
+  $('#od-save').onclick = async () => {
+    const body = {
+      fulfillment_status: $('#od-status').value,
+      assigned_vendor_id: $('#od-vendor').value || null,
+      courier_name: $('#od-courier').value,
+      tracking_number: $('#od-awb').value,
+      admin_notes: $('#od-notes').value,
+    };
+    await run(() => api('/api/admin/orders/' + o.id, { method:'PUT', body: JSON.stringify(body) }), 'Order saved');
+    closeModal($('#order-modal-bg'));
+    loadOrders();
+  };
+  $('#od-delete').onclick = async () => {
+    if(!confirm(`Delete order #${o.id} (${o.buyer_name})? This only removes the record here; it does not refund anything in Razorpay. Use it for test or duplicate orders.`)) return;
+    await run(() => api('/api/admin/orders/' + o.id, { method:'DELETE' }), 'Order deleted');
+    closeModal($('#order-modal-bg'));
+    loadOrders();
+  };
+}
+
 function exportOrdersToExcel(){
-  if(!ordersCache.length){ alert('There are no orders to export yet.'); return; }
+  const list = filteredOrders();
+  if(!list.length){ alert('There are no orders in the current view to export.'); return; }
   if(typeof XLSX === 'undefined'){ alert('Excel export library failed to load. Check your internet connection and try again.'); return; }
-  const rows = ordersCache.map(o => {
-    const placed = new Date(o.created_at);
+  const rows = list.map(o => {
     const vendor = vendorsCache.find(v => v.id == o.assigned_vendor_id);
     return {
       'Order ID': o.id,
-      'Date': placed.toLocaleDateString('en-IN'),
-      'Time': placed.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' }),
-      'Book': o.book_title,
+      'Invoice No': o.invoice_no || '',
+      'Date': fmtDate(o.created_at),
+      'Time': fmtTime(o.created_at),
+      'Items': (o.items || []).map(i => `${i.title} x ${i.quantity}`).join('; '),
+      'Copies': o.item_count || o.quantity,
       'Buyer Name': o.buyer_name,
       'Phone': o.buyer_phone || '',
       'Email': o.buyer_email || '',
-      'Shipping Address': o.shipping_address || '',
-      'Quantity': o.quantity,
-      'Amount (₹)': (o.amount_paise/100),
+      'Address': o.address_line || o.shipping_address || '',
+      'City': o.city || '',
+      'State': o.state || '',
+      'Pincode': o.pincode || '',
+      'Subtotal (₹)': o.subtotal_paise / 100,
+      'Shipping (₹)': (o.shipping_paise || 0) / 100,
+      'Total (₹)': o.amount_paise / 100,
       'Payment Status': o.payment_status,
       'Fulfillment Status': o.fulfillment_status,
       'Assigned Vendor': vendor ? (vendor.name || vendor.username) : 'Unassigned',
+      'Courier': o.courier_name || '',
+      'Tracking No': o.tracking_number || '',
       'Razorpay Order ID': o.razorpay_order_id || '',
       'Razorpay Payment ID': o.razorpay_payment_id || '',
     };
   });
   const sheet = XLSX.utils.json_to_sheet(rows);
-  sheet['!cols'] = [
-    {wch:9},{wch:12},{wch:9},{wch:22},{wch:20},{wch:14},{wch:24},{wch:34},
-    {wch:9},{wch:12},{wch:14},{wch:16},{wch:18},{wch:22},{wch:22}
-  ];
+  sheet['!cols'] = Object.keys(rows[0]).map(k => ({ wch: Math.max(10, Math.min(40, k.length + 4)) }));
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, sheet, 'Orders');
-  const stamp = new Date().toISOString().slice(0,10);
-  XLSX.writeFile(workbook, `blackdot-orders-${stamp}.xlsx`);
+  XLSX.writeFile(workbook, `blackdot-orders-${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 $('#export-orders-btn').addEventListener('click', exportOrdersToExcel);
 
-// ---------- Vendors ----------
-async function loadVendors(){
-  const data = await api('/api/admin/vendors');
-  vendorsCache = data.vendors;
-  const tbody = $('#vendors-table tbody');
-  tbody.innerHTML = '';
-  $('#vendors-empty').style.display = data.vendors.length ? 'none' : 'block';
-  data.vendors.forEach(v => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${v.username}</td><td>${v.name || ''}</td><td>${v.active ? 'Active' : 'Disabled'}</td><td>${new Date(v.created_at).toLocaleDateString()}</td>`;
-    tbody.appendChild(tr);
-  });
-  loadOrders(); // refresh vendor dropdowns in the orders table
+// ---------- Books ----------
+let booksCache = [];
+async function loadBooks(){
+  const data = await api('/api/admin/books-all');
+  booksCache = data.books;
+  const tbody = $('#books-table tbody');
+  $('#books-empty').style.display = booksCache.length ? 'none' : 'block';
+  tbody.innerHTML = booksCache.map(b => {
+    const flags = [
+      b.available ? '' : '<span class="badge no">Hidden</span>',
+      b.coming_soon ? '<span class="badge gold">Coming soon</span>' : '',
+      !b.in_stock ? '<span class="badge no">Out of stock</span>' : '',
+      b.featured ? '<span class="badge yes">Featured</span>' : '',
+      b.available && !b.coming_soon && b.in_stock ? '<span class="badge yes">On sale</span>' : '',
+    ].filter(Boolean).join(' ');
+    return `<tr>
+      <td>${b.cover_url ? `<img class="cv" src="${safeUrl(b.cover_url)}" alt="">` : 'No cover'}${b.images.length > 1 ? `<div class="muted" style="margin-top:4px">${b.images.length} photos</div>` : ''}</td>
+      <td><span class="t">${esc(b.title)}</span><br><span class="muted">${esc(b.author)}${b.category ? ' · ' + esc(b.category) : ''}</span></td>
+      <td>₹${rupees(b.price_paise)}${b.mrp_paise ? `<br><span class="muted"><s>₹${rupees(b.mrp_paise)}</s></span>` : ''}</td>
+      <td>${b.rating_count ? `★ ${b.rating_avg.toFixed(1)} <span class="muted">(${b.rating_count})</span>` : '<span class="muted">—</span>'}</td>
+      <td>${flags}</td>
+      <td><div class="row-actions">
+        <button class="btn outline small" data-edit="${b.id}">Edit</button>
+        <a class="btn outline small" href="${esc(b.url)}" target="_blank" rel="noopener">View</a>
+        <button class="btn danger small" data-del="${b.id}">Delete</button>
+      </div></td></tr>`;
+  }).join('');
 }
+$('#books-table').addEventListener('click', async e => {
+  const ed = e.target.closest('[data-edit]');
+  if(ed) return openBookModal(booksCache.find(b => b.id == ed.dataset.edit));
+  const del = e.target.closest('[data-del]');
+  if(del){
+    if(!confirm('Delete this title? If it has ever been ordered it will be hidden from the store instead, so past orders and invoices keep working.')) return;
+    const r = await run(() => api('/api/admin/books/' + del.dataset.del, { method:'DELETE' }));
+    toast(r.archived ? 'Title has orders, so it was hidden from the store instead' : 'Title deleted');
+    loadBooks();
+  }
+});
 
-function closeVendorModal(){ $('#vendor-modal-bg').classList.remove('open'); }
-$('#add-vendor-btn').addEventListener('click', () => $('#vendor-modal-bg').classList.add('open'));
-$('#vendor-form').addEventListener('submit', async (e) => {
+const BOOK_FIELDS = {
+  'b-title':'title','b-author':'author','b-tagline':'tagline','b-category':'category','b-language':'language','b-description':'description',
+  'b-binding':'binding','b-isbn':'isbn','b-published':'published_on','b-dimensions':'dimensions','b-author-bio':'author_bio',
+  'b-author-photo':'author_photo','b-sample':'sample_url','b-ebook-url':'ebook_url',
+};
+function openBookModal(book){
+  $('#book-form').reset();
+  $('#book-err').textContent = '';
+  $('#book-modal-title').textContent = book ? 'Edit Title' : 'Add Title';
+  $('#book-id').value = book ? book.id : '';
+  Object.entries(BOOK_FIELDS).forEach(([id, key]) => { $('#' + id).value = book ? (book[key] || '') : ''; });
+  if(!book) $('#b-binding').value = 'Paperback';
+  const imgs = book ? book.images : [];
+  for(let i = 0; i < 5; i++) $('#b-image-' + (i+1)).value = imgs[i] || '';
+  $('#b-price').value = book ? Math.round(book.price_paise/100) : '';
+  $('#b-mrp').value = book && book.mrp_paise ? Math.round(book.mrp_paise/100) : '';
+  $('#b-ebook-price').value = book && book.ebook_price_paise ? Math.round(book.ebook_price_paise/100) : '';
+  $('#b-pages').value = book && book.pages ? book.pages : '';
+  $('#b-weight').value = book && book.weight_grams ? book.weight_grams : '';
+  $('#b-sort').value = book ? (book.sort_order || 0) : 0;
+  $('#b-available').checked = book ? !!book.available : true;
+  $('#b-in-stock').checked = book ? !!book.in_stock : true;
+  $('#b-coming-soon').checked = book ? !!book.coming_soon : false;
+  $('#b-featured').checked = book ? !!book.featured : false;
+  openModal('book-modal-bg');
+}
+$('#add-book-btn').addEventListener('click', () => openBookModal(null));
+$('#book-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  await api('/api/admin/vendors', { method:'POST', body: JSON.stringify({
-    name: $('#v-name').value, username: $('#v-username').value, password: $('#v-password').value
-  })});
-  closeVendorModal();
-  $('#vendor-form').reset();
-  loadVendors();
+  const id = $('#book-id').value;
+  const payload = {};
+  Object.entries(BOOK_FIELDS).forEach(([fid, key]) => { payload[key] = $('#' + fid).value.trim(); });
+  const toPaise = (v) => v === '' ? null : Math.round(parseFloat(v) * 100);
+  Object.assign(payload, {
+    images: [1,2,3,4,5].map(i => $('#b-image-' + i).value.trim()).filter(Boolean),
+    price_paise: toPaise($('#b-price').value),
+    mrp_paise: toPaise($('#b-mrp').value),
+    ebook_price_paise: toPaise($('#b-ebook-price').value),
+    pages: $('#b-pages').value || null,
+    weight_grams: $('#b-weight').value || null,
+    sort_order: parseInt($('#b-sort').value || '0', 10),
+    available: $('#b-available').checked,
+    in_stock: $('#b-in-stock').checked,
+    coming_soon: $('#b-coming-soon').checked,
+    featured: $('#b-featured').checked,
+  });
+  if(payload.mrp_paise && payload.mrp_paise <= payload.price_paise) payload.mrp_paise = null;
+  const btn = $('#book-save'); btn.disabled = true;
+  try {
+    if(id) await api('/api/admin/books/' + id, { method:'PUT', body: JSON.stringify(payload) });
+    else await api('/api/admin/books', { method:'POST', body: JSON.stringify(payload) });
+    closeModal($('#book-modal-bg'));
+    toast('Title saved');
+    loadBooks();
+  } catch(ex){ $('#book-err').textContent = ex.message; }
+  btn.disabled = false;
+});
+
+// ---------- Reviews ----------
+let reviewsCache = [];
+let reviewFilter = 'pending';
+async function loadReviews(){
+  const data = await api('/api/admin/reviews');
+  reviewsCache = data.reviews;
+  const pending = reviewsCache.filter(r => r.status === 'pending').length;
+  const c = $('#count-reviews'); c.textContent = pending || ''; c.dataset.n = pending;
+  renderReviews();
+}
+function renderReviews(){
+  const list = reviewsCache.filter(r => reviewFilter === 'all' || r.status === reviewFilter);
+  $('#reviews-empty').style.display = list.length ? 'none' : 'block';
+  $('#reviews-empty').textContent = reviewFilter === 'pending' ? 'No reviews waiting for approval.' : 'Nothing here.';
+  $('#reviews-list').innerHTML = list.map(r => `
+    <div class="review-card">
+      <div class="top">
+        <div>
+          <div class="stars" aria-label="${r.rating} stars">${'★'.repeat(r.rating)}<span style="color:#ddd">${'★'.repeat(5 - r.rating)}</span></div>
+          <div style="margin-top:4px"><strong>${esc(r.name)}</strong> on <em>${esc(r.book_title || 'Deleted book')}</em>
+            ${r.verified ? '<span class="badge yes">✓ Verified · Order #' + esc(r.order_id) + '</span>' : '<span class="badge">Not verified</span>'}
+            <span class="badge ${esc(r.status)}">${r.status === 'approved' ? 'Published' : esc(r.status)}</span></div>
+          <div class="muted" style="margin-top:2px">${fmtDate(r.created_at)}</div>
+        </div>
+        <div class="row-actions">
+          ${r.status !== 'approved' ? `<button class="btn gold small" data-rv-status="approved" data-id="${r.id}">Approve</button>` : ''}
+          ${r.status !== 'hidden' ? `<button class="btn outline small" data-rv-status="hidden" data-id="${r.id}">Hide</button>` : ''}
+          <button class="btn outline small" data-rv-reply="${r.id}">${r.reply ? 'Edit reply' : 'Reply'}</button>
+          <button class="btn danger small" data-rv-del="${r.id}">Delete</button>
+        </div>
+      </div>
+      ${r.title ? `<div style="margin-top:10px;font-weight:600">${esc(r.title)}</div>` : ''}
+      <div class="body">${esc(r.body)}</div>
+      ${r.reply ? `<div class="reply"><strong>Your reply:</strong> ${esc(r.reply)}</div>` : ''}
+    </div>`).join('');
+}
+$$('[data-rv]').forEach(b => b.addEventListener('click', () => {
+  reviewFilter = b.dataset.rv;
+  $$('[data-rv]').forEach(x => x.classList.toggle('on', x === b));
+  renderReviews();
+}));
+$('#reviews-list').addEventListener('click', async e => {
+  const s = e.target.closest('[data-rv-status]');
+  if(s){
+    await run(() => api('/api/admin/reviews/' + s.dataset.id, { method:'PUT', body: JSON.stringify({ status: s.dataset.rvStatus }) }), s.dataset.rvStatus === 'approved' ? 'Review published' : 'Review hidden');
+    loadReviews(); loadBooks();
+    return;
+  }
+  const rp = e.target.closest('[data-rv-reply]');
+  if(rp){
+    const r = reviewsCache.find(x => x.id == rp.dataset.rvReply);
+    $('#reply-id').value = r.id; $('#reply-text').value = r.reply || '';
+    openModal('reply-modal-bg');
+    return;
+  }
+  const d = e.target.closest('[data-rv-del]');
+  if(d){
+    if(!confirm('Delete this review permanently?')) return;
+    await run(() => api('/api/admin/reviews/' + d.dataset.rvDel, { method:'DELETE' }), 'Review deleted');
+    loadReviews(); loadBooks();
+  }
+});
+$('#reply-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  await run(() => api('/api/admin/reviews/' + $('#reply-id').value, { method:'PUT', body: JSON.stringify({ reply: $('#reply-text').value }) }), 'Reply saved');
+  closeModal($('#reply-modal-bg'));
+  loadReviews();
 });
 
 // ---------- Manuscripts ----------
 async function loadManuscripts(){
   const data = await api('/api/admin/manuscripts');
   const tbody = $('#manuscripts-table tbody');
-  tbody.innerHTML = '';
   $('#manuscripts-empty').style.display = data.manuscripts.length ? 'none' : 'block';
-  data.manuscripts.forEach(m => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${new Date(m.created_at).toLocaleDateString()}</td>
-      <td><strong>${m.name}</strong><br><span class="muted">${m.email}<br>${m.phone || ''}</span></td>
-      <td>${m.book_title || ''}<br><span class="muted">${m.genre || ''}</span></td>
-      <td style="max-width:280px;">${(m.message || '').slice(0, 160)}${(m.message||'').length > 160 ? '…' : ''}</td>
-      <td>${m.attachment_filename ? m.attachment_filename : (m.manuscript_link ? `<a href="${m.manuscript_link}" target="_blank" rel="noopener">Link</a>` : 'No file')}</td>`;
-    tbody.appendChild(tr);
-  });
+  tbody.innerHTML = data.manuscripts.map(m => `
+    <tr>
+      <td>${fmtDate(m.created_at)}</td>
+      <td><strong>${esc(m.name)}</strong><br><span class="muted"><a href="mailto:${esc(m.email)}">${esc(m.email)}</a><br>${esc(m.phone || '')}</span></td>
+      <td>${esc(m.book_title || '')}<br><span class="muted">${esc(m.genre || '')}</span></td>
+      <td style="max-width:320px;" title="${esc(m.message || '')}">${esc((m.message || '').slice(0, 180))}${(m.message||'').length > 180 ? '…' : ''}</td>
+      <td>${m.attachment_filename ? esc(m.attachment_filename) + '<br><span class="muted">(in email)</span>' : (m.manuscript_link ? `<a href="${safeUrl(m.manuscript_link)}" target="_blank" rel="noopener noreferrer">Open link</a>` : 'No file')}</td>
+    </tr>`).join('');
 }
+
+// ---------- Settings ----------
+async function loadSettings(){
+  const { settings: s } = await api('/api/admin/settings');
+  const f = $('#settings-form');
+  ['business_name','business_address','business_gstin','business_pan','business_email','business_phone','invoice_prefix','invoice_footer','delivery_min_days','delivery_max_days']
+    .forEach(k => { f.elements[k].value = s[k] || ''; });
+  f.elements.shipping_flat.value = Math.round((parseInt(s.shipping_flat_paise, 10) || 0) / 100);
+  f.elements.free_above.value = Math.round((parseInt(s.free_shipping_above_paise, 10) || 0) / 100);
+  f.elements.review_auto_approve_verified.checked = s.review_auto_approve_verified === '1';
+}
+$('#save-settings-btn').addEventListener('click', async () => {
+  const f = $('#settings-form');
+  const min = parseInt(f.elements.delivery_min_days.value, 10), max = parseInt(f.elements.delivery_max_days.value, 10);
+  $('#settings-err').textContent = '';
+  if(!(min > 0 && max >= min)){ $('#settings-err').textContent = 'Delivery days: the slowest estimate must be at least the fastest one.'; return; }
+  const body = {};
+  ['business_name','business_address','business_gstin','business_pan','business_email','business_phone','invoice_prefix','invoice_footer','delivery_min_days','delivery_max_days']
+    .forEach(k => { body[k] = f.elements[k].value.trim(); });
+  body.business_gstin = body.business_gstin.toUpperCase();
+  body.business_pan = body.business_pan.toUpperCase();
+  body.shipping_flat_paise = Math.round((parseFloat(f.elements.shipping_flat.value) || 0) * 100);
+  body.free_shipping_above_paise = Math.round((parseFloat(f.elements.free_above.value) || 0) * 100);
+  body.review_auto_approve_verified = f.elements.review_auto_approve_verified.checked ? '1' : '0';
+  await run(() => api('/api/admin/settings', { method:'PUT', body: JSON.stringify(body) }), 'Settings saved').catch(() => {});
+});
 </script>
 </body>
 </html>

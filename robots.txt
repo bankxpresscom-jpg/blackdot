@@ -4,5 +4,8 @@ Disallow: /admin
 Disallow: /vendor
 Disallow: /setup
 Disallow: /api/
+Disallow: /checkout/
+Disallow: /order/
+Disallow: /invoice/
 
 Sitemap: https://blackdotpublication.com/sitemap.xml

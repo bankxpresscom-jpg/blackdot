@@ -5,51 +5,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vendor Portal | Blackdot Publication</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 14c8-4 16-4 24 0v34c-8-4-16-4-24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M56 14c-8-4-16-4-24 0v34c8-4 16-4 24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='30' r='4.5' fill='%23000'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--black:#000;--bg:#FAFAFA;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
+  :root{--bg:#F6F6F4;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--gold:#B8892B;--gold-soft:#F7F0E1;--green:#15803D;--red:#B42318;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:var(--sans);background:var(--bg);color:#111;}
+  body{font-family:var(--sans);background:var(--bg);color:#111;font-size:14px;}
   h1,h2{font-family:var(--serif);font-weight:600;}
   button{font-family:inherit;cursor:pointer;}
+  a{color:inherit;}
 
   #login-view{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
-  .login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);padding:44px 36px;}
-  .login-box h1{font-size:26px;text-align:center;margin-bottom:6px;}
-  .login-box .sub{text-align:center;color:var(--sec);font-size:13px;margin-bottom:30px;letter-spacing:.04em;text-transform:uppercase;}
-  .field{margin-bottom:18px;}
-  .field label{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);margin-bottom:6px;}
-  .field input{width:100%;padding:11px 12px;border:1px solid var(--border);background:#fff;font-size:14px;}
-  .field input:focus{outline:none;border-color:#000;}
-  .btn{display:inline-block;padding:12px 24px;background:#000;color:#fff;border:1px solid #000;font-size:13px;letter-spacing:.06em;text-transform:uppercase;transition:.25s;}
+  .login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);padding:44px 36px;border-radius:10px;}
+  .login-box h1{font-size:30px;text-align:center;margin-bottom:6px;}
+  .login-box .sub{text-align:center;color:var(--sec);font-size:12px;margin-bottom:30px;letter-spacing:.08em;text-transform:uppercase;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12px;font-weight:500;margin-bottom:6px;}
+  .field input{width:100%;padding:10px 12px;border:1px solid #D6D6D6;background:#fff;font-size:14px;border-radius:6px;font-family:inherit;}
+  .field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;background:#111;color:#fff;border:1px solid #111;font-size:13px;font-weight:500;border-radius:6px;transition:.2s;text-decoration:none;white-space:nowrap;}
   .btn:hover{background:#333;}
-  .btn.outline{background:transparent;color:#000;}
-  .btn.outline:hover{background:#000;color:#fff;}
-  .btn.small{padding:8px 16px;font-size:11.5px;}
-  .btn.block{width:100%;text-align:center;}
-  .btn:disabled{opacity:.35;cursor:not-allowed;}
-  .err{color:#B00020;font-size:13px;margin-top:10px;min-height:16px;}
+  .btn.gold{background:var(--gold);border-color:var(--gold);}
+  .btn.gold:hover{background:#9A7020;}
+  .btn.outline{background:#fff;color:#111;border-color:#D6D6D6;}
+  .btn.outline:hover{border-color:#111;}
+  .btn.small{padding:7px 12px;font-size:12.5px;}
+  .btn.block{width:100%;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .err{color:var(--red);font-size:13px;margin-top:10px;min-height:16px;}
 
   #app-view{display:none;}
-  header.topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10;}
-  .topbar-inner{max-width:900px;margin:0 auto;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;}
-  .brand{font-family:var(--serif);font-size:20px;font-weight:600;}
-  .brand span{color:var(--sec);font-family:var(--sans);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-left:10px;}
-  .who{font-size:12px;color:var(--sec);display:flex;align-items:center;gap:16px;}
-  main{max-width:900px;margin:0 auto;padding:32px 28px 80px;}
-  h2{font-size:22px;margin-bottom:22px;}
+  header.topbar{position:sticky;top:0;background:#111;color:#fff;z-index:10;}
+  .topbar-inner{max-width:980px;margin:0 auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;}
+  .brand{font-family:var(--serif);font-size:22px;font-weight:600;}
+  .brand span{color:#aaa;font-family:var(--sans);font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-left:10px;}
+  .who{font-size:12px;color:#bbb;display:flex;align-items:center;gap:14px;}
+  .who .btn{background:transparent;border-color:#555;color:#ddd;}
+  main{max-width:980px;margin:0 auto;padding:22px 20px 80px;}
+  .tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .tab{padding:9px 14px;border:1px solid #D6D6D6;border-radius:20px;background:#fff;font-size:13px;display:flex;gap:6px;align-items:center;}
+  .tab.on{background:#111;color:#fff;border-color:#111;}
+  .tab .n{font-size:11px;background:var(--gold);color:#fff;border-radius:9px;padding:0 6px;}
+  .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:10px;}
+  .toolbar label{display:flex;align-items:center;gap:8px;font-size:13px;}
+  .toolbar .sp{flex:1;}
+  input[type=checkbox]{width:17px;height:17px;accent-color:#111;}
 
-  .order-card{background:#fff;border:1px solid var(--border);padding:22px 24px;margin-bottom:16px;}
-  .order-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
-  .order-top h3{font-size:18px;font-family:var(--serif);font-weight:600;}
-  .order-meta{font-size:13px;color:var(--sec);}
-  .order-address{font-size:13.5px;margin:12px 0;padding:12px;background:var(--bg);border:1px solid var(--border);}
-  .stage-track{display:flex;gap:6px;margin:16px 0;}
-  .stage{flex:1;text-align:center;padding:8px 4px;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--border);color:var(--sec);}
-  .stage.done{background:#000;color:#fff;border-color:#000;}
-  .stage.current{border-color:#000;color:#000;font-weight:600;}
-  .order-actions{display:flex;justify-content:flex-end;gap:10px;}
-  .empty{padding:50px;text-align:center;color:var(--sec);border:1px dashed var(--border);background:#fff;}
+  .order-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:14px;}
+  .order-card.sel{border-color:#111;box-shadow:0 0 0 1px #111;}
+  .order-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+  .order-top .l{display:flex;gap:12px;align-items:flex-start;}
+  .order-top h3{font:600 20px var(--serif);}
+  .order-meta{font-size:12.5px;color:var(--sec);margin-top:2px;}
+  .items{margin:12px 0;display:flex;flex-direction:column;gap:6px;}
+  .items div{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:#FAFAF8;border-radius:6px;}
+  .items strong{font-size:15px;}
+  .addr{font-size:13.5px;padding:12px;border:1px dashed #D6D6D6;border-radius:8px;white-space:pre-line;line-height:1.5;}
+  .addr-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+  .stage-track{display:flex;gap:6px;margin:16px 0 14px;}
+  .stage{flex:1;text-align:center;padding:8px 4px;font-size:11.5px;font-weight:500;border-radius:6px;background:#F1F1F1;color:var(--sec);}
+  .stage.done{background:#111;color:#fff;}
+  .stage.current{background:var(--gold);color:#fff;}
+  .order-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;}
+  .order-actions .print{display:flex;gap:6px;flex-wrap:wrap;}
+  .awb{font-size:12.5px;color:var(--sec);margin-top:-4px;margin-bottom:10px;}
+  .empty{padding:50px;text-align:center;color:var(--sec);border:1px dashed #D6D6D6;background:#fff;border-radius:12px;}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal-bg.open{display:flex;}
+  .modal{background:#fff;max-width:440px;width:100%;padding:26px;border-radius:12px;}
+  .modal h3{font:600 22px var(--serif);margin-bottom:6px;}
+  .modal p{font-size:13px;color:var(--sec);margin-bottom:16px;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:8px;}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:11px 18px;border-radius:8px;font-size:13.5px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;}
+  .toast.show{opacity:1;}
+  .toast.bad{background:var(--red);}
+  @media(max-width:600px){.stage{font-size:10px;}.order-card{padding:16px;}.brand span,#who-name{display:none;}}
 </style>
 </head>
 <body>
@@ -59,8 +90,8 @@
     <h1>Blackdot</h1>
     <div class="sub">Vendor Portal</div>
     <form id="login-form">
-      <div class="field"><label>Username</label><input type="text" id="username" required autocomplete="username"></div>
-      <div class="field"><label>Password</label><input type="password" id="password" required autocomplete="current-password"></div>
+      <div class="field"><label for="username">Username</label><input type="text" id="username" required autocomplete="username"></div>
+      <div class="field"><label for="password">Password</label><input type="password" id="password" required autocomplete="current-password"></div>
       <button class="btn block" type="submit">Sign In</button>
       <div class="err" id="login-err"></div>
     </form>
@@ -71,22 +102,54 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">Blackdot <span>Vendor Portal</span></div>
-      <div class="who">
-        <span id="who-name"></span>
-        <button class="btn outline small" id="logout-btn">Logout</button>
-      </div>
+      <div class="who"><span id="who-name"></span><button class="btn small" id="logout-btn">Logout</button></div>
     </div>
   </header>
   <main>
-    <h2>Assigned Orders</h2>
+    <div class="tabs">
+      <button class="tab on" data-view="todo">To Pack <span class="n" id="n-todo">0</span></button>
+      <button class="tab" data-view="Sent">Shipped</button>
+      <button class="tab" data-view="Delivered">Delivered</button>
+      <button class="tab" data-view="all">All</button>
+      <button class="tab" id="refresh-btn" style="margin-left:auto">↻ Refresh</button>
+    </div>
+    <div class="toolbar" id="toolbar">
+      <label><input type="checkbox" id="check-all"> <span id="sel-text">Select all</span></label>
+      <span class="sp"></span>
+      <button class="btn small gold" data-print="combined" disabled>🖨 Label + Invoice (A4)</button>
+      <button class="btn small outline" data-print="label" disabled>Labels 4×6</button>
+      <button class="btn small outline" data-print="invoice" disabled>Invoices</button>
+    </div>
     <div id="orders-list"></div>
-    <div class="empty" id="orders-empty" style="display:none;">No orders assigned to you right now.</div>
+    <div class="empty" id="orders-empty" style="display:none;"></div>
   </main>
 </div>
 
+<div class="modal-bg" id="ship-modal">
+  <div class="modal">
+    <h3>Mark as shipped</h3>
+    <p>Add the courier and tracking number so the customer can follow their parcel. You can leave these blank if you don't have them.</p>
+    <form id="ship-form">
+      <div class="field"><label for="ship-courier">Courier</label><input id="ship-courier" list="couriers" placeholder="India Post, Delhivery, DTDC…"></div>
+      <datalist id="couriers"><option>India Post</option><option>Delhivery</option><option>DTDC</option><option>Blue Dart</option><option>Ekart</option><option>Shiprocket</option><option>Xpressbees</option></datalist>
+      <div class="field"><label for="ship-awb">Tracking / AWB number</label><input id="ship-awb" autocomplete="off"></div>
+      <div class="modal-actions"><button type="button" class="btn outline" id="ship-cancel">Cancel</button><button type="submit" class="btn gold">Mark as Shipped</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
 <script>
 const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
 const STAGES = ['Received','Processing','Sent','Delivered'];
+const LABELS = { Received:'Received', Processing:'Packing', Sent:'Shipped', Delivered:'Delivered' };
+const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const parseDate = (s) => new Date(/Z$/.test(s) ? s : String(s).replace(' ', 'T') + 'Z');
+const fmtDate = (s) => s ? parseDate(s).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '';
+let orders = [], view = 'todo';
+const selected = new Set();
 
 async function api(path, opts={}){
   const res = await fetch(path, { headers: {'content-type':'application/json'}, ...opts });
@@ -94,6 +157,8 @@ async function api(path, opts={}){
   if(!res.ok) throw new Error(data.error || 'Request failed');
   return data;
 }
+let tt;
+function toast(msg, bad){ const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (bad ? ' bad' : ''); clearTimeout(tt); tt = setTimeout(() => t.className = 'toast', 2600); }
 
 $('#login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -107,12 +172,10 @@ $('#login-form').addEventListener('submit', async (e) => {
     showApp();
   } catch(ex){ err.textContent = ex.message; }
 });
-
 $('#logout-btn').addEventListener('click', async () => {
-  await api('/api/auth/logout', { method:'POST' });
+  await api('/api/auth/logout', { method:'POST' }).catch(() => {});
   location.reload();
 });
-
 async function checkSession(){
   try{
     const data = await api('/api/auth/me');
@@ -130,49 +193,132 @@ function showApp(){
 checkSession();
 
 async function loadOrders(){
-  const data = await api('/api/vendor/orders');
-  const list = $('#orders-list');
-  list.innerHTML = '';
-  $('#orders-empty').style.display = data.orders.length ? 'none' : 'block';
-  data.orders.forEach(o => {
-    const currentIdx = STAGES.indexOf(o.fulfillment_status);
-    const nextStage = STAGES[currentIdx + 1];
-    const card = document.createElement('div');
-    card.className = 'order-card';
-    card.innerHTML = `
-      <div class="order-top">
-        <div>
-          <h3>${o.book_title} &times; ${o.quantity}</h3>
-          <div class="order-meta">Order #${o.id} &middot; ${o.buyer_name} &middot; ${o.buyer_phone || ''}</div>
-        </div>
-      </div>
-      <div class="order-address">${o.shipping_address}</div>
-      <div class="stage-track">
-        ${STAGES.map((s,i) => `<div class="stage ${i < currentIdx ? 'done' : ''} ${i === currentIdx ? 'current' : ''}">${s}</div>`).join('')}
-      </div>
-      <div class="order-actions">
-        <button class="btn small" ${nextStage ? '' : 'disabled'} data-advance="${o.id}" data-next="${nextStage || ''}">
-          ${nextStage ? 'Mark as ' + nextStage : 'Delivered'}
-        </button>
-      </div>`;
-    list.appendChild(card);
-  });
-  list.querySelectorAll('[data-advance]').forEach(btn => {
-    if(!btn.dataset.next) return;
-    btn.addEventListener('click', async () => {
-      btn.disabled = true;
-      try{
-        await api('/api/vendor/orders/' + btn.dataset.advance + '/status', {
-          method:'PUT', body: JSON.stringify({ status: btn.dataset.next })
-        });
-        loadOrders();
-      } catch(ex){
-        alert(ex.message);
-        btn.disabled = false;
-      }
-    });
-  });
+  try {
+    const data = await api('/api/vendor/orders');
+    orders = data.orders;
+  } catch(e){ toast(e.message, true); return; }
+  $('#n-todo').textContent = orders.filter(o => !['Sent','Delivered'].includes(o.fulfillment_status)).length;
+  render();
 }
+$('#refresh-btn').addEventListener('click', () => loadOrders().then(() => toast('Refreshed')));
+$$('.tab[data-view]').forEach(t => t.addEventListener('click', () => {
+  view = t.dataset.view;
+  $$('.tab[data-view]').forEach(x => x.classList.toggle('on', x === t));
+  selected.clear();
+  render();
+}));
+
+function visible(){
+  if(view === 'todo') return orders.filter(o => !['Sent','Delivered'].includes(o.fulfillment_status));
+  if(view === 'all') return orders;
+  return orders.filter(o => o.fulfillment_status === view);
+}
+
+function render(){
+  const list = visible();
+  const box = $('#orders-list');
+  $('#orders-empty').style.display = list.length ? 'none' : 'block';
+  $('#orders-empty').textContent = view === 'todo' ? 'All caught up! No orders waiting to be packed.' : 'No orders here yet.';
+  $('#toolbar').style.display = list.length ? 'flex' : 'none';
+  box.innerHTML = list.map(o => {
+    const idx = STAGES.indexOf(o.fulfillment_status);
+    const next = STAGES[idx + 1];
+    const copies = o.items.reduce((s, i) => s + i.quantity, 0);
+    return `
+      <div class="order-card${selected.has(o.id) ? ' sel' : ''}" data-id="${o.id}">
+        <div class="order-top">
+          <div class="l"><input type="checkbox" data-sel="${o.id}"${selected.has(o.id) ? ' checked' : ''} aria-label="Select order ${o.id}">
+            <div><h3>Order #${o.id}</h3><div class="order-meta">Paid ${fmtDate(o.paid_at || o.created_at)} · ${copies} book${copies === 1 ? '' : 's'}${o.invoice_no ? ' · ' + esc(o.invoice_no) : ''}</div></div></div>
+        </div>
+        <div class="items">${o.items.map(i => `<div><span>${esc(i.title)} <span style="color:var(--sec)">· ${esc(i.format || 'Paperback')}</span></span><strong>× ${i.quantity}</strong></div>`).join('')}</div>
+        <div class="addr"><strong>${esc(o.buyer_name)}</strong>\n${esc(o.shipping_address)}\n+91 ${esc(o.buyer_phone)}</div>
+        <div class="addr-actions">
+          <button class="btn outline small" data-copy="${o.id}">Copy address</button>
+          <a class="btn outline small" href="tel:+91${esc(o.buyer_phone)}">Call buyer</a>
+        </div>
+        <div class="stage-track">${STAGES.map((s, i) => `<div class="stage ${i < idx || (i === idx && i === STAGES.length - 1) ? 'done' : ''} ${i === idx && i < STAGES.length - 1 ? 'current' : ''}">${LABELS[s]}</div>`).join('')}</div>
+        ${o.tracking_number ? `<div class="awb">${esc(o.courier_name || 'Courier')} · AWB <strong>${esc(o.tracking_number)}</strong></div>` : ''}
+        <div class="order-actions">
+          <div class="print">
+            <a class="btn outline small" href="/invoice/?ids=${o.id}&type=combined&src=vendor" target="_blank" rel="noopener">🖨 Label + Invoice</a>
+            <a class="btn outline small" href="/invoice/?ids=${o.id}&type=label&src=vendor" target="_blank" rel="noopener">Label</a>
+          </div>
+          ${next ? `<button class="btn gold small" data-advance="${o.id}" data-next="${next}">Mark as ${LABELS[next]}</button>` : '<span class="order-meta">✓ Delivered</span>'}
+        </div>
+      </div>`;
+  }).join('');
+  syncToolbar();
+}
+
+function syncToolbar(){
+  const list = visible();
+  const all = $('#check-all');
+  all.checked = list.length > 0 && list.every(o => selected.has(o.id));
+  all.indeterminate = !all.checked && list.some(o => selected.has(o.id));
+  $('#sel-text').textContent = selected.size ? `${selected.size} selected` : 'Select all';
+  $$('[data-print]').forEach(b => b.disabled = !selected.size);
+}
+
+$('#orders-list').addEventListener('change', e => {
+  const id = +e.target.dataset.sel;
+  if(!id) return;
+  e.target.checked ? selected.add(id) : selected.delete(id);
+  e.target.closest('.order-card').classList.toggle('sel', e.target.checked);
+  syncToolbar();
+});
+$('#check-all').addEventListener('change', e => {
+  visible().forEach(o => e.target.checked ? selected.add(o.id) : selected.delete(o.id));
+  render();
+});
+$$('[data-print]').forEach(b => b.addEventListener('click', () => {
+  if(!selected.size) return;
+  window.open(`/invoice/?ids=${[...selected].join(',')}&type=${b.dataset.print}&src=vendor`, '_blank', 'noopener');
+}));
+
+let shipping = null;
+$('#orders-list').addEventListener('click', async e => {
+  const c = e.target.closest('[data-copy]');
+  if(c){
+    const o = orders.find(x => x.id === +c.dataset.copy);
+    const text = `${o.buyer_name}\n${o.shipping_address}\nPhone: +91 ${o.buyer_phone}`;
+    try { await navigator.clipboard.writeText(text); toast('Address copied'); } catch(err){ prompt('Copy address', text); }
+    return;
+  }
+  const a = e.target.closest('[data-advance]');
+  if(!a) return;
+  const id = +a.dataset.advance, next = a.dataset.next;
+  if(next === 'Sent'){
+    shipping = { id, btn: a };
+    const o = orders.find(x => x.id === id);
+    $('#ship-courier').value = o.courier_name || '';
+    $('#ship-awb').value = o.tracking_number || '';
+    $('#ship-modal').classList.add('open');
+    setTimeout(() => $('#ship-courier').focus(), 50);
+    return;
+  }
+  if(next === 'Delivered' && !confirm(`Confirm order #${id} has been delivered to the customer?`)) return;
+  advance(id, next, {}, a);
+});
+async function advance(id, status, extra, btn){
+  if(btn) btn.disabled = true;
+  try {
+    await api(`/api/vendor/orders/${id}/status`, { method:'PUT', body: JSON.stringify({ status, ...extra }) });
+    toast(`Order #${id} marked as ${LABELS[status]}`);
+    await loadOrders();
+  } catch(ex){
+    toast(ex.message, true);
+    if(btn) btn.disabled = false;
+  }
+}
+$('#ship-cancel').addEventListener('click', () => $('#ship-modal').classList.remove('open'));
+$('#ship-modal').addEventListener('click', e => { if(e.target.id === 'ship-modal') $('#ship-modal').classList.remove('open'); });
+$('#ship-form').addEventListener('submit', e => {
+  e.preventDefault();
+  $('#ship-modal').classList.remove('open');
+  if(!shipping) return;
+  advance(shipping.id, 'Sent', { courier_name: $('#ship-courier').value.trim(), tracking_number: $('#ship-awb').value.trim() }, shipping.btn);
+  shipping = null;
+});
 </script>
 </body>
 </html>

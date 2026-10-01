@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Checkout | Blackdot Publication</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 14c8-4 16-4 24 0v34c-8-4-16-4-24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M56 14c-8-4-16-4-24 0v34c8-4 16-4 24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='30' r='4.5' fill='%23000'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://checkout.razorpay.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/store.css">
+<script src="/assets/store.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{background:var(--bd-bg);color:var(--bd-ink);font-family:var(--bd-sans);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  img{display:block;max-width:100%;}
+
+  .top{background:#fff;border-bottom:1px solid var(--bd-border);}
+  .top-inner{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;}
+  .top img{height:38px;}
+  .secure{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--bd-muted);}
+  .secure svg{width:16px;height:16px;color:var(--bd-green);}
+
+  .steps{max-width:560px;margin:0 auto;padding:22px 24px 6px;display:flex;align-items:flex-start;}
+  .step{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;color:var(--bd-muted);width:70px;text-align:center;}
+  .step .dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;background:#EDEDED;color:var(--bd-muted);transition:all .3s var(--bd-ease);}
+  .step.done .dot{background:var(--bd-ink);color:#fff;}
+  .step.active .dot{background:var(--bd-gold);color:#fff;box-shadow:0 0 0 5px var(--bd-gold-soft);}
+  .step.active,.step.done{color:var(--bd-ink);font-weight:500;}
+  .step-line{flex:1;height:2px;background:#E5E5E5;margin-top:13px;position:relative;overflow:hidden;}
+  .step-line i{position:absolute;inset:0;background:var(--bd-gold);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--bd-ease);}
+  .step-line.on i{transform:scaleX(1);}
+
+  .layout{max-width:1100px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);grid-template-areas:"details summary" "payment summary";gap:22px 28px;align-items:start;}
+  .a-details{grid-area:details;}
+  .a-payment{grid-area:payment;}
+  .a-summary{grid-area:summary;position:sticky;top:20px;}
+  @media(max-width:880px){
+    .layout{grid-template-columns:1fr;grid-template-areas:"details" "summary" "payment";padding:12px 16px 40px;gap:16px;}
+    .a-summary{position:static;}
+  }
+  .panel{background:#fff;border:1px solid var(--bd-border);border-radius:12px;padding:26px;}
+  @media(max-width:600px){.panel{padding:20px 16px;}.top-inner{padding:12px 16px;}}
+  .panel h2{font:600 22px var(--bd-serif);margin-bottom:18px;letter-spacing:.005em;}
+  .panel h2 small{font:400 13px var(--bd-sans);color:var(--bd-muted);margin-left:6px;}
+
+  .f{margin-bottom:16px;}
+  .f label{display:block;font-size:13.5px;font-weight:500;margin-bottom:6px;}
+  .f label .req{color:var(--bd-red);}
+  .f label .opt{color:var(--bd-muted);font-weight:400;}
+  .f input,.f select,.f textarea{width:100%;padding:12px 13px;border:1px solid #D9D9D9;border-radius:var(--bd-radius);font:15px var(--bd-sans);background:#fff;color:var(--bd-ink);transition:border-color .2s,box-shadow .2s;}
+  .f textarea{resize:vertical;min-height:72px;}
+  .f select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 12px center/16px no-repeat;padding-right:36px;}
+  .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--bd-gold);box-shadow:0 0 0 3px var(--bd-gold-soft);}
+  .f.invalid input,.f.invalid select,.f.invalid textarea{border-color:var(--bd-red);}
+  .f .err{display:none;font-size:12.5px;color:var(--bd-red);margin-top:5px;}
+  .f.invalid .err{display:block;}
+  .f .help{font-size:12px;color:var(--bd-muted);margin-top:5px;}
+  .phone{display:flex;}
+  .phone span{display:flex;align-items:center;padding:0 12px;border:1px solid #D9D9D9;border-right:0;border-radius:var(--bd-radius) 0 0 var(--bd-radius);background:#F7F7F7;font-size:15px;color:var(--bd-ink);}
+  .phone input{border-radius:0 var(--bd-radius) var(--bd-radius) 0;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .remember{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--bd-muted);margin-top:4px;cursor:pointer;}
+  .remember input{width:16px;height:16px;accent-color:var(--bd-gold);}
+
+  /* summary */
+  .items{display:flex;flex-direction:column;}
+  .item{display:grid;grid-template-columns:62px 1fr auto;gap:14px;padding:14px 0;border-bottom:1px solid #F0F0F0;}
+  .item:first-child{padding-top:0;}
+  .item img{width:62px;height:90px;object-fit:cover;border-radius:2px 4px 4px 2px;box-shadow:0 6px 14px -8px rgba(0,0,0,.5);}
+  .item h3{font:600 17px/1.2 var(--bd-serif);}
+  .item .by{font-size:12.5px;color:var(--bd-muted);margin:2px 0 10px;}
+  .item .right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;}
+  .item .amt{font-weight:600;}
+  .item .rm{background:none;border:0;color:var(--bd-muted);cursor:pointer;display:flex;padding:4px;border-radius:4px;}
+  .item .rm:hover{color:var(--bd-red);background:#FDECEA;}
+  .item .rm svg{width:17px;height:17px;}
+  .totals{padding-top:14px;}
+  .totals .r{display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:8px;color:#374151;}
+  .totals .r.total{font-size:18px;font-weight:600;color:var(--bd-ink);border-top:1px solid var(--bd-border);padding-top:14px;margin-top:12px;margin-bottom:2px;}
+  .totals .incl{text-align:right;font-size:12px;color:var(--bd-muted);}
+  .free-note{font-size:12.5px;color:var(--bd-gold-dark);background:var(--bd-gold-soft);padding:8px 12px;border-radius:var(--bd-radius);margin-top:10px;}
+  .edit-cart{font-size:13px;}
+
+  /* payment */
+  .methods{border:1px solid var(--bd-border);border-radius:10px;overflow:hidden;}
+  .method{display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer;border-bottom:1px solid var(--bd-border);transition:background .2s;}
+  .method:last-child{border-bottom:0;}
+  .method:hover{background:#FCFBF8;}
+  .method input{width:18px;height:18px;accent-color:var(--bd-gold);flex-shrink:0;}
+  .method .m-name{flex:1;font-size:14.5px;}
+  .method .m-name small{display:block;font-size:12px;color:var(--bd-muted);}
+  .method.on{background:var(--bd-gold-soft);}
+  .chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;}
+  .chip{font:700 10px/1 var(--bd-sans);letter-spacing:.02em;padding:4px 6px;border-radius:4px;border:1px solid #E3E3E3;background:#fff;color:#444;white-space:nowrap;}
+  .chip.visa{color:#1A1F71;font-style:italic;}
+  .chip.mc{color:#EB001B;}
+  .chip.rupay{color:#0F7E3E;font-style:italic;}
+  .chip.gpay{color:#4285F4;}
+  .chip.pp{color:#5F259F;}
+  .chip.paytm{color:#00BAF2;}
+  @media(max-width:480px){.chips{display:none;}}
+
+  .pay-wrap{margin-top:18px;}
+  .pay-btn{width:100%;padding:17px;font-size:17px;border-radius:8px;}
+  .pay-btn svg{width:19px;height:19px;}
+  .pay-note{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;color:var(--bd-muted);margin-top:12px;text-align:center;}
+  .pay-note svg{width:14px;height:14px;}
+  .form-error{display:none;margin-top:14px;padding:12px 14px;border-radius:8px;background:#FDECEA;color:var(--bd-red);font-size:14px;}
+  .form-error.show{display:block;}
+  .policy{font-size:12px;color:var(--bd-muted);text-align:center;margin-top:10px;}
+  .policy a{text-decoration:underline;}
+
+  /* empty + success */
+  .center{max-width:560px;margin:40px auto 80px;padding:0 20px;text-align:center;}
+  .center .panel{padding:44px 30px;}
+  .center h1{font:500 36px var(--bd-serif);margin-bottom:8px;}
+  .center p{color:var(--bd-muted);}
+  .center .actions{display:flex;flex-direction:column;gap:10px;margin-top:26px;}
+  .tick{width:76px;height:76px;margin:0 auto 18px;border-radius:50%;background:#E7F6EC;display:flex;align-items:center;justify-content:center;animation:pop .6s var(--bd-ease);}
+  .tick svg{width:40px;height:40px;color:var(--bd-green);}
+  .tick svg path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .6s .25s var(--bd-ease) forwards;}
+  @keyframes pop{0%{transform:scale(.5);opacity:0;}70%{transform:scale(1.08);}100%{transform:scale(1);opacity:1;}}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .order-box{margin-top:22px;text-align:left;border:1px solid var(--bd-border);border-radius:10px;padding:16px 18px;font-size:14px;background:var(--bd-bg);}
+  .order-box .r{display:flex;justify-content:space-between;gap:10px;padding:4px 0;}
+  .order-box .r span:first-child{color:var(--bd-muted);}
+  .hidden{display:none !important;}
+  .overlay-busy{position:fixed;inset:0;background:rgba(255,255,255,.75);z-index:900;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;font-size:14px;color:var(--bd-muted);}
+  .overlay-busy.show{display:flex;}
+  .spinner{width:38px;height:38px;border:3px solid #eee;border-top-color:var(--bd-gold);border-radius:50%;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <a href="/books/" aria-label="Back to books"><img src="https://res.cloudinary.com/dhn6pvsr1/image/upload/v1784738286/Logo_nwdku8.png" alt="Blackdot Publication"></a>
+    <div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Secure Checkout</div>
+  </div>
+</header>
+
+<nav class="steps" aria-label="Checkout progress">
+  <div class="step done" id="st-cart"><span class="dot">1</span>Cart</div>
+  <div class="step-line on"><i></i></div>
+  <div class="step active" id="st-details"><span class="dot">2</span>Details</div>
+  <div class="step-line" id="line-pay"><i></i></div>
+  <div class="step" id="st-pay"><span class="dot">3</span>Payment</div>
+</nav>
+
+<div id="checkout-view" class="hidden">
+  <form class="layout" id="checkout-form" novalidate>
+    <section class="panel a-details" aria-labelledby="h-delivery">
+      <h2 id="h-delivery">Delivery Information</h2>
+      <div class="f" data-f="name"><label for="name">Full Name <span class="req">*</span></label><input id="name" name="name" autocomplete="name" placeholder="Enter your full name" maxlength="100"><div class="err">Please enter your full name.</div></div>
+      <div class="f" data-f="phone"><label for="phone">Mobile Number <span class="req">*</span></label><div class="phone"><span>+91</span><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="Enter mobile number" maxlength="11"></div><div class="err">Please enter a valid 10-digit mobile number.</div></div>
+      <div class="f" data-f="email"><label for="email">Email <span class="opt">(for invoice &amp; order updates)</span></label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="200"><div class="err">Please enter a valid email address, or leave it blank.</div></div>
+      <div class="f" data-f="address"><label for="address">Address <span class="req">*</span></label><textarea id="address" name="address" rows="2" autocomplete="street-address" placeholder="House no., Building, Street, Area, Landmark" maxlength="500"></textarea><div class="err">Please enter your full address.</div></div>
+      <div class="row2">
+        <div class="f" data-f="pincode"><label for="pincode">Pincode <span class="req">*</span></label><input id="pincode" name="pincode" inputmode="numeric" autocomplete="postal-code" placeholder="Enter pincode" maxlength="6"><div class="err">Enter a valid 6-digit pincode.</div><div class="help" id="pin-help"></div></div>
+        <div class="f" data-f="city"><label for="city">City <span class="req">*</span></label><input id="city" name="city" autocomplete="address-level2" placeholder="Enter city" maxlength="100"><div class="err">Please enter your city.</div></div>
+      </div>
+      <div class="f" data-f="state"><label for="state">State <span class="req">*</span></label><select id="state" name="state" autocomplete="address-level1"><option value="">Select state</option></select><div class="err">Please select your state.</div></div>
+      <label class="remember"><input type="checkbox" id="remember" checked> Save these details on this device for next time</label>
+    </section>
+
+    <aside class="panel a-summary" aria-labelledby="h-summary">
+      <h2 id="h-summary">Order Summary</h2>
+      <div class="items" id="items"></div>
+      <div class="totals" id="totals"></div>
+      <div class="edit-cart" id="mode-note"></div>
+    </aside>
+
+    <section class="panel a-payment" aria-labelledby="h-pay">
+      <h2 id="h-pay">Payment Method</h2>
+      <div class="methods" role="radiogroup" aria-labelledby="h-pay">
+        <label class="method on"><input type="radio" name="method" value="upi" checked><span class="m-name">UPI<small>Google Pay, PhonePe, Paytm, BHIM &amp; more</small></span><span class="chips"><span class="chip gpay">GPay</span><span class="chip pp">PhonePe</span><span class="chip paytm">Paytm</span><span class="chip">BHIM</span></span></label>
+        <label class="method"><input type="radio" name="method" value="card"><span class="m-name">Credit / Debit Card</span><span class="chips"><span class="chip visa">VISA</span><span class="chip mc">Mastercard</span><span class="chip rupay">RuPay</span></span></label>
+        <label class="method"><input type="radio" name="method" value="netbanking"><span class="m-name">Net Banking<small>All major Indian banks</small></span></label>
+        <label class="method"><input type="radio" name="method" value="wallet"><span class="m-name">Wallets<small>Paytm, Amazon Pay, Mobikwik &amp; more</small></span></label>
+      </div>
+      <div class="pay-wrap">
+        <button class="bd-btn bd-btn-gold pay-btn" type="submit" id="pay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg><span id="pay-label">Pay Now</span></button>
+        <div class="form-error" id="form-error" role="alert"></div>
+        <div class="pay-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Your payment information is secure and encrypted by Razorpay.</div>
+        <p class="policy">By placing this order you agree to our <a href="/terms-and-conditions/" target="_blank">Terms</a>, <a href="/shipping-policy/" target="_blank">Shipping</a> and <a href="/refund-policy/" target="_blank">Refund</a> policies.</p>
+      </div>
+    </section>
+  </form>
+</div>
+
+<div id="empty-view" class="center hidden">
+  <div class="panel">
+    <h1>Your cart is empty</h1>
+    <p>Add a book to your cart to check out.</p>
+    <div class="actions"><a class="bd-btn bd-btn-gold bd-btn-lg" href="/books/">Browse Books</a><a class="bd-btn bd-btn-ghost" href="/order/">Track an existing order</a></div>
+  </div>
+</div>
+
+<div id="success-view" class="center hidden">
+  <div class="panel">
+    <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Order confirmed!</h1>
+    <p id="success-text">Thank you. Your payment was received and your books will be packed shortly.</p>
+    <div class="order-box" id="success-box"></div>
+    <div class="actions">
+      <a class="bd-btn bd-btn-gold bd-btn-lg" id="success-track" href="/order/">Track Your Order</a>
+      <a class="bd-btn bd-btn-outline" id="success-invoice" href="/invoice/" target="_blank" rel="noopener">Download Invoice</a>
+      <a class="bd-btn bd-btn-ghost" href="/books/">Continue Shopping</a>
+    </div>
+  </div>
+</div>
+
+<div class="overlay-busy" id="busy" role="status" aria-live="polite"><div class="spinner"></div><div id="busy-text">Preparing secure payment…</div></div>
+
+<script>
+(function(){
+  const { esc, money, img, ICONS } = BD;
+  const mode = new URLSearchParams(location.search).get('mode') === 'buynow' ? 'buynow' : 'cart';
+  const source = mode === 'buynow' ? BD.buyNow : BD.cart;
+  const $ = (id) => document.getElementById(id);
+  const PROFILE_KEY = 'bd_checkout_profile_v1';
+  let cfg = null, books = [], quote = null, placing = false;
+  // Re-opening the payment window after a cancel reuses the same order
+  // instead of creating a new one, as long as nothing changed.
+  let pending = null;
+
+  function lines(){ return source.get(); }
+  function setLines(l){ source.save(l); }
+
+  function show(view){
+    ['checkout-view','empty-view','success-view'].forEach(v => $(v).classList.toggle('hidden', v !== view));
+    document.querySelector('.steps').classList.toggle('hidden', view === 'empty-view');
+  }
+  function busy(on, text){ $('busy').classList.toggle('show', on); if(text) $('busy-text').textContent = text; }
+
+  // ----- profile (saved delivery details) -----
+  function loadProfile(){
+    try {
+      const p = JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null');
+      if(!p) return;
+      ['name','phone','email','address','pincode','city'].forEach(k => { if(p[k]) $(k).value = p[k]; });
+      if(p.state) $('state').value = p.state;
+    } catch(e){}
+  }
+  function saveProfile(data){
+    try {
+      if($('remember').checked) localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
+      else localStorage.removeItem(PROFILE_KEY);
+    } catch(e){}
+  }
+
+  // ----- summary -----
+  async function refreshQuote(){
+    const l = lines();
+    if(!l.length){ show('empty-view'); return; }
+    try {
+      quote = await BD.api('/api/checkout/quote', { method:'POST', body:{ items: l.map(x => ({ book_id: x.id, quantity: x.qty })) } });
+    } catch(err){
+      // Drop a line that is no longer purchasable and retry once.
+      if(err.data && err.data.book_id){
+        setLines(l.filter(x => x.id !== err.data.book_id));
+        BD.toast(err.message, { error:true });
+        return refreshQuote();
+      }
+      $('items').innerHTML = `<p style="color:var(--bd-red)">${esc(err.message)}</p>`;
+      $('totals').innerHTML = '';
+      return;
+    }
+    renderSummary();
+  }
+
+  function renderSummary(){
+    const byId = new Map(books.map(b => [b.id, b]));
+    $('items').innerHTML = quote.lines.map(l => {
+      const b = byId.get(l.book_id) || {};
+      const cover = img((b.images && b.images[0]) || l.cover_url, 150);
+      return `<div class="item" data-id="${l.book_id}">
+        <img src="${esc(cover)}" alt="">
+        <div><h3>${esc(l.title)}</h3><div class="by">by ${esc(l.author)} · ${esc(l.format)}</div>${BD.stepperHtml(l.quantity)}</div>
+        <div class="right"><span class="amt">${money(l.unit_price_paise * l.quantity)}</span><button class="rm" type="button" aria-label="Remove ${esc(l.title)}">${ICONS.trash}</button></div>
+      </div>`;
+    }).join('');
+    $('items').querySelectorAll('.item').forEach(row => {
+      const id = parseInt(row.dataset.id, 10);
+      BD.wireStepper(row, (q) => { setLines(lines().map(x => x.id === id ? { id, qty:q } : x)); refreshQuote(); }, () => (lines().find(x => x.id === id) || {}).qty || 1);
+      row.querySelector('.rm').addEventListener('click', () => { setLines(lines().filter(x => x.id !== id)); refreshQuote(); });
+    });
+    const freeAbove = parseInt(cfg.free_shipping_above_paise || 0, 10);
+    $('totals').innerHTML = `
+      <div class="r"><span>Subtotal (${quote.lines.reduce((s,l) => s + l.quantity, 0)} item${quote.lines.reduce((s,l) => s + l.quantity, 0) === 1 ? '' : 's'})</span><span>${money(quote.subtotal)}</span></div>
+      <div class="r"><span>Shipping Charges</span><span>${quote.shipping ? money(quote.shipping) : '<span style="color:var(--bd-green);font-weight:600">FREE</span>'}</span></div>
+      <div class="r total"><span>Total</span><span>${money(quote.total)}</span></div>
+      <div class="incl">(Inclusive of all taxes)</div>
+      ${quote.shipping && freeAbove > quote.subtotal ? `<div class="free-note">Add ${money(freeAbove - quote.subtotal)} more to get free delivery.</div>` : ''}`;
+    $('pay-label').textContent = `Pay Now ${money(quote.total)}`;
+    $('mode-note').innerHTML = mode === 'buynow'
+      ? `<p style="font-size:12.5px;color:var(--bd-muted);margin-top:12px">Buying this title only. Items in your cart are saved for later.</p>`
+      : `<p style="margin-top:12px"><a class="bd-link" href="/books/">+ Add more books</a></p>`;
+  }
+
+  // ----- pincode auto-fill -----
+  let lastPin = '';
+  async function lookupPin(){
+    const pin = $('pincode').value.trim();
+    if(!/^[1-9]\d{5}$/.test(pin) || pin === lastPin) return;
+    lastPin = pin;
+    $('pin-help').textContent = 'Looking up your area…';
+    try {
+      const r = await BD.api('/api/pincode/' + pin);
+      if(r.found){
+        if(!$('city').value.trim()) $('city').value = r.city;
+        const match = [...$('state').options].find(o => o.value && o.value.toLowerCase() === String(r.state).toLowerCase());
+        if(match) $('state').value = match.value;
+        $('pin-help').textContent = `${r.city}, ${r.state}`;
+        ['city','state'].forEach(k => document.querySelector(`[data-f="${k}"]`).classList.remove('invalid'));
+      } else $('pin-help').textContent = '';
+    } catch(e){ $('pin-help').textContent = ''; }
+  }
+
+  // ----- validation -----
+  function normPhone(v){
+    let d = String(v || '').replace(/\D/g, '');
+    if(d.length === 12 && d.startsWith('91')) d = d.slice(2);
+    if(d.length === 11 && d.startsWith('0')) d = d.slice(1);
+    return /^[6-9]\d{9}$/.test(d) ? d : null;
+  }
+  function collect(){
+    return {
+      name: $('name').value.trim(),
+      phone: $('phone').value.trim(),
+      email: $('email').value.trim(),
+      address: $('address').value.trim(),
+      pincode: $('pincode').value.trim(),
+      city: $('city').value.trim(),
+      state: $('state').value,
+    };
+  }
+  function validate(d){
+    const bad = {
+      name: d.name.length < 2,
+      phone: !normPhone(d.phone),
+      email: d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email),
+      address: d.address.length < 5,
+      pincode: !/^[1-9]\d{5}$/.test(d.pincode),
+      city: d.city.length < 2,
+      state: !d.state,
+    };
+    let first = null;
+    Object.entries(bad).forEach(([k, isBad]) => {
+      document.querySelector(`[data-f="${k}"]`).classList.toggle('invalid', !!isBad);
+      if(isBad && !first) first = k;
+    });
+    if(first){
+      const el = $(first);
+      el.scrollIntoView({ behavior:'smooth', block:'center' });
+      setTimeout(() => el.focus({ preventScroll:true }), 300);
+    }
+    return !first;
+  }
+  ['name','phone','email','address','pincode','city','state'].forEach(k => {
+    $(k).addEventListener('input', () => document.querySelector(`[data-f="${k}"]`).classList.remove('invalid'));
+  });
+  $('phone').addEventListener('input', () => { $('phone').value = $('phone').value.replace(/[^\d]/g, '').slice(0, 11); });
+  $('pincode').addEventListener('input', () => { $('pincode').value = $('pincode').value.replace(/\D/g, '').slice(0, 6); if($('pincode').value.length === 6) lookupPin(); });
+
+  document.querySelectorAll('.method input').forEach(r => r.addEventListener('change', () => {
+    document.querySelectorAll('.method').forEach(m => m.classList.toggle('on', m.querySelector('input').checked));
+  }));
+
+  // ----- payment -----
+  function loadRazorpay(){
+    return new Promise((resolve, reject) => {
+      if(window.Razorpay) return resolve();
+      const s = document.createElement('script');
+      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      s.onload = resolve;
+      s.onerror = () => reject(new Error('Could not load the payment window. Please check your internet connection and try again.'));
+      document.head.appendChild(s);
+    });
+  }
+  function showError(msg){
+    const e = $('form-error');
+    e.innerHTML = `${esc(msg)} <br><a class="bd-link" style="color:inherit" target="_blank" rel="noopener" href="${esc(BD.whatsappLink('Hi Blackdot Publication, I need help placing an order.'))}">Need help? Order on WhatsApp</a>`;
+    e.classList.add('show');
+  }
+  function stepPay(on){
+    $('st-pay').classList.toggle('active', on);
+    $('st-details').classList.toggle('active', !on);
+    $('st-details').classList.toggle('done', on);
+    $('line-pay').classList.toggle('on', on);
+  }
+
+  $('checkout-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(placing) return;
+    $('form-error').classList.remove('show');
+    const d = collect();
+    if(!validate(d)) return;
+    if(!quote || !lines().length) return;
+    saveProfile(d);
+    const method = document.querySelector('input[name="method"]:checked').value;
+    placing = true;
+    $('pay-btn').disabled = true;
+    busy(true, 'Preparing secure payment…');
+    stepPay(true);
+    let order;
+    const payload = {
+      items: lines().map(x => ({ book_id: x.id, quantity: x.qty })),
+      buyer_name: d.name, buyer_phone: normPhone(d.phone), buyer_email: d.email || undefined,
+      address: d.address, city: d.city, state: d.state, pincode: d.pincode,
+    };
+    const key = JSON.stringify(payload);
+    try {
+      if(pending && pending.key === key && pending.total === quote.total){
+        order = pending.order;
+      } else {
+        order = await BD.api('/api/razorpay/create-order', { method:'POST', body:{ ...payload, payment_method: method } });
+        pending = { key, order, total: order.amount };
+      }
+      await loadRazorpay();
+    } catch(err){
+      busy(false); placing = false; $('pay-btn').disabled = false; stepPay(false);
+      if(err.data && err.data.book_id){ await refreshQuote(); }
+      showError(err.message);
+      return;
+    }
+    busy(false);
+    const rzp = new Razorpay({
+      key: order.key_id,
+      amount: order.amount,
+      currency: order.currency,
+      name: 'Blackdot Publication',
+      description: `Order #${order.order_id} · ${order.book_title}`,
+      image: 'https://res.cloudinary.com/dhn6pvsr1/image/upload/v1784738285/favicon_gr8bon.png',
+      order_id: order.razorpay_order_id,
+      prefill: { name: d.name, contact: '+91' + normPhone(d.phone), email: d.email || '', method },
+      notes: { blackdot_order_id: String(order.order_id) },
+      theme: { color: '#B8892B' },
+      config: { display: {
+        blocks: { preferred: { name: 'Your choice', instruments: [{ method }] } },
+        sequence: ['block.preferred'],
+        preferences: { show_default_blocks: true },
+      }},
+      handler: async (resp) => {
+        busy(true, 'Confirming your payment…');
+        try {
+          const v = await BD.api('/api/razorpay/verify', { method:'POST', body:{
+            order_id: order.order_id,
+            razorpay_order_id: resp.razorpay_order_id,
+            razorpay_payment_id: resp.razorpay_payment_id,
+            razorpay_signature: resp.razorpay_signature,
+          }});
+          success(order, v, d);
+        } catch(err){
+          busy(false); placing = false; $('pay-btn').disabled = false;
+          showError(`Your payment went through but we couldn't confirm it automatically. Please don't pay again. Share your payment ID ${resp.razorpay_payment_id} and order #${order.order_id} with us and we'll confirm it right away.`);
+        }
+      },
+      modal: { ondismiss: () => {
+        placing = false; $('pay-btn').disabled = false; stepPay(false);
+        BD.toast('Payment cancelled. Your order is saved, you can try again.', { error:true });
+      }},
+    });
+    rzp.on('payment.failed', (resp) => {
+      const reason = resp && resp.error && resp.error.description;
+      BD.toast(reason ? `Payment failed: ${reason}` : 'Payment failed. Please try again.', { error:true, duration:5000 });
+    });
+    rzp.open();
+  });
+
+  function success(order, v, d){
+    busy(false);
+    const total = quote.total;
+    source.clear();
+    BD.myOrders.add({ id: order.order_id, t: v.access_token || order.access_token, total, date: new Date().toISOString(), items: quote.lines.length });
+    const link = `/order/?id=${order.order_id}&t=${encodeURIComponent(v.access_token || order.access_token)}`;
+    $('success-track').href = link;
+    $('success-invoice').href = `/invoice/?id=${order.order_id}&t=${encodeURIComponent(v.access_token || order.access_token)}`;
+    $('success-text').textContent = `Thank you, ${d.name.split(' ')[0]}. Your payment was received and your books will be packed shortly.${d.email ? ' A confirmation has been sent to ' + d.email + '.' : ''}`;
+    $('success-box').innerHTML = `
+      <div class="r"><span>Order number</span><strong>#${order.order_id}</strong></div>
+      ${v.invoice_no ? `<div class="r"><span>Invoice</span><span>${esc(v.invoice_no)}</span></div>` : ''}
+      <div class="r"><span>Amount paid</span><strong>${money(total)}</strong></div>
+      <div class="r"><span>Delivering to</span><span style="text-align:right">${esc(d.city)}, ${esc(d.state)} ${esc(d.pincode)}</span></div>
+      <div class="r"><span>Expected delivery</span><span>${esc(BD.deliveryRange(cfg))}</span></div>`;
+    ['st-details','st-pay'].forEach(id => { $(id).classList.remove('active'); $(id).classList.add('done'); });
+    $('line-pay').classList.add('on');
+    show('success-view');
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  // ----- boot -----
+  (async function init(){
+    if(!lines().length){ show('empty-view'); return; }
+    try { [cfg, books] = await Promise.all([BD.config(), BD.books()]); }
+    catch(e){ cfg = await BD.config(); books = []; }
+    const states = (cfg.states && cfg.states.length) ? cfg.states : [];
+    $('state').insertAdjacentHTML('beforeend', states.map(s => `<option>${esc(s)}</option>`).join(''));
+    loadProfile();
+    show('checkout-view');
+    await refreshQuote();
+  })();
+})();
+</script>
+</body>
+</html>
