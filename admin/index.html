@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 14c8-4 16-4 24 0v34c-8-4-16-4-24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M56 14c-8-4-16-4-24 0v34c8-4 16-4 24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='30' r='4.5' fill='%23000'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--black:#000;--bg:#F6F6F4;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--gold:#B8892B;--gold-soft:#F7F0E1;--green:#15803D;--red:#B42318;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
+  :root{--black:#000;--bg:#F6F6F4;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--accent:#111111;--accent-soft:#EFEFEF;--green:#15803D;--red:#B42318;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:var(--sans);background:var(--bg);color:#111;font-size:14px;}
   a{color:inherit;}
@@ -25,11 +25,11 @@
   .field label{display:block;font-size:12px;font-weight:500;color:#333;margin-bottom:6px;}
   .field label .muted{font-weight:400;}
   .field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid #D6D6D6;background:#fff;font-size:14px;border-radius:6px;}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;background:#111;color:#fff;border:1px solid #111;font-size:13px;font-weight:500;border-radius:6px;transition:.2s;white-space:nowrap;text-decoration:none;}
   .btn:hover{background:#333;}
-  .btn.gold{background:var(--gold);border-color:var(--gold);}
-  .btn.gold:hover{background:#9A7020;}
+  .btn.primary{background:var(--accent);border-color:var(--accent);}
+  .btn.primary:hover{background:#333333;}
   .btn.outline{background:#fff;color:#111;border-color:#D6D6D6;}
   .btn.outline:hover{border-color:#111;}
   .btn.danger{background:#fff;color:var(--red);border-color:#F2C4BF;}
@@ -54,7 +54,7 @@
   nav.tabs .in{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;gap:2px;overflow-x:auto;}
   nav.tabs button{padding:14px 16px;font-size:13.5px;border:0;border-bottom:2px solid transparent;color:var(--sec);background:none;white-space:nowrap;display:flex;align-items:center;gap:6px;}
   nav.tabs button.active{color:#000;border-color:#000;font-weight:600;}
-  .count{background:var(--gold);color:#fff;font-size:10.5px;font-weight:600;border-radius:9px;padding:1px 6px;min-width:18px;text-align:center;}
+  .count{background:var(--accent);color:#fff;font-size:10.5px;font-weight:600;border-radius:9px;padding:1px 6px;min-width:18px;text-align:center;}
   .count:empty,.count[data-n="0"]{display:none;}
   main{max-width:1280px;margin:0 auto;padding:24px 24px 80px;}
   .panel{display:none;}
@@ -68,7 +68,7 @@
   .kpi span{display:block;font-size:12px;color:var(--sec);margin-bottom:6px;}
   .kpi strong{font-size:24px;font-weight:600;}
   .kpi small{display:block;font-size:12px;color:var(--sec);margin-top:2px;}
-  .kpi.attn strong{color:var(--gold);}
+  .kpi.attn strong{color:var(--accent);}
   @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr);}}
 
   .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
@@ -95,7 +95,7 @@
   .badge.paid,.badge.approved,.badge.yes{background:#E7F6EC;color:var(--green);}
   .badge.created,.badge.pending{background:#FFF4E0;color:#8A5A00;}
   .badge.failed,.badge.hidden,.badge.no{background:#FDECEA;color:var(--red);}
-  .badge.gold{background:var(--gold-soft);color:#9A7020;}
+  .badge.soft{background:var(--accent-soft);color:#333333;}
   select.inline{padding:6px 8px;border:1px solid #D6D6D6;font-size:12.5px;border-radius:6px;background:#fff;max-width:150px;}
   .row-actions{display:flex;gap:6px;flex-wrap:wrap;}
   .items-cell{max-width:260px;}
@@ -126,9 +126,9 @@
 
   .review-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:12px;}
   .review-card .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;}
-  .review-card .stars{color:#E3A21A;letter-spacing:2px;font-size:15px;}
+  .review-card .stars{color:#111111;letter-spacing:2px;font-size:15px;}
   .review-card .body{margin-top:8px;white-space:pre-line;line-height:1.55;}
-  .review-card .reply{margin-top:10px;padding:10px 12px;background:#FAFAF8;border-left:3px solid var(--gold);font-size:13px;white-space:pre-line;}
+  .review-card .reply{margin-top:10px;padding:10px 12px;background:#FAFAF8;border-left:3px solid var(--accent);font-size:13px;white-space:pre-line;}
   .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   .card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:22px;}
   .card h3{font:600 20px var(--serif);margin-bottom:14px;}
@@ -227,7 +227,7 @@
     <section class="panel" id="panel-books">
       <div class="panel-head">
         <h2>Book Titles</h2>
-        <button class="btn gold" id="add-book-btn">+ Add Title</button>
+        <button class="btn primary" id="add-book-btn">+ Add Title</button>
       </div>
       <div class="table-wrap">
         <table id="books-table">
@@ -256,7 +256,7 @@
     <section class="panel" id="panel-vendors">
       <div class="panel-head">
         <h2>Print Vendors</h2>
-        <button class="btn gold" id="add-vendor-btn">+ Add Vendor</button>
+        <button class="btn primary" id="add-vendor-btn">+ Add Vendor</button>
       </div>
       <div class="table-wrap">
         <table id="vendors-table">
@@ -282,7 +282,7 @@
 
     <!-- SETTINGS -->
     <section class="panel" id="panel-settings">
-      <div class="panel-head"><h2>Store Settings</h2><button class="btn gold" id="save-settings-btn">Save Settings</button></div>
+      <div class="panel-head"><h2>Store Settings</h2><button class="btn primary" id="save-settings-btn">Save Settings</button></div>
       <form id="settings-form" class="settings-grid">
         <div class="card">
           <h3>Invoice &amp; business details</h3>
@@ -392,7 +392,7 @@
       <div class="err" id="book-err"></div>
       <div class="modal-actions">
         <button type="button" class="btn outline" data-close>Cancel</button>
-        <button type="submit" class="btn gold" id="book-save">Save</button>
+        <button type="submit" class="btn primary" id="book-save">Save</button>
       </div>
     </form>
   </div>
@@ -410,7 +410,7 @@
       <div class="err" id="vendor-err"></div>
       <div class="modal-actions">
         <button type="button" class="btn outline" data-close>Cancel</button>
-        <button type="submit" class="btn gold">Create Vendor</button>
+        <button type="submit" class="btn primary">Create Vendor</button>
       </div>
     </form>
   </div>
@@ -430,7 +430,7 @@
       <div class="field"><label>Your public reply <span class="muted">(shown under the review as “Response from Blackdot”; leave empty to remove)</span></label><textarea id="reply-text" rows="5" maxlength="2000"></textarea></div>
       <div class="modal-actions">
         <button type="button" class="btn outline" data-close>Cancel</button>
-        <button type="submit" class="btn gold">Save Reply</button>
+        <button type="submit" class="btn primary">Save Reply</button>
       </div>
     </form>
   </div>
@@ -757,7 +757,7 @@ function openOrder(id){
     ${trackLink ? `<div class="field" style="margin-top:16px"><label>Customer tracking &amp; invoice link</label><div class="linkrow"><input readonly value="${esc(trackLink)}" id="od-link"><button class="btn outline small" type="button" id="copy-link">Copy</button></div></div>` : ''}
     <div class="modal-actions" style="justify-content:space-between">
       <button class="btn danger" type="button" id="od-delete">Delete order</button>
-      <div style="display:flex;gap:8px"><button class="btn outline" type="button" data-close>Close</button><button class="btn gold" type="button" id="od-save">Save changes</button></div>
+      <div style="display:flex;gap:8px"><button class="btn outline" type="button" data-close>Close</button><button class="btn primary" type="button" id="od-save">Save changes</button></div>
     </div>`;
   openModal('order-modal-bg');
   const copy = async (text, msg) => { try { await navigator.clipboard.writeText(text); toast(msg); } catch(e){ prompt('Copy:', text); } };
@@ -838,7 +838,7 @@ async function loadBooks(){
   tbody.innerHTML = booksCache.map(b => {
     const flags = [
       b.available ? '' : '<span class="badge no">Hidden</span>',
-      b.coming_soon ? '<span class="badge gold">Coming soon</span>' : '',
+      b.coming_soon ? '<span class="badge soft">Coming soon</span>' : '',
       !b.in_stock ? '<span class="badge no">Out of stock</span>' : '',
       b.featured ? '<span class="badge yes">Featured</span>' : '',
       b.available && !b.coming_soon && b.in_stock ? '<span class="badge yes">On sale</span>' : '',
@@ -951,7 +951,7 @@ function renderReviews(){
           <div class="muted" style="margin-top:2px">${fmtDate(r.created_at)}</div>
         </div>
         <div class="row-actions">
-          ${r.status !== 'approved' ? `<button class="btn gold small" data-rv-status="approved" data-id="${r.id}">Approve</button>` : ''}
+          ${r.status !== 'approved' ? `<button class="btn primary small" data-rv-status="approved" data-id="${r.id}">Approve</button>` : ''}
           ${r.status !== 'hidden' ? `<button class="btn outline small" data-rv-status="hidden" data-id="${r.id}">Hide</button>` : ''}
           <button class="btn outline small" data-rv-reply="${r.id}">${r.reply ? 'Edit reply' : 'Reply'}</button>
           <button class="btn danger small" data-rv-del="${r.id}">Delete</button>

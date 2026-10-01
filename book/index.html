@@ -54,7 +54,7 @@
   .stage-dots span.on{background:var(--bd-ink);width:16px;border-radius:3px;}
   .thumbs{display:flex;gap:10px;margin-top:14px;overflow-x:auto;scrollbar-width:none;padding:2px;}
   .thumbs button{flex:0 0 64px;height:88px;border:1.5px solid var(--bd-border);border-radius:6px;overflow:hidden;background:#fff;cursor:pointer;padding:0;transition:border-color .2s;}
-  .thumbs button.on{border-color:var(--bd-gold);box-shadow:0 0 0 2px var(--bd-gold-soft);}
+  .thumbs button.on{border-color:var(--bd-accent);box-shadow:0 0 0 2px var(--bd-accent-soft);}
   .thumbs img{width:100%;height:100%;object-fit:cover;}
   .gallery-actions{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap;}
   @media(max-width:860px){.stage{padding:22px;}.main-track{max-width:280px;}.thumbs{justify-content:center;}.stage-dots{display:flex;}}
@@ -63,7 +63,7 @@
   .cat{margin-bottom:10px;}
   h1.title{font:500 clamp(34px,4.6vw,50px)/1.05 var(--bd-serif);letter-spacing:.003em;}
   .byline{margin-top:8px;font-size:15px;color:var(--bd-muted);}
-  .byline a{color:var(--bd-gold-dark);text-decoration:none;font-weight:500;}
+  .byline a{color:var(--bd-accent-dark);text-decoration:none;font-weight:500;}
   .byline a:hover{text-decoration:underline;}
   .rating-row{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;color:var(--bd-muted);flex-wrap:wrap;}
   .rating-row strong{color:var(--bd-ink);font-weight:600;}
@@ -81,8 +81,8 @@
   .format{min-width:140px;padding:12px 16px;border:1.5px solid var(--bd-border);border-radius:8px;background:#fff;text-align:left;cursor:pointer;font:inherit;color:inherit;text-decoration:none;transition:border-color .2s,background .2s;}
   .format small{display:block;font-size:13px;color:var(--bd-muted);}
   .format strong{display:block;font-size:15px;margin-top:2px;}
-  .format.on{border-color:var(--bd-gold);background:var(--bd-gold-soft);}
-  .format.on small{color:var(--bd-gold-dark);font-weight:600;}
+  .format.on{border-color:var(--bd-accent);background:var(--bd-accent-soft);}
+  .format.on small{color:var(--bd-accent-dark);font-weight:600;}
   .format:not(.on):hover{border-color:#bbb;}
   .format .ext{display:inline-flex;align-items:center;gap:4px;}
   .format .ext svg{width:12px;height:12px;}
@@ -92,14 +92,14 @@
   .stock.in{color:var(--bd-green);}
   .stock.out{color:var(--bd-red);}
   .stock.out i{background:var(--bd-red);box-shadow:0 0 0 4px #FDECEA;}
-  .stock.soon{color:var(--bd-gold-dark);}
-  .stock.soon i{background:var(--bd-gold);box-shadow:0 0 0 4px var(--bd-gold-soft);}
+  .stock.soon{color:var(--bd-accent-dark);}
+  .stock.soon i{background:var(--bd-accent);box-shadow:0 0 0 4px var(--bd-accent-soft);}
   .delivery{margin-top:12px;font-size:14px;display:flex;flex-direction:column;gap:8px;}
   .delivery .row{display:flex;align-items:center;gap:8px;}
   .delivery svg{width:19px;height:19px;flex-shrink:0;}
   .pin-form{display:flex;gap:8px;max-width:360px;}
   .pin-form input{flex:1;padding:9px 12px;border:1px solid var(--bd-border);border-radius:var(--bd-radius);font:14px var(--bd-sans);}
-  .pin-form input:focus{outline:none;border-color:var(--bd-gold);box-shadow:0 0 0 3px var(--bd-gold-soft);}
+  .pin-form input:focus{outline:none;border-color:var(--bd-accent);box-shadow:0 0 0 3px var(--bd-accent-soft);}
   .pin-result{font-size:13px;color:var(--bd-muted);}
   .pin-result.ok{color:var(--bd-green);}
 
@@ -150,13 +150,13 @@
   .rv-filter-note{font-size:13px;color:var(--bd-muted);}
   .rv{padding:20px 0;border-bottom:1px solid #F0F0F0;}
   .rv-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .avatar{width:34px;height:34px;border-radius:50%;background:var(--bd-gold-soft);color:var(--bd-gold-dark);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--bd-accent-soft);color:var(--bd-accent-dark);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;}
   .rv-name{font-weight:600;color:var(--bd-ink);font-size:14px;}
   .rv-title{font-weight:600;color:var(--bd-ink);margin-top:8px;}
   .rv-meta{font-size:12.5px;color:var(--bd-muted);margin-top:4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
   .rv-body{margin-top:6px;white-space:pre-line;}
-  .rv-reply{margin-top:12px;padding:12px 14px;background:var(--bd-bg);border-left:3px solid var(--bd-gold);font-size:14px;border-radius:0 6px 6px 0;}
-  .rv-reply strong{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--bd-gold-dark);margin-bottom:2px;}
+  .rv-reply{margin-top:12px;padding:12px 14px;background:var(--bd-bg);border-left:3px solid var(--bd-accent);font-size:14px;border-radius:0 6px 6px 0;}
+  .rv-reply strong{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--bd-accent-dark);margin-bottom:2px;}
   .rv-empty{padding:24px 0;color:var(--bd-muted);}
 
   .rv-form{display:none;margin:18px 0 6px;padding:24px;background:var(--bd-bg);border:1px solid var(--bd-border);border-radius:10px;}
@@ -167,7 +167,7 @@
   .f{margin-bottom:14px;}
   .f label{display:block;font-size:13px;font-weight:500;color:var(--bd-ink);margin-bottom:6px;}
   .f input,.f textarea{width:100%;padding:11px 12px;border:1px solid var(--bd-border);border-radius:var(--bd-radius);font:14px var(--bd-sans);background:#fff;color:var(--bd-ink);}
-  .f input:focus,.f textarea:focus{outline:none;border-color:var(--bd-gold);box-shadow:0 0 0 3px var(--bd-gold-soft);}
+  .f input:focus,.f textarea:focus{outline:none;border-color:var(--bd-accent);box-shadow:0 0 0 3px var(--bd-accent-soft);}
   .f2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   @media(max-width:600px){.f2{grid-template-columns:1fr;}}
   .star-pick{display:flex;gap:4px;}
@@ -176,7 +176,7 @@
   .star-pick button.on{color:var(--bd-star);}
   .star-pick button:hover{transform:scale(1.12);}
   .star-text{font-size:13px;color:var(--bd-muted);margin-left:8px;align-self:center;}
-  .verify-box{border:1px dashed #D8C9A6;background:#FFFCF5;border-radius:8px;padding:14px;margin-bottom:14px;}
+  .verify-box{border:1px dashed #CFCFCF;background:#FAFAFA;border-radius:8px;padding:14px;margin-bottom:14px;}
   .verify-box p{font-size:12.5px;color:var(--bd-muted);margin-bottom:10px;}
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
   .form-msg{font-size:13.5px;margin-top:10px;min-height:20px;}
@@ -312,7 +312,7 @@
         <div class="qty-row"><label for="qty">Quantity</label>
           <select id="qty">${Array.from({length: BD.MAX_QTY}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('')}</select></div>
         <div class="cta" id="main-cta">
-          <button class="bd-btn bd-btn-gold bd-btn-lg" type="button" data-buy>Buy Now</button>
+          <button class="bd-btn bd-btn-primary bd-btn-lg" type="button" data-buy>Buy Now</button>
           <button class="bd-btn bd-btn-outline bd-btn-lg" type="button" data-add>${ICONS.cart} Add to Cart</button>
         </div>`;
     } else if(b.coming_soon){
@@ -337,7 +337,7 @@
         </div>
 
         <div class="info">
-          ${b.category ? `<div class="cat"><span class="bd-badge bd-badge-gold">${esc(b.category)}</span></div>` : ''}
+          ${b.category ? `<div class="cat"><span class="bd-badge bd-badge-soft">${esc(b.category)}</span></div>` : ''}
           <h1 class="title">${esc(b.title)}</h1>
           <div class="byline">by <a href="#about-author" data-open="acc-author">${esc(b.author)}</a></div>
           <div class="rating-row">
@@ -524,7 +524,7 @@
     const bar = document.getElementById('sticky-buy');
     bar.innerHTML = `<div class="sp"><strong>${money(b.price_paise)}</strong><span>${esc(b.title)}</span></div>
       <button class="bd-btn bd-btn-outline" type="button" aria-label="Add to cart">${ICONS.cart}</button>
-      <button class="bd-btn bd-btn-gold" type="button">Buy Now</button>`;
+      <button class="bd-btn bd-btn-primary" type="button">Buy Now</button>`;
     const [barAdd, barBuy] = bar.querySelectorAll('button');
     barAdd.addEventListener('click', add);
     barBuy.addEventListener('click', buy);
@@ -651,7 +651,7 @@
         </div>
         <div class="hp" aria-hidden="true"><label>Website<input id="rv-website" tabindex="-1" autocomplete="off"></label></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="bd-btn bd-btn-gold" type="submit" id="rv-submit">Submit Review</button>
+          <button class="bd-btn bd-btn-primary" type="submit" id="rv-submit">Submit Review</button>
           <button class="bd-btn bd-btn-ghost" type="button" id="rv-cancel">Cancel</button>
         </div>
         <div class="form-msg" id="rv-msg" role="status"></div>

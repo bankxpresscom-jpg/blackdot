@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 14c8-4 16-4 24 0v34c-8-4-16-4-24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M56 14c-8-4-16-4-24 0v34c8-4 16-4 24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='30' r='4.5' fill='%23000'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#F6F6F4;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--gold:#B8892B;--gold-soft:#F7F0E1;--green:#15803D;--red:#B42318;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
+  :root{--bg:#F6F6F4;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--accent:#111111;--accent-soft:#EFEFEF;--green:#15803D;--red:#B42318;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:var(--sans);background:var(--bg);color:#111;font-size:14px;}
   h1,h2{font-family:var(--serif);font-weight:600;}
@@ -22,11 +22,11 @@
   .field{margin-bottom:16px;}
   .field label{display:block;font-size:12px;font-weight:500;margin-bottom:6px;}
   .field input{width:100%;padding:10px 12px;border:1px solid #D6D6D6;background:#fff;font-size:14px;border-radius:6px;font-family:inherit;}
-  .field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);}
+  .field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;background:#111;color:#fff;border:1px solid #111;font-size:13px;font-weight:500;border-radius:6px;transition:.2s;text-decoration:none;white-space:nowrap;}
   .btn:hover{background:#333;}
-  .btn.gold{background:var(--gold);border-color:var(--gold);}
-  .btn.gold:hover{background:#9A7020;}
+  .btn.primary{background:var(--accent);border-color:var(--accent);}
+  .btn.primary:hover{background:#333333;}
   .btn.outline{background:#fff;color:#111;border-color:#D6D6D6;}
   .btn.outline:hover{border-color:#111;}
   .btn.small{padding:7px 12px;font-size:12.5px;}
@@ -45,7 +45,7 @@
   .tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
   .tab{padding:9px 14px;border:1px solid #D6D6D6;border-radius:20px;background:#fff;font-size:13px;display:flex;gap:6px;align-items:center;}
   .tab.on{background:#111;color:#fff;border-color:#111;}
-  .tab .n{font-size:11px;background:var(--gold);color:#fff;border-radius:9px;padding:0 6px;}
+  .tab .n{font-size:11px;background:var(--accent);color:#fff;border-radius:9px;padding:0 6px;}
   .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:10px;}
   .toolbar label{display:flex;align-items:center;gap:8px;font-size:13px;}
   .toolbar .sp{flex:1;}
@@ -65,7 +65,7 @@
   .stage-track{display:flex;gap:6px;margin:16px 0 14px;}
   .stage{flex:1;text-align:center;padding:8px 4px;font-size:11.5px;font-weight:500;border-radius:6px;background:#F1F1F1;color:var(--sec);}
   .stage.done{background:#111;color:#fff;}
-  .stage.current{background:var(--gold);color:#fff;}
+  .stage.current{background:var(--accent);color:#fff;}
   .order-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;}
   .order-actions .print{display:flex;gap:6px;flex-wrap:wrap;}
   .awb{font-size:12.5px;color:var(--sec);margin-top:-4px;margin-bottom:10px;}
@@ -116,7 +116,7 @@
     <div class="toolbar" id="toolbar">
       <label><input type="checkbox" id="check-all"> <span id="sel-text">Select all</span></label>
       <span class="sp"></span>
-      <button class="btn small gold" data-print="combined" disabled>🖨 Label + Invoice (A4)</button>
+      <button class="btn small primary" data-print="combined" disabled>🖨 Label + Invoice (A4)</button>
       <button class="btn small outline" data-print="label" disabled>Labels 4×6</button>
       <button class="btn small outline" data-print="invoice" disabled>Invoices</button>
     </div>
@@ -133,7 +133,7 @@
       <div class="field"><label for="ship-courier">Courier</label><input id="ship-courier" list="couriers" placeholder="India Post, Delhivery, DTDC…"></div>
       <datalist id="couriers"><option>India Post</option><option>Delhivery</option><option>DTDC</option><option>Blue Dart</option><option>Ekart</option><option>Shiprocket</option><option>Xpressbees</option></datalist>
       <div class="field"><label for="ship-awb">Tracking / AWB number</label><input id="ship-awb" autocomplete="off"></div>
-      <div class="modal-actions"><button type="button" class="btn outline" id="ship-cancel">Cancel</button><button type="submit" class="btn gold">Mark as Shipped</button></div>
+      <div class="modal-actions"><button type="button" class="btn outline" id="ship-cancel">Cancel</button><button type="submit" class="btn primary">Mark as Shipped</button></div>
     </form>
   </div>
 </div>
@@ -243,7 +243,7 @@ function render(){
             <a class="btn outline small" href="/invoice/?ids=${o.id}&type=combined&src=vendor" target="_blank" rel="noopener">🖨 Label + Invoice</a>
             <a class="btn outline small" href="/invoice/?ids=${o.id}&type=label&src=vendor" target="_blank" rel="noopener">Label</a>
           </div>
-          ${next ? `<button class="btn gold small" data-advance="${o.id}" data-next="${next}">Mark as ${LABELS[next]}</button>` : '<span class="order-meta">✓ Delivered</span>'}
+          ${next ? `<button class="btn primary small" data-advance="${o.id}" data-next="${next}">Mark as ${LABELS[next]}</button>` : '<span class="order-meta">✓ Delivered</span>'}
         </div>
       </div>`;
   }).join('');

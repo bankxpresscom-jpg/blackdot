@@ -275,7 +275,7 @@
           <div><h5>Policies</h5><ul><li><a href="/shipping-policy/">Shipping Policy</a></li><li><a href="/refund-policy/">Refund &amp; Cancellation</a></li><li><a href="/privacy-policy/">Privacy Policy</a></li><li><a href="/terms-and-conditions/">Terms &amp; Conditions</a></li></ul></div>
           <div><h5>Get In Touch</h5><ul><li><a href="mailto:info@blackdotpublication.com">info@blackdotpublication.com</a></li><li><a href="tel:+917742588678">+91 77425 88678</a></li><li><a href="https://wa.me/${WHATSAPP}" target="_blank" rel="noopener">Chat on WhatsApp</a></li></ul></div>
         </div>
-        <div class="bd-footer-bottom"><span>Blackdot Publication · © ${year} All rights reserved.</span><span>Secure payments by Razorpay</span></div>
+        <div class="bd-footer-bottom"><span>Blackdot Publication · © ${year} All rights reserved.</span><span class="bd-credit">Crafted with ❤️ by <a href="https://infinityintelligence.io" target="_blank" rel="noopener">Infinity Intelligence</a></span></div>
       </footer>`;
     document.currentScript
       ? document.currentScript.insertAdjacentHTML('beforebegin', html)
@@ -412,7 +412,7 @@
       <div class="bd-drawer-row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
       <div class="bd-drawer-row"><span>Shipping</span><span>${shipping ? money(shipping) : 'Free'}</span></div>
       <div class="bd-drawer-row total"><span>Total</span><span>${money(subtotal + shipping)}</span></div>
-      <a class="bd-btn bd-btn-gold bd-btn-block bd-btn-lg" href="/checkout/">${ICONS.lock} Checkout</a>`;
+      <a class="bd-btn bd-btn-primary bd-btn-block bd-btn-lg" href="/checkout/">${ICONS.lock} Checkout</a>`;
     body.querySelectorAll('.bd-line').forEach((row) => {
       const id = parseInt(row.dataset.id, 10);
       wireStepper(row, (q) => cart.set(id, q), () => cart.get().find((l) => l.id === id)?.qty || 1);

@@ -52,7 +52,7 @@
   .search{flex:1;position:relative;max-width:420px;}
   .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--bd-muted);}
   .search input{width:100%;padding:10px 12px 10px 38px;border:1px solid var(--bd-border);border-radius:var(--bd-radius);font:14px var(--bd-sans);background:#fff;}
-  .search input:focus,.sort:focus{outline:none;border-color:var(--bd-gold);box-shadow:0 0 0 3px var(--bd-gold-soft);}
+  .search input:focus,.sort:focus{outline:none;border-color:var(--bd-accent);box-shadow:0 0 0 3px var(--bd-accent-soft);}
   .sort{padding:10px 12px;border:1px solid var(--bd-border);border-radius:var(--bd-radius);font:14px var(--bd-sans);background:#fff;color:var(--bd-ink);margin-left:auto;}
   .result-note{font-size:13px;color:var(--bd-muted);white-space:nowrap;}
   .result-note:empty{display:none;}
@@ -105,7 +105,7 @@
 
   .promise{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bd-border);border:1px solid var(--bd-border);border-radius:10px;overflow:hidden;margin-top:40px;}
   .promise div{background:#fff;padding:22px;display:flex;gap:14px;align-items:flex-start;}
-  .promise svg{width:26px;height:26px;color:var(--bd-gold);flex-shrink:0;}
+  .promise svg{width:26px;height:26px;color:var(--bd-accent);flex-shrink:0;}
   .promise h4{font:600 17px var(--bd-serif);margin-bottom:2px;}
   .promise p{font-size:13px;color:var(--bd-muted);}
   @media(max-width:760px){.promise{grid-template-columns:1fr;}}
@@ -226,7 +226,7 @@
     let ribbon = '';
     if(b.coming_soon) ribbon = '<span class="bd-badge bd-badge-dark ribbon">Coming Soon</span>';
     else if(!b.in_stock) ribbon = '<span class="bd-badge bd-badge-dark ribbon">Out of stock</span>';
-    else if(b.featured) ribbon = '<span class="bd-badge bd-badge-gold ribbon">Featured</span>';
+    else if(b.featured) ribbon = '<span class="bd-badge bd-badge-soft ribbon">Featured</span>';
     const rating = b.rating_count
       ? `<a class="rating" href="${esc(b.url)}#reviews">${stars(b.rating_avg, 14)}<span>(${b.rating_count})</span></a>`
       : `<div class="rating">${stars(0, 14)}<span>New</span></div>`;
@@ -234,7 +234,7 @@
     if(b.coming_soon) action = `<a class="bd-btn bd-btn-ghost bd-btn-block" href="${esc(BD.whatsappLink('Hi Blackdot Publication, please notify me when "' + b.title + '" is released.'))}" target="_blank" rel="noopener">Notify Me</a>`;
     else if(!b.in_stock) action = `<button class="bd-btn bd-btn-ghost bd-btn-block" disabled>Out of Stock</button>`;
     else if(inCart) action = `<button class="bd-btn bd-btn-outline bd-btn-block" data-open-cart>${ICONS.check} In Cart</button>`;
-    else action = `<button class="bd-btn bd-btn-gold bd-btn-block" data-add="${b.id}">Add to Cart</button>`;
+    else action = `<button class="bd-btn bd-btn-primary bd-btn-block" data-add="${b.id}">Add to Cart</button>`;
     return `
       <article class="card" style="animation-delay:${Math.min(i, 8) * 45}ms">
         <a class="cover" href="${esc(b.url)}" aria-label="${esc(b.title)}">${ribbon}<div class="cover-inner"><img src="${esc(cover)}" alt="${esc(b.title)} by ${esc(b.author)}, book cover" loading="${i < 4 ? 'eager' : 'lazy'}"></div></a>

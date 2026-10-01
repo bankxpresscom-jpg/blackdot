@@ -26,7 +26,7 @@
   @media(max-width:640px){.lookup{grid-template-columns:1fr;}}
   .f label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;}
   .f input{width:100%;padding:12px;border:1px solid #D9D9D9;border-radius:var(--bd-radius);font:15px var(--bd-sans);}
-  .f input:focus{outline:none;border-color:var(--bd-gold);box-shadow:0 0 0 3px var(--bd-gold-soft);}
+  .f input:focus{outline:none;border-color:var(--bd-accent);box-shadow:0 0 0 3px var(--bd-accent-soft);}
   .msg{font-size:14px;color:var(--bd-red);margin-top:12px;min-height:20px;}
   .recent a{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #F0F0F0;text-decoration:none;font-size:14px;}
   .recent a:last-child{border-bottom:0;}
@@ -40,19 +40,19 @@
   .tl{text-align:center;position:relative;font-size:13px;color:var(--bd-muted);padding:0 4px;}
   .tl::before{content:'';position:absolute;top:15px;left:-50%;right:50%;height:3px;background:#E8E8E8;z-index:0;}
   .tl:first-child::before{display:none;}
-  .tl.done::before,.tl.current::before{background:var(--bd-gold);}
+  .tl.done::before,.tl.current::before{background:var(--bd-accent);}
   .tl .c{width:32px;height:32px;border-radius:50%;margin:0 auto 8px;background:#fff;border:2px solid #DCDCDC;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;}
   .tl .c svg{width:16px;height:16px;}
-  .tl.done .c{background:var(--bd-gold);border-color:var(--bd-gold);color:#fff;}
-  .tl.current .c{border-color:var(--bd-gold);background:#fff;box-shadow:0 0 0 5px var(--bd-gold-soft);}
-  .tl.current .c::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--bd-gold);}
+  .tl.done .c{background:var(--bd-accent);border-color:var(--bd-accent);color:#fff;}
+  .tl.current .c{border-color:var(--bd-accent);background:#fff;box-shadow:0 0 0 5px var(--bd-accent-soft);}
+  .tl.current .c::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--bd-accent);}
   .tl.done,.tl.current{color:var(--bd-ink);font-weight:500;}
   .tl small{display:block;font-weight:400;color:var(--bd-muted);font-size:11.5px;margin-top:2px;}
   @media(max-width:520px){.tl{font-size:11.5px;}}
   .alert{padding:12px 14px;border-radius:8px;font-size:14px;margin-top:14px;}
   .alert.warn{background:#FFF7E6;color:#8A5A00;}
-  .alert.info{background:var(--bd-gold-soft);color:var(--bd-gold-dark);}
-  .tracking{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding:14px 16px;border:1px dashed #D8C9A6;border-radius:8px;background:#FFFCF5;font-size:14px;}
+  .alert.info{background:var(--bd-accent-soft);color:var(--bd-accent-dark);}
+  .tracking{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding:14px 16px;border:1px dashed #CFCFCF;border-radius:8px;background:#FAFAFA;font-size:14px;}
   .tracking strong{font-size:15px;letter-spacing:.03em;}
   .item{display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid #F0F0F0;font-size:14.5px;}
   .item:last-of-type{border-bottom:0;}
@@ -78,7 +78,7 @@
       <div class="lookup">
         <div class="f"><label for="oid">Order number</label><input id="oid" inputmode="numeric" placeholder="e.g. 1042" required></div>
         <div class="f"><label for="ophone">Mobile number</label><input id="ophone" type="tel" inputmode="tel" placeholder="10-digit mobile" required></div>
-        <button class="bd-btn bd-btn-gold" type="submit" id="lookup-btn">Track Order</button>
+        <button class="bd-btn bd-btn-primary" type="submit" id="lookup-btn">Track Order</button>
       </div>
       <div class="msg" id="lookup-msg" role="alert"></div>
     </form>

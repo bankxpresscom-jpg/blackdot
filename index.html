@@ -379,6 +379,9 @@
   .footer-bottom{border-top:1px solid rgba(255,255,255,.12);padding:26px 0 30px;display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between;}
   .footer-bottom-left{font-size:12px;letter-spacing:.03em;color:rgba(255,255,255,.5);}
   .footer-bottom-left .dot{background:rgba(255,255,255,.5);}
+  .footer-credit{margin-top:6px;}
+  .footer-credit a{color:rgba(255,255,255,.82);text-decoration:underline;text-underline-offset:3px;transition:color .25s;}
+  .footer-credit a:hover{color:#fff;}
   .footer-legal-links{display:flex;flex-wrap:wrap;gap:22px;}
   .footer-legal-links a{font-size:12px;letter-spacing:.03em;color:rgba(255,255,255,.5);transition:color .25s var(--ease);}
   .footer-legal-links a:hover{color:#fff;}
@@ -446,14 +449,14 @@
   .book-price-line .big{font-family:var(--sans);font-size:28px;font-weight:600;color:var(--text-pri);}
   .book-price-line s{color:var(--text-sec);font-size:15px;}
   .book-price-line .off{color:#15803D;font-size:14px;font-weight:600;}
-  .btn-gold{background:#B8892B;border-color:#B8892B;color:#fff;}
-  .btn-gold:hover{background:#9A7020;border-color:#9A7020;transform:translateY(-2px);}
+  .btn-primary{background:#111111;border-color:#111111;color:#fff;}
+  .btn-primary:hover{background:#333333;border-color:#333333;transform:translateY(-2px);}
   .book-card{display:flex;flex-direction:column;}
   .book-card .cover a{display:block;height:100%;}
   .book-card-body h4 a:hover{text-decoration:underline;text-underline-offset:3px;}
   .book-card-body .stars-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-sec);margin:-6px 0 12px;min-height:16px;}
   .book-card-body .row .add{font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;background:var(--black);color:#fff;transition:background .25s;}
-  .book-card-body .row .add:hover{background:#B8892B;}
+  .book-card-body .row .add:hover{background:#111111;}
   .books-more{text-align:center;margin-top:46px;}
 </style>
 <link rel="stylesheet" href="/assets/store.css">
@@ -617,7 +620,7 @@
         <div class="book-price-line" id="featured-price-line"><span class="big" id="featured-price">₹199</span></div>
         <div class="book-meta">Paperback &middot; Inclusive of all taxes &middot; Pan-India delivery</div>
         <div class="book-actions">
-          <button class="btn btn-gold" id="featured-buy-btn" type="button">Buy Now</button>
+          <button class="btn btn-primary" id="featured-buy-btn" type="button">Buy Now</button>
           <button class="btn btn-outline" id="featured-cart-btn" type="button">Add to Cart</button>
           <a class="btn btn-outline" id="featured-details-btn" href="/books/1-ishq-afsari" style="border-color:transparent;text-decoration:underline;text-underline-offset:4px;">View Details &amp; Reviews</a>
         </div>
@@ -765,7 +768,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-bottom-left">Blackdot Publication <span class="dot"></span> &copy; <span id="year"></span> All rights reserved.</div>
+      <div class="footer-bottom-left">Blackdot Publication <span class="dot"></span> &copy; <span id="year"></span> All rights reserved.<div class="footer-credit">Crafted with ❤️ by <a href="https://infinityintelligence.io" target="_blank" rel="noopener">Infinity Intelligence</a></div></div>
       <div class="footer-legal-links">
         <a href="/privacy-policy/">Privacy Policy</a>
         <a href="/terms-and-conditions/">Terms &amp; Conditions</a>

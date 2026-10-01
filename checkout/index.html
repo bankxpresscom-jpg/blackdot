@@ -27,12 +27,13 @@
 
   .steps{max-width:560px;margin:0 auto;padding:22px 24px 6px;display:flex;align-items:flex-start;}
   .step{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;color:var(--bd-muted);width:70px;text-align:center;}
-  .step .dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;background:#EDEDED;color:var(--bd-muted);transition:all .3s var(--bd-ease);}
-  .step.done .dot{background:var(--bd-ink);color:#fff;}
-  .step.active .dot{background:var(--bd-gold);color:#fff;box-shadow:0 0 0 5px var(--bd-gold-soft);}
+  .step .dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;background:#fff;border:1px solid #D4D4D4;color:var(--bd-muted);transition:all .3s var(--bd-ease);}
+  .step.done .dot{background:var(--bd-ink);border-color:var(--bd-ink);color:#fff;font-size:0;}
+  .step.done .dot::after{content:'✓';font-size:14px;}
+  .step.active .dot{background:#fff;border:1.5px solid var(--bd-ink);color:var(--bd-ink);box-shadow:0 0 0 4px #EDEDED;}
   .step.active,.step.done{color:var(--bd-ink);font-weight:500;}
   .step-line{flex:1;height:2px;background:#E5E5E5;margin-top:13px;position:relative;overflow:hidden;}
-  .step-line i{position:absolute;inset:0;background:var(--bd-gold);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--bd-ease);}
+  .step-line i{position:absolute;inset:0;background:var(--bd-accent);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--bd-ease);}
   .step-line.on i{transform:scaleX(1);}
 
   .layout{max-width:1100px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);grid-template-areas:"details summary" "payment summary";gap:22px 28px;align-items:start;}
@@ -55,7 +56,7 @@
   .f input,.f select,.f textarea{width:100%;padding:12px 13px;border:1px solid #D9D9D9;border-radius:var(--bd-radius);font:15px var(--bd-sans);background:#fff;color:var(--bd-ink);transition:border-color .2s,box-shadow .2s;}
   .f textarea{resize:vertical;min-height:72px;}
   .f select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 12px center/16px no-repeat;padding-right:36px;}
-  .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--bd-gold);box-shadow:0 0 0 3px var(--bd-gold-soft);}
+  .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--bd-accent);box-shadow:0 0 0 3px var(--bd-accent-soft);}
   .f.invalid input,.f.invalid select,.f.invalid textarea{border-color:var(--bd-red);}
   .f .err{display:none;font-size:12.5px;color:var(--bd-red);margin-top:5px;}
   .f.invalid .err{display:block;}
@@ -65,7 +66,7 @@
   .phone input{border-radius:0 var(--bd-radius) var(--bd-radius) 0;}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .remember{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--bd-muted);margin-top:4px;cursor:pointer;}
-  .remember input{width:16px;height:16px;accent-color:var(--bd-gold);}
+  .remember input{width:16px;height:16px;accent-color:var(--bd-accent);}
 
   /* summary */
   .items{display:flex;flex-direction:column;}
@@ -83,18 +84,18 @@
   .totals .r{display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:8px;color:#374151;}
   .totals .r.total{font-size:18px;font-weight:600;color:var(--bd-ink);border-top:1px solid var(--bd-border);padding-top:14px;margin-top:12px;margin-bottom:2px;}
   .totals .incl{text-align:right;font-size:12px;color:var(--bd-muted);}
-  .free-note{font-size:12.5px;color:var(--bd-gold-dark);background:var(--bd-gold-soft);padding:8px 12px;border-radius:var(--bd-radius);margin-top:10px;}
+  .free-note{font-size:12.5px;color:var(--bd-accent-dark);background:var(--bd-accent-soft);padding:8px 12px;border-radius:var(--bd-radius);margin-top:10px;}
   .edit-cart{font-size:13px;}
 
   /* payment */
   .methods{border:1px solid var(--bd-border);border-radius:10px;overflow:hidden;}
   .method{display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer;border-bottom:1px solid var(--bd-border);transition:background .2s;}
   .method:last-child{border-bottom:0;}
-  .method:hover{background:#FCFBF8;}
-  .method input{width:18px;height:18px;accent-color:var(--bd-gold);flex-shrink:0;}
+  .method:hover{background:#FAFAFA;}
+  .method input{width:18px;height:18px;accent-color:var(--bd-accent);flex-shrink:0;}
   .method .m-name{flex:1;font-size:14.5px;}
   .method .m-name small{display:block;font-size:12px;color:var(--bd-muted);}
-  .method.on{background:var(--bd-gold-soft);}
+  .method.on{background:var(--bd-accent-soft);}
   .chips{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;}
   .chip{font:700 10px/1 var(--bd-sans);letter-spacing:.02em;padding:4px 6px;border-radius:4px;border:1px solid #E3E3E3;background:#fff;color:#444;white-space:nowrap;}
   .chip.visa{color:#1A1F71;font-style:italic;}
@@ -132,7 +133,7 @@
   .hidden{display:none !important;}
   .overlay-busy{position:fixed;inset:0;background:rgba(255,255,255,.75);z-index:900;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;font-size:14px;color:var(--bd-muted);}
   .overlay-busy.show{display:flex;}
-  .spinner{width:38px;height:38px;border:3px solid #eee;border-top-color:var(--bd-gold);border-radius:50%;animation:spin .8s linear infinite;}
+  .spinner{width:38px;height:38px;border:3px solid #eee;border-top-color:var(--bd-accent);border-radius:50%;animation:spin .8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
@@ -185,7 +186,7 @@
         <label class="method"><input type="radio" name="method" value="wallet"><span class="m-name">Wallets<small>Paytm, Amazon Pay, Mobikwik &amp; more</small></span></label>
       </div>
       <div class="pay-wrap">
-        <button class="bd-btn bd-btn-gold pay-btn" type="submit" id="pay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg><span id="pay-label">Pay Now</span></button>
+        <button class="bd-btn bd-btn-primary pay-btn" type="submit" id="pay-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg><span id="pay-label">Pay Now</span></button>
         <div class="form-error" id="form-error" role="alert"></div>
         <div class="pay-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Your payment information is secure and encrypted by Razorpay.</div>
         <p class="policy">By placing this order you agree to our <a href="/terms-and-conditions/" target="_blank">Terms</a>, <a href="/shipping-policy/" target="_blank">Shipping</a> and <a href="/refund-policy/" target="_blank">Refund</a> policies.</p>
@@ -198,7 +199,7 @@
   <div class="panel">
     <h1>Your cart is empty</h1>
     <p>Add a book to your cart to check out.</p>
-    <div class="actions"><a class="bd-btn bd-btn-gold bd-btn-lg" href="/books/">Browse Books</a><a class="bd-btn bd-btn-ghost" href="/order/">Track an existing order</a></div>
+    <div class="actions"><a class="bd-btn bd-btn-primary bd-btn-lg" href="/books/">Browse Books</a><a class="bd-btn bd-btn-ghost" href="/order/">Track an existing order</a></div>
   </div>
 </div>
 
@@ -209,7 +210,7 @@
     <p id="success-text">Thank you. Your payment was received and your books will be packed shortly.</p>
     <div class="order-box" id="success-box"></div>
     <div class="actions">
-      <a class="bd-btn bd-btn-gold bd-btn-lg" id="success-track" href="/order/">Track Your Order</a>
+      <a class="bd-btn bd-btn-primary bd-btn-lg" id="success-track" href="/order/">Track Your Order</a>
       <a class="bd-btn bd-btn-outline" id="success-invoice" href="/invoice/" target="_blank" rel="noopener">Download Invoice</a>
       <a class="bd-btn bd-btn-ghost" href="/books/">Continue Shopping</a>
     </div>
@@ -441,7 +442,7 @@
       order_id: order.razorpay_order_id,
       prefill: { name: d.name, contact: '+91' + normPhone(d.phone), email: d.email || '', method },
       notes: { blackdot_order_id: String(order.order_id) },
-      theme: { color: '#B8892B' },
+      theme: { color: '#111111' },
       config: { display: {
         blocks: { preferred: { name: 'Your choice', instruments: [{ method }] } },
         sequence: ['block.preferred'],
