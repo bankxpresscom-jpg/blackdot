@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /vendor
+Disallow: /setup
+Disallow: /api/
+
+Sitemap: https://blackdotpublication.com/sitemap.xml

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Submit Your Manuscript | Blackdot Publication</title>
+<meta name="description" content="Submit your manuscript to Blackdot Publication. Tell us about your book and attach your manuscript, our editorial team will get back to you.">
+<link rel="canonical" href="https://blackdotpublication.com/publish/">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M8 14c8-4 16-4 24 0v34c-8-4-16-4-24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M56 14c-8-4-16-4-24 0v34c8-4 16-4 24 0V14z' fill='none' stroke='%23000' stroke-width='2.5' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='30' r='4.5' fill='%23000'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#000000;--bg:#FAFAFA;--card:#FFFFFF;--border:#E5E5E5;
+    --text-sec:#6B7280;--text-pri:#111111;--hover:#333333;
+    --serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text-pri);line-height:1.6;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2{font-family:var(--serif);font-weight:500;}
+  .container{max-width:780px;margin:0 auto;padding:0 28px;}
+  .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-sec);display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+  .eyebrow::before{content:'';width:28px;height:1px;background:var(--black);}
+
+  header{padding:26px 0;border-bottom:1px solid var(--border);background:#fff;}
+  header .container{display:flex;align-items:center;justify-content:space-between;}
+  .brand img{height:34px;}
+  .back-link{font-size:12px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--black);padding-bottom:2px;}
+
+  .hero{padding:80px 0 40px;text-align:center;}
+  .hero h1{font-size:clamp(32px,5vw,52px);line-height:1.14;margin-bottom:18px;}
+  .hero p{color:var(--text-sec);max-width:520px;margin:0 auto;font-size:16px;}
+
+  .form-wrap{padding:20px 0 100px;}
+  form{background:var(--card);border:1px solid var(--border);padding:44px;}
+  .field{margin-bottom:24px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  label{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-sec);margin-bottom:8px;}
+  input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{
+    width:100%;padding:12px 14px;border:1px solid var(--border);background:#fff;font-size:15px;font-family:inherit;color:var(--text-pri);
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:#000;}
+  textarea{resize:vertical;}
+
+  .file-drop{
+    border:1px dashed var(--border);padding:26px;text-align:center;cursor:pointer;position:relative;
+    transition:border-color .3s;
+  }
+  .file-drop.has-file{border-style:solid;border-color:#000;}
+  .file-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+  .file-drop .fd-title{font-size:14px;margin-bottom:4px;}
+  .file-drop .fd-hint{font-size:12px;color:var(--text-sec);}
+  .file-name{font-size:13px;margin-top:10px;color:var(--text-pri);word-break:break-all;}
+
+  .hint{font-size:12.5px;color:var(--text-sec);margin-top:8px;}
+  .err-text{font-size:12.5px;color:#B00020;margin-top:8px;display:none;}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;padding:15px 32px;font-size:13px;
+    letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--black);
+    background:var(--black);color:#fff;cursor:pointer;font-family:inherit;
+    transition:background .3s var(--ease),transform .3s var(--ease);width:100%;justify-content:center;
+  }
+  .btn:hover{background:var(--hover);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+
+  .form-msg{font-size:13.5px;margin-top:16px;text-align:center;min-height:18px;}
+  .form-msg.err{color:#B00020;}
+
+  .success-view{display:none;text-align:center;padding:40px 20px;}
+  .success-view h2{font-size:28px;margin-bottom:14px;}
+  .success-view p{color:var(--text-sec);max-width:440px;margin:0 auto;}
+  .success-view .btn{width:auto;margin-top:26px;display:inline-flex;}
+
+  footer{padding:36px 0;text-align:center;color:var(--text-sec);font-size:12.5px;}
+
+  #whatsapp-float{
+    position:fixed;right:24px;bottom:28px;z-index:860;width:58px;height:58px;border-radius:50%;
+    background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 26px -6px rgba(0,0,0,.4);transition:transform .3s var(--ease);
+  }
+  #whatsapp-float:hover{transform:scale(1.07);}
+  #whatsapp-float svg{width:27px;height:27px;stroke:#fff;}
+
+  @media(max-width:640px){
+    .row2{grid-template-columns:1fr;}
+    form{padding:28px 22px;}
+    .hero{padding:56px 0 30px;}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+<defs>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8c-1.2 0-2.4-.3-3.4-.8L4 20l1.2-4.4C4.4 14.5 4 13.3 4 12z" fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><line x1="8.5" y1="10.5" x2="15.5" y2="10.5" stroke-width="1.4" stroke-linecap="round"/><line x1="8.5" y1="13.5" x2="13" y2="13.5" stroke-width="1.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-seal" viewBox="0 0 24 24"><path d="M12 2l2.2 2.6 3.3-.6.6 3.3L21 9l-1.7 3 1.7 3-2.9 1.7-.6 3.3-3.3-.6L12 22l-2.2-2.6-3.3.6-.6-3.3L3 15l1.7-3L3 9l2.9-1.7.6-3.3 3.3.6L12 2z" fill="none" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs>
+</svg>
+
+<header>
+  <div class="container">
+    <a href="/" class="brand"><img src="https://res.cloudinary.com/dhn6pvsr1/image/upload/v1784738286/Logo_nwdku8.png" alt="Blackdot Publication logo"></a>
+    <a href="/" class="back-link">Back to Home</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow" style="justify-content:center"></div>
+    <h1>Submit Your Manuscript</h1>
+    <p>Tell us a little about your book and attach your manuscript. Our editorial team reads every submission and will write back to you at the email you provide.</p>
+  </div>
+</section>
+
+<section class="form-wrap">
+  <div class="container">
+    <form id="publish-form">
+      <div class="row2">
+        <div class="field"><label>Full Name</label><input type="text" id="p-name" required></div>
+        <div class="field"><label>Email Address</label><input type="email" id="p-email" required></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Phone Number</label><input type="tel" id="p-phone" required></div>
+        <div class="field">
+          <label>Genre / Category</label>
+          <select id="p-genre" required>
+            <option value="">Select one</option>
+            <option>Fiction</option>
+            <option>Poetry</option>
+            <option>Novel</option>
+            <option>Memoir</option>
+            <option>Self-help</option>
+            <option>Academic</option>
+            <option>Children's Book</option>
+            <option>Business</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Book Title (working title is fine)</label><input type="text" id="p-title" required></div>
+      <div class="field"><label>Tell us about your manuscript</label><textarea id="p-message" rows="5" required placeholder="A short synopsis, word count, and anything else we should know"></textarea></div>
+
+      <div class="field">
+        <label>Attach Manuscript</label>
+        <div class="file-drop" id="file-drop">
+          <input type="file" id="p-file" accept=".pdf,.doc,.docx,.odt,.txt">
+          <div class="fd-title">Click to attach your manuscript</div>
+          <div class="fd-hint">PDF or Word document, up to 4 MB</div>
+        </div>
+        <div class="file-name" id="file-name-display"></div>
+        <div class="err-text" id="file-err">That file is a bit large for email. Please use the link field below instead.</div>
+      </div>
+
+      <div class="field">
+        <label>Or, a link to your manuscript (Google Drive, Dropbox) if the file is large</label>
+        <input type="url" id="p-link" placeholder="https://">
+      </div>
+
+      <button type="submit" class="btn" id="submit-btn">Submit Manuscript</button>
+      <div class="form-msg" id="form-msg"></div>
+    </form>
+
+    <div class="success-view" id="success-view">
+      <svg style="width:44px;height:44px"><use href="#i-seal"/></svg>
+      <h2>Manuscript received</h2>
+      <p>Thank you for trusting Blackdot Publication with your work. Your submission has been sent to our editorial team, we will write back to you at the email you provided.</p>
+      <a href="/" class="btn">Back to Home</a>
+    </div>
+  </div>
+</section>
+
+<footer>Blackdot Publication &middot; Where Every Story Leaves a Mark. &middot; info@blackdotpublication.com &middot; +91 77425 88678</footer>
+
+<a id="whatsapp-float" href="https://wa.me/917742588678?text=Hi%20Blackdot%20Publication%2C%20I%27d%20like%20to%20ask%20about%20publishing%20my%20book" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg><use href="#i-chat"/></svg>
+</a>
+
+<script>
+  const MAX_BYTES = 4 * 1024 * 1024; // 4 MB raw file limit
+  const fileInput = document.getElementById('p-file');
+  const fileDrop = document.getElementById('file-drop');
+  const fileNameDisplay = document.getElementById('file-name-display');
+  const fileErr = document.getElementById('file-err');
+  let attachedFileData = null; // { filename, mime, base64 }
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    fileErr.style.display = 'none';
+    attachedFileData = null;
+    fileNameDisplay.textContent = '';
+    fileDrop.classList.remove('has-file');
+    if(!file) return;
+
+    if(file.size > MAX_BYTES){
+      fileErr.style.display = 'block';
+      fileInput.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result.split(',')[1];
+      attachedFileData = { filename: file.name, mime: file.type || 'application/octet-stream', base64 };
+      fileNameDisplay.textContent = file.name;
+      fileDrop.classList.add('has-file');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('publish-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const msg = document.getElementById('form-msg');
+    msg.textContent = ''; msg.className = 'form-msg';
+
+    const payload = {
+      name: document.getElementById('p-name').value,
+      email: document.getElementById('p-email').value,
+      phone: document.getElementById('p-phone').value,
+      genre: document.getElementById('p-genre').value,
+      book_title: document.getElementById('p-title').value,
+      message: document.getElementById('p-message').value,
+      manuscript_link: document.getElementById('p-link').value || undefined,
+      attachment: attachedFileData || undefined,
+    };
+
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try{
+      const res = await fetch('/api/manuscript-submission', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if(!res.ok) throw new Error(data.error || 'Could not send your submission');
+      document.getElementById('publish-form').style.display = 'none';
+      document.getElementById('success-view').style.display = 'block';
+    } catch(err){
+      msg.textContent = err.message;
+      msg.className = 'form-msg err';
+      btn.disabled = false;
+      btn.textContent = 'Submit Manuscript';
+    }
+  });
+</script>
+</body>
+</html>

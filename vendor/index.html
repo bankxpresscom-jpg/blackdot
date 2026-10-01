@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Portal | Blackdot Publication</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#000;--bg:#FAFAFA;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--bg);color:#111;}
+  h1,h2{font-family:var(--serif);font-weight:600;}
+  button{font-family:inherit;cursor:pointer;}
+
+  #login-view{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);padding:44px 36px;}
+  .login-box h1{font-size:26px;text-align:center;margin-bottom:6px;}
+  .login-box .sub{text-align:center;color:var(--sec);font-size:13px;margin-bottom:30px;letter-spacing:.04em;text-transform:uppercase;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);margin-bottom:6px;}
+  .field input{width:100%;padding:11px 12px;border:1px solid var(--border);background:#fff;font-size:14px;}
+  .field input:focus{outline:none;border-color:#000;}
+  .btn{display:inline-block;padding:12px 24px;background:#000;color:#fff;border:1px solid #000;font-size:13px;letter-spacing:.06em;text-transform:uppercase;transition:.25s;}
+  .btn:hover{background:#333;}
+  .btn.outline{background:transparent;color:#000;}
+  .btn.outline:hover{background:#000;color:#fff;}
+  .btn.small{padding:8px 16px;font-size:11.5px;}
+  .btn.block{width:100%;text-align:center;}
+  .btn:disabled{opacity:.35;cursor:not-allowed;}
+  .err{color:#B00020;font-size:13px;margin-top:10px;min-height:16px;}
+
+  #app-view{display:none;}
+  header.topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10;}
+  .topbar-inner{max-width:900px;margin:0 auto;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;}
+  .brand{font-family:var(--serif);font-size:20px;font-weight:600;}
+  .brand span{color:var(--sec);font-family:var(--sans);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-left:10px;}
+  .who{font-size:12px;color:var(--sec);display:flex;align-items:center;gap:16px;}
+  main{max-width:900px;margin:0 auto;padding:32px 28px 80px;}
+  h2{font-size:22px;margin-bottom:22px;}
+
+  .order-card{background:#fff;border:1px solid var(--border);padding:22px 24px;margin-bottom:16px;}
+  .order-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+  .order-top h3{font-size:18px;font-family:var(--serif);font-weight:600;}
+  .order-meta{font-size:13px;color:var(--sec);}
+  .order-address{font-size:13.5px;margin:12px 0;padding:12px;background:var(--bg);border:1px solid var(--border);}
+  .stage-track{display:flex;gap:6px;margin:16px 0;}
+  .stage{flex:1;text-align:center;padding:8px 4px;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--border);color:var(--sec);}
+  .stage.done{background:#000;color:#fff;border-color:#000;}
+  .stage.current{border-color:#000;color:#000;font-weight:600;}
+  .order-actions{display:flex;justify-content:flex-end;gap:10px;}
+  .empty{padding:50px;text-align:center;color:var(--sec);border:1px dashed var(--border);background:#fff;}
+</style>
+</head>
+<body>
+
+<div id="login-view">
+  <div class="login-box">
+    <h1>Blackdot</h1>
+    <div class="sub">Vendor Portal</div>
+    <form id="login-form">
+      <div class="field"><label>Username</label><input type="text" id="username" required autocomplete="username"></div>
+      <div class="field"><label>Password</label><input type="password" id="password" required autocomplete="current-password"></div>
+      <button class="btn block" type="submit">Sign In</button>
+      <div class="err" id="login-err"></div>
+    </form>
+  </div>
+</div>
+
+<div id="app-view">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Blackdot <span>Vendor Portal</span></div>
+      <div class="who">
+        <span id="who-name"></span>
+        <button class="btn outline small" id="logout-btn">Logout</button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <h2>Assigned Orders</h2>
+    <div id="orders-list"></div>
+    <div class="empty" id="orders-empty" style="display:none;">No orders assigned to you right now.</div>
+  </main>
+</div>
+
+<script>
+const $ = (s, el=document) => el.querySelector(s);
+const STAGES = ['Received','Processing','Sent','Delivered'];
+
+async function api(path, opts={}){
+  const res = await fetch(path, { headers: {'content-type':'application/json'}, ...opts });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+$('#login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const err = $('#login-err');
+  err.textContent = '';
+  try{
+    const data = await api('/api/auth/login', { method:'POST', body: JSON.stringify({
+      username: $('#username').value, password: $('#password').value, role: 'vendor'
+    })});
+    $('#who-name').textContent = data.name || data.username;
+    showApp();
+  } catch(ex){ err.textContent = ex.message; }
+});
+
+$('#logout-btn').addEventListener('click', async () => {
+  await api('/api/auth/logout', { method:'POST' });
+  location.reload();
+});
+
+async function checkSession(){
+  try{
+    const data = await api('/api/auth/me');
+    if(data.admin && data.admin.role === 'vendor'){
+      $('#who-name').textContent = data.admin.name || data.admin.username;
+      showApp();
+    }
+  } catch(ex){ /* show login */ }
+}
+function showApp(){
+  $('#login-view').style.display = 'none';
+  $('#app-view').style.display = 'block';
+  loadOrders();
+}
+checkSession();
+
+async function loadOrders(){
+  const data = await api('/api/vendor/orders');
+  const list = $('#orders-list');
+  list.innerHTML = '';
+  $('#orders-empty').style.display = data.orders.length ? 'none' : 'block';
+  data.orders.forEach(o => {
+    const currentIdx = STAGES.indexOf(o.fulfillment_status);
+    const nextStage = STAGES[currentIdx + 1];
+    const card = document.createElement('div');
+    card.className = 'order-card';
+    card.innerHTML = `
+      <div class="order-top">
+        <div>
+          <h3>${o.book_title} &times; ${o.quantity}</h3>
+          <div class="order-meta">Order #${o.id} &middot; ${o.buyer_name} &middot; ${o.buyer_phone || ''}</div>
+        </div>
+      </div>
+      <div class="order-address">${o.shipping_address}</div>
+      <div class="stage-track">
+        ${STAGES.map((s,i) => `<div class="stage ${i < currentIdx ? 'done' : ''} ${i === currentIdx ? 'current' : ''}">${s}</div>`).join('')}
+      </div>
+      <div class="order-actions">
+        <button class="btn small" ${nextStage ? '' : 'disabled'} data-advance="${o.id}" data-next="${nextStage || ''}">
+          ${nextStage ? 'Mark as ' + nextStage : 'Delivered'}
+        </button>
+      </div>`;
+    list.appendChild(card);
+  });
+  list.querySelectorAll('[data-advance]').forEach(btn => {
+    if(!btn.dataset.next) return;
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      try{
+        await api('/api/vendor/orders/' + btn.dataset.advance + '/status', {
+          method:'PUT', body: JSON.stringify({ status: btn.dataset.next })
+        });
+        loadOrders();
+      } catch(ex){
+        alert(ex.message);
+        btn.disabled = false;
+      }
+    });
+  });
+}
+</script>
+</body>
+</html>

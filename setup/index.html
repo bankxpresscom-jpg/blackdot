@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup and Password Reset | Blackdot Publication</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#000;--bg:#FAFAFA;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--bg);color:#111;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  h1{font-family:var(--serif);font-size:28px;text-align:center;margin-bottom:6px;}
+  .sub{text-align:center;color:var(--sec);font-size:13px;margin-bottom:24px;letter-spacing:.04em;text-transform:uppercase;}
+  .box{width:100%;max-width:420px;background:var(--card);border:1px solid var(--border);padding:40px 36px;}
+  .tabs{display:flex;border:1px solid var(--border);margin-bottom:28px;}
+  .tabs button{flex:1;padding:10px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;background:#fff;border:none;color:var(--sec);cursor:pointer;font-family:inherit;}
+  .tabs button.active{background:#000;color:#fff;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);margin-bottom:6px;}
+  .field input{width:100%;padding:11px 12px;border:1px solid var(--border);background:#fff;font-size:14px;font-family:inherit;}
+  .field input:focus{outline:none;border-color:#000;}
+  .hint{font-size:12px;color:var(--sec);margin-top:-10px;margin-bottom:18px;}
+  .btn{display:block;width:100%;padding:12px 24px;background:#000;color:#fff;border:1px solid #000;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;text-align:center;font-family:inherit;transition:.25s;}
+  .btn:hover{background:#333;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .msg{font-size:13px;margin-top:14px;min-height:16px;}
+  .msg.err{color:#B00020;}
+  .msg.ok{color:#111;}
+  .done{display:none;text-align:center;}
+  .done a{display:inline-block;margin-top:18px;padding:12px 24px;background:#000;color:#fff;font-size:13px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;}
+  code{background:var(--bg);border:1px solid var(--border);padding:2px 6px;font-size:12px;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>Blackdot</h1>
+    <div class="sub">Account Setup</div>
+
+    <div class="tabs">
+      <button type="button" id="tab-create" class="active">Create Main Admin</button>
+      <button type="button" id="tab-reset">Reset Password</button>
+    </div>
+
+    <div id="wrapper">
+      <!-- CREATE -->
+      <div class="panel active" id="panel-create">
+        <form id="setup-form">
+          <div class="field">
+            <label>Setup Token</label>
+            <input type="password" id="setup_token" required>
+          </div>
+          <div class="hint">The value you set as the <code>SETUP_TOKEN</code> environment variable in the Cloudflare Pages dashboard.</div>
+          <div class="field"><label>Your Name</label><input type="text" id="name" required></div>
+          <div class="field"><label>Admin Username</label><input type="text" id="username" required></div>
+          <div class="field"><label>Admin Password</label><input type="password" id="password" required minlength="8"></div>
+          <button class="btn" type="submit" id="submit-btn">Create Main Admin</button>
+          <div class="msg" id="msg"></div>
+        </form>
+        <div class="done" id="done-view">
+          <h1>You're set up</h1>
+          <p style="color:var(--sec);font-size:14px;margin-top:10px;">Your main admin account has been created. You can come back to this same tab any time to create additional admin accounts, just use a different username each time. If you ever forget a password instead, use the Reset Password tab above.</p>
+          <a href="/admin">Go to Admin Login →</a>
+        </div>
+      </div>
+
+      <!-- RESET -->
+      <div class="panel" id="panel-reset">
+        <form id="reset-form">
+          <div class="field">
+            <label>Setup Token</label>
+            <input type="password" id="r_setup_token" required>
+          </div>
+          <div class="hint">Same <code>SETUP_TOKEN</code> from the Cloudflare dashboard. This is the only key that can reset a password, so keep it somewhere safe, like a password manager, since it never expires or gets used up.</div>
+          <div class="field"><label>Username to reset</label><input type="text" id="r_username" required placeholder="main admin or vendor username"></div>
+          <div class="field"><label>New Password</label><input type="password" id="r_password" required minlength="8"></div>
+          <button class="btn" type="submit" id="reset-submit-btn">Reset Password</button>
+          <div class="msg" id="reset-msg"></div>
+        </form>
+        <div class="done" id="reset-done-view">
+          <h1>Password reset</h1>
+          <p style="color:var(--sec);font-size:14px;margin-top:10px;">The password has been updated and any existing session for that account has been signed out. Log in with the new password.</p>
+          <a href="/admin">Go to Admin Login →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tabCreate = document.getElementById('tab-create');
+    const tabReset = document.getElementById('tab-reset');
+    const panelCreate = document.getElementById('panel-create');
+    const panelReset = document.getElementById('panel-reset');
+
+    tabCreate.addEventListener('click', () => {
+      tabCreate.classList.add('active'); tabReset.classList.remove('active');
+      panelCreate.classList.add('active'); panelReset.classList.remove('active');
+    });
+    tabReset.addEventListener('click', () => {
+      tabReset.classList.add('active'); tabCreate.classList.remove('active');
+      panelReset.classList.add('active'); panelCreate.classList.remove('active');
+    });
+
+    document.getElementById('setup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const msg = document.getElementById('msg');
+      msg.textContent = ''; msg.className = 'msg';
+      btn.disabled = true; btn.textContent = 'Creating…';
+      try {
+        const res = await fetch('/api/setup', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            setup_token: document.getElementById('setup_token').value,
+            name: document.getElementById('name').value,
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value,
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Setup failed');
+        document.getElementById('setup-form').style.display = 'none';
+        document.getElementById('done-view').style.display = 'block';
+      } catch (err) {
+        msg.textContent = err.message;
+        msg.className = 'msg err';
+        btn.disabled = false;
+        btn.textContent = 'Create Main Admin';
+      }
+    });
+
+    document.getElementById('reset-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('reset-submit-btn');
+      const msg = document.getElementById('reset-msg');
+      msg.textContent = ''; msg.className = 'msg';
+      btn.disabled = true; btn.textContent = 'Resetting…';
+      try {
+        const res = await fetch('/api/admin/reset-password', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            setup_token: document.getElementById('r_setup_token').value,
+            username: document.getElementById('r_username').value,
+            new_password: document.getElementById('r_password').value,
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || 'Reset failed');
+        document.getElementById('reset-form').style.display = 'none';
+        document.getElementById('reset-done-view').style.display = 'block';
+      } catch (err) {
+        msg.textContent = err.message;
+        msg.className = 'msg err';
+        btn.disabled = false;
+        btn.textContent = 'Reset Password';
+      }
+    });
+  </script>
+</body>
+</html>

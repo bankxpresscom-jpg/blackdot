@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | Blackdot Publication</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#000;--bg:#FAFAFA;--card:#FFF;--border:#E5E5E5;--sec:#6B7280;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--bg);color:#111;}
+  a{color:inherit;}
+  h1,h2{font-family:var(--serif);font-weight:600;}
+  button{font-family:inherit;cursor:pointer;}
+  input,select,textarea{font-family:inherit;}
+
+  /* ---------- Login ---------- */
+  #login-view{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .login-box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--border);padding:44px 36px;}
+  .login-box h1{font-size:28px;margin-bottom:6px;text-align:center;}
+  .login-box .sub{text-align:center;color:var(--sec);font-size:13px;margin-bottom:30px;letter-spacing:.04em;text-transform:uppercase;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);margin-bottom:6px;}
+  .field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid var(--border);background:#fff;font-size:14px;}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#000;}
+  .btn{display:inline-block;padding:12px 24px;background:#000;color:#fff;border:1px solid #000;font-size:13px;letter-spacing:.06em;text-transform:uppercase;transition:.25s;}
+  .btn:hover{background:#333;}
+  .btn.outline{background:transparent;color:#000;}
+  .btn.outline:hover{background:#000;color:#fff;}
+  .btn.danger{background:#fff;color:#B00020;border-color:#B00020;}
+  .btn.danger:hover{background:#B00020;color:#fff;}
+  .btn.small{padding:7px 14px;font-size:11px;}
+  .btn.block{width:100%;text-align:center;}
+  .err{color:#B00020;font-size:13px;margin-top:10px;min-height:16px;}
+
+  /* ---------- Shell ---------- */
+  #app-view{display:none;}
+  header.topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10;}
+  .topbar-inner{max-width:1200px;margin:0 auto;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;}
+  .brand{font-family:var(--serif);font-size:20px;font-weight:600;}
+  .brand span{color:var(--sec);font-family:var(--sans);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-left:10px;}
+  .who{font-size:12px;color:var(--sec);display:flex;align-items:center;gap:16px;}
+  nav.tabs{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;gap:2px;border-bottom:1px solid var(--border);background:#fff;}
+  nav.tabs button{padding:14px 20px;font-size:13px;letter-spacing:.03em;border-bottom:2px solid transparent;color:var(--sec);background:none;}
+  nav.tabs button.active{color:#000;border-color:#000;font-weight:500;}
+  main{max-width:1200px;margin:0 auto;padding:32px 28px 80px;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+  .panel-head h2{font-size:24px;}
+
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:top;}
+  th{background:var(--bg);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--sec);}
+  tr:last-child td{border-bottom:none;}
+  td img{width:40px;height:54px;object-fit:cover;}
+  .badge{display:inline-block;padding:3px 10px;font-size:11px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--border);}
+  .badge.paid{border-color:#111;color:#111;}
+  .badge.created{color:var(--sec);}
+  .badge.failed{border-color:#B00020;color:#B00020;}
+  select.status-select{padding:6px 8px;border:1px solid var(--border);font-size:12.5px;}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal-bg.open{display:flex;}
+  .modal{background:#fff;max-width:520px;width:100%;padding:32px;max-height:88vh;overflow:auto;}
+  .modal h3{font-size:20px;margin-bottom:20px;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .empty{padding:40px;text-align:center;color:var(--sec);border:1px dashed var(--border);background:#fff;}
+  .toolbar-btn-wrap{display:flex;gap:10px;}
+  .muted{color:var(--sec);font-size:12px;}
+  @media(max-width:700px){.row2{grid-template-columns:1fr;} table{font-size:12px;} th,td{padding:9px 8px;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-view">
+  <div class="login-box">
+    <h1>Blackdot</h1>
+    <div class="sub">Main Admin</div>
+    <form id="login-form">
+      <div class="field"><label>Username</label><input type="text" id="username" required autocomplete="username"></div>
+      <div class="field"><label>Password</label><input type="password" id="password" required autocomplete="current-password"></div>
+      <button class="btn block" type="submit">Sign In</button>
+      <div class="err" id="login-err"></div>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-view">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Blackdot <span>Main Admin</span></div>
+      <div class="who">
+        <span id="who-name"></span>
+        <button class="btn outline small" id="logout-btn">Logout</button>
+      </div>
+    </div>
+  </header>
+  <nav class="tabs">
+    <button data-tab="books" class="active">Books</button>
+    <button data-tab="orders">Orders</button>
+    <button data-tab="vendors">Vendors</button>
+    <button data-tab="manuscripts">Manuscripts</button>
+  </nav>
+  <main>
+    <!-- BOOKS -->
+    <section class="panel active" id="panel-books">
+      <div class="panel-head">
+        <h2>Book Titles</h2>
+        <button class="btn" id="add-book-btn">+ Add Title</button>
+      </div>
+      <table id="books-table">
+        <thead><tr><th>Cover</th><th>Title / Author</th><th>Price</th><th>Available</th><th>Featured</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="books-empty" style="display:none;margin-top:14px;">No titles yet. Add your first one.</div>
+    </section>
+
+    <!-- ORDERS -->
+    <section class="panel" id="panel-orders">
+      <div class="panel-head"><h2>Orders</h2><button class="btn outline small" id="export-orders-btn">Download Excel</button></div>
+      <table id="orders-table">
+        <thead><tr><th>#</th><th>Date</th><th>Book</th><th>Buyer</th><th>Address</th><th>Qty</th><th>Amount</th><th>Payment</th><th>Status</th><th>Vendor</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="orders-empty" style="display:none;margin-top:14px;">No orders yet.</div>
+    </section>
+
+    <!-- VENDORS -->
+    <section class="panel" id="panel-vendors">
+      <div class="panel-head">
+        <h2>Print Vendors</h2>
+        <button class="btn" id="add-vendor-btn">+ Add Vendor</button>
+      </div>
+      <table id="vendors-table">
+        <thead><tr><th>Username</th><th>Name</th><th>Status</th><th>Created</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="vendors-empty" style="display:none;margin-top:14px;">No vendor accounts yet.</div>
+    </section>
+
+    <!-- MANUSCRIPTS -->
+    <section class="panel" id="panel-manuscripts">
+      <div class="panel-head"><h2>Manuscript Submissions</h2></div>
+      <p class="muted" style="margin-bottom:16px;">Every submission is also emailed to info@blackdotpublication.com with the manuscript attached. This table is just a running record.</p>
+      <table id="manuscripts-table">
+        <thead><tr><th>Submitted</th><th>Name / Contact</th><th>Book / Genre</th><th>Message</th><th>Manuscript</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="manuscripts-empty" style="display:none;margin-top:14px;">No submissions yet.</div>
+    </section>
+  </main>
+</div>
+
+<!-- BOOK MODAL -->
+<div class="modal-bg" id="book-modal-bg">
+  <div class="modal">
+    <h3 id="book-modal-title">Add Title</h3>
+    <form id="book-form">
+      <input type="hidden" id="book-id">
+      <div class="field"><label>Title</label><input type="text" id="b-title" required></div>
+      <div class="field"><label>Author</label><input type="text" id="b-author" required></div>
+      <div class="field"><label>Description</label><textarea id="b-description" rows="3"></textarea></div>
+      <div class="field"><label>Image 1 URL (cover / primary)</label><input type="url" id="b-image-1" placeholder="https://..." required></div>
+      <div class="field"><label>Image 2 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-2" placeholder="https://..."></div>
+      <div class="field"><label>Image 3 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-3" placeholder="https://..."></div>
+      <div class="field"><label>Image 4 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-4" placeholder="https://..."></div>
+      <div class="field"><label>Image 5 URL <span class="muted">(optional)</span></label><input type="url" id="b-image-5" placeholder="https://..."></div>
+      <p class="muted" style="margin:-10px 0 16px;">Paste up to 5 image links. Visitors will be able to swipe through all of them on the website; the first one is used as the cover thumbnail.</p>
+      <div class="field"><label>Price (₹)</label><input type="number" id="b-price" min="1" required></div>
+      <div class="row2">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox" id="b-available" checked style="width:auto;"> Available for sale</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;"><input type="checkbox" id="b-featured" style="width:auto;"> Featured on homepage</label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn outline small" onclick="closeBookModal()">Cancel</button>
+        <button type="submit" class="btn small">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- VENDOR MODAL -->
+<div class="modal-bg" id="vendor-modal-bg">
+  <div class="modal">
+    <h3>Add Print Vendor</h3>
+    <form id="vendor-form">
+      <div class="field"><label>Display Name</label><input type="text" id="v-name" required></div>
+      <div class="field"><label>Username</label><input type="text" id="v-username" required></div>
+      <div class="field"><label>Password</label><input type="password" id="v-password" required minlength="8"></div>
+      <p class="muted">Share these credentials with the print vendor. They will log in at <code>/vendor</code> and will only ever see orders you assign to them.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn outline small" onclick="closeVendorModal()">Cancel</button>
+        <button type="submit" class="btn small">Create Vendor</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+
+async function api(path, opts={}){
+  const res = await fetch(path, { headers: {'content-type':'application/json'}, ...opts });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+const rupees = paise => (paise/100).toLocaleString('en-IN');
+
+// ---------- Auth ----------
+$('#login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const err = $('#login-err');
+  err.textContent = '';
+  try{
+    const data = await api('/api/auth/login', { method:'POST', body: JSON.stringify({
+      username: $('#username').value, password: $('#password').value, role: 'main_admin'
+    })});
+    $('#who-name').textContent = data.name || data.username;
+    showApp();
+  } catch(ex){ err.textContent = ex.message; }
+});
+
+$('#logout-btn').addEventListener('click', async () => {
+  await api('/api/auth/logout', { method:'POST' });
+  location.reload();
+});
+
+async function checkSession(){
+  try{
+    const data = await api('/api/auth/me');
+    if(data.admin && data.admin.role === 'main_admin'){
+      $('#who-name').textContent = data.admin.name || data.admin.username;
+      showApp();
+    }
+  } catch(ex){ /* not logged in, show login */ }
+}
+function showApp(){
+  $('#login-view').style.display = 'none';
+  $('#app-view').style.display = 'block';
+  loadBooks(); loadOrders(); loadVendors(); loadManuscripts();
+}
+checkSession();
+
+// ---------- Tabs ----------
+$$('nav.tabs button').forEach(btn => btn.addEventListener('click', () => {
+  $$('nav.tabs button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  $$('.panel').forEach(p => p.classList.remove('active'));
+  $('#panel-' + btn.dataset.tab).classList.add('active');
+}));
+
+// ---------- Books ----------
+let vendorsCache = [];
+
+async function loadBooks(){
+  const data = await api('/api/admin/books-all');
+  const tbody = $('#books-table tbody');
+  tbody.innerHTML = '';
+  $('#books-empty').style.display = data.books.length ? 'none' : 'block';
+  data.books.forEach(b => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${b.cover_url ? `<img src="${b.cover_url}" alt="">${b.images && b.images.length > 1 ? `<div class="muted" style="font-size:11px;margin-top:4px;">${b.images.length} photos</div>` : ''}` : 'No cover'}</td>
+      <td><strong>${b.title}</strong><br><span class="muted">${b.author}</span></td>
+      <td>₹${rupees(b.price_paise)}</td>
+      <td>${b.available ? 'Yes' : 'No'}</td>
+      <td>${b.featured ? 'Yes' : 'No'}</td>
+      <td><div class="toolbar-btn-wrap">
+        <button class="btn outline small" data-edit="${b.id}">Edit</button>
+        <button class="btn danger small" data-del="${b.id}">Delete</button>
+      </div></td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', () => openBookModal(data.books.find(b => b.id == btn.dataset.edit))));
+  tbody.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', async () => {
+    if(!confirm('Delete this title? This cannot be undone.')) return;
+    await api('/api/admin/books/' + btn.dataset.del, { method:'DELETE' });
+    loadBooks();
+  }));
+}
+
+function openBookModal(book){
+  $('#book-modal-title').textContent = book ? 'Edit Title' : 'Add Title';
+  $('#book-id').value = book ? book.id : '';
+  $('#b-title').value = book ? book.title : '';
+  $('#b-author').value = book ? book.author : '';
+  $('#b-description').value = book ? (book.description||'') : '';
+  const imgs = book ? (Array.isArray(book.images) && book.images.length ? book.images : (book.cover_url ? [book.cover_url] : [])) : [];
+  for(let i = 0; i < 5; i++){ $('#b-image-' + (i+1)).value = imgs[i] || ''; }
+  $('#b-price').value = book ? Math.round(book.price_paise/100) : '';
+  $('#b-available').checked = book ? !!book.available : true;
+  $('#b-featured').checked = book ? !!book.featured : false;
+  $('#book-modal-bg').classList.add('open');
+}
+function closeBookModal(){ $('#book-modal-bg').classList.remove('open'); }
+$('#add-book-btn').addEventListener('click', () => openBookModal(null));
+
+$('#book-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = $('#book-id').value;
+  const images = [1,2,3,4,5].map(i => $('#b-image-' + i).value.trim()).filter(Boolean);
+  const payload = {
+    title: $('#b-title').value,
+    author: $('#b-author').value,
+    description: $('#b-description').value,
+    images,
+    price_paise: Math.round(parseFloat($('#b-price').value) * 100),
+    available: $('#b-available').checked,
+    featured: $('#b-featured').checked,
+  };
+  if(id){ await api('/api/admin/books/' + id, { method:'PUT', body: JSON.stringify(payload) }); }
+  else { await api('/api/admin/books', { method:'POST', body: JSON.stringify(payload) }); }
+  closeBookModal();
+  loadBooks();
+});
+
+// ---------- Orders ----------
+let ordersCache = [];
+
+async function loadOrders(){
+  const data = await api('/api/admin/orders');
+  ordersCache = data.orders;
+  const tbody = $('#orders-table tbody');
+  tbody.innerHTML = '';
+  $('#orders-empty').style.display = data.orders.length ? 'none' : 'block';
+  data.orders.forEach(o => {
+    const placed = new Date(o.created_at);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>#${o.id}</td>
+      <td>${placed.toLocaleDateString()}<br><span class="muted">${placed.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span></td>
+      <td>${o.book_title}</td>
+      <td>${o.buyer_name}<br><span class="muted">${o.buyer_phone || ''}</span></td>
+      <td style="max-width:220px;white-space:pre-wrap;">${o.shipping_address || ''}</td>
+      <td>${o.quantity}</td>
+      <td>₹${rupees(o.amount_paise)}</td>
+      <td><span class="badge ${o.payment_status}">${o.payment_status}</span></td>
+      <td></td>
+      <td></td>
+      <td></td>`;
+    const statusTd = tr.children[8];
+    const vendorTd = tr.children[9];
+    const actionsTd = tr.children[10];
+
+    const statusSelect = document.createElement('select');
+    statusSelect.className = 'status-select';
+    ['Received','Processing','Sent','Delivered'].forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s; if(s === o.fulfillment_status) opt.selected = true;
+      statusSelect.appendChild(opt);
+    });
+    statusSelect.addEventListener('change', async () => {
+      await api('/api/admin/orders/' + o.id, { method:'PUT', body: JSON.stringify({ fulfillment_status: statusSelect.value }) });
+    });
+    statusTd.appendChild(statusSelect);
+
+    const vendorSelect = document.createElement('select');
+    vendorSelect.className = 'status-select';
+    const noneOpt = document.createElement('option');
+    noneOpt.value = ''; noneOpt.textContent = 'Unassigned';
+    vendorSelect.appendChild(noneOpt);
+    vendorsCache.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.id; opt.textContent = v.name || v.username;
+      if(o.assigned_vendor_id == v.id) opt.selected = true;
+      vendorSelect.appendChild(opt);
+    });
+    vendorSelect.addEventListener('change', async () => {
+      await api('/api/admin/orders/' + o.id, { method:'PUT', body: JSON.stringify({ assigned_vendor_id: vendorSelect.value || null }) });
+    });
+    vendorTd.appendChild(vendorSelect);
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn danger small';
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.addEventListener('click', async () => {
+      if(!confirm(`Delete order #${o.id} (${o.book_title}, ${o.buyer_name})? This cannot be undone.`)) return;
+      await api('/api/admin/orders/' + o.id, { method:'DELETE' });
+      loadOrders();
+    });
+    actionsTd.appendChild(deleteBtn);
+
+    tbody.appendChild(tr);
+  });
+}
+
+function exportOrdersToExcel(){
+  if(!ordersCache.length){ alert('There are no orders to export yet.'); return; }
+  if(typeof XLSX === 'undefined'){ alert('Excel export library failed to load. Check your internet connection and try again.'); return; }
+  const rows = ordersCache.map(o => {
+    const placed = new Date(o.created_at);
+    const vendor = vendorsCache.find(v => v.id == o.assigned_vendor_id);
+    return {
+      'Order ID': o.id,
+      'Date': placed.toLocaleDateString('en-IN'),
+      'Time': placed.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' }),
+      'Book': o.book_title,
+      'Buyer Name': o.buyer_name,
+      'Phone': o.buyer_phone || '',
+      'Email': o.buyer_email || '',
+      'Shipping Address': o.shipping_address || '',
+      'Quantity': o.quantity,
+      'Amount (₹)': (o.amount_paise/100),
+      'Payment Status': o.payment_status,
+      'Fulfillment Status': o.fulfillment_status,
+      'Assigned Vendor': vendor ? (vendor.name || vendor.username) : 'Unassigned',
+      'Razorpay Order ID': o.razorpay_order_id || '',
+      'Razorpay Payment ID': o.razorpay_payment_id || '',
+    };
+  });
+  const sheet = XLSX.utils.json_to_sheet(rows);
+  sheet['!cols'] = [
+    {wch:9},{wch:12},{wch:9},{wch:22},{wch:20},{wch:14},{wch:24},{wch:34},
+    {wch:9},{wch:12},{wch:14},{wch:16},{wch:18},{wch:22},{wch:22}
+  ];
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, sheet, 'Orders');
+  const stamp = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(workbook, `blackdot-orders-${stamp}.xlsx`);
+}
+$('#export-orders-btn').addEventListener('click', exportOrdersToExcel);
+
+// ---------- Vendors ----------
+async function loadVendors(){
+  const data = await api('/api/admin/vendors');
+  vendorsCache = data.vendors;
+  const tbody = $('#vendors-table tbody');
+  tbody.innerHTML = '';
+  $('#vendors-empty').style.display = data.vendors.length ? 'none' : 'block';
+  data.vendors.forEach(v => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${v.username}</td><td>${v.name || ''}</td><td>${v.active ? 'Active' : 'Disabled'}</td><td>${new Date(v.created_at).toLocaleDateString()}</td>`;
+    tbody.appendChild(tr);
+  });
+  loadOrders(); // refresh vendor dropdowns in the orders table
+}
+
+function closeVendorModal(){ $('#vendor-modal-bg').classList.remove('open'); }
+$('#add-vendor-btn').addEventListener('click', () => $('#vendor-modal-bg').classList.add('open'));
+$('#vendor-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await api('/api/admin/vendors', { method:'POST', body: JSON.stringify({
+    name: $('#v-name').value, username: $('#v-username').value, password: $('#v-password').value
+  })});
+  closeVendorModal();
+  $('#vendor-form').reset();
+  loadVendors();
+});
+
+// ---------- Manuscripts ----------
+async function loadManuscripts(){
+  const data = await api('/api/admin/manuscripts');
+  const tbody = $('#manuscripts-table tbody');
+  tbody.innerHTML = '';
+  $('#manuscripts-empty').style.display = data.manuscripts.length ? 'none' : 'block';
+  data.manuscripts.forEach(m => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${new Date(m.created_at).toLocaleDateString()}</td>
+      <td><strong>${m.name}</strong><br><span class="muted">${m.email}<br>${m.phone || ''}</span></td>
+      <td>${m.book_title || ''}<br><span class="muted">${m.genre || ''}</span></td>
+      <td style="max-width:280px;">${(m.message || '').slice(0, 160)}${(m.message||'').length > 160 ? '…' : ''}</td>
+      <td>${m.attachment_filename ? m.attachment_filename : (m.manuscript_link ? `<a href="${m.manuscript_link}" target="_blank" rel="noopener">Link</a>` : 'No file')}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+</script>
+</body>
+</html>
