@@ -441,6 +441,7 @@
       return;
     }
     cart.add(book.id, qty);
+    track('AddToCart', { ...pixelItems([{ id: book.id, qty }]), content_name: book.title, value: book.price_paise * qty / 100, currency: 'INR' });
     toast(`“${book.title}” added to your cart`, { action: { label: 'View cart', onClick: openCart } });
   }
 
@@ -448,9 +449,21 @@
     return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
   }
 
+  // Meta Pixel standard events. Silently skipped if the pixel is blocked.
+  function track(event, params, eventId) {
+    try {
+      if (typeof window.fbq === 'function') window.fbq('track', event, params || {}, eventId ? { eventID: eventId } : undefined);
+    } catch (e) { /* ignore */ }
+  }
+  const pixelItems = (lines) => ({
+    content_ids: lines.map((l) => String(l.id)),
+    contents: lines.map((l) => ({ id: String(l.id), quantity: l.qty })),
+    content_type: 'product',
+  });
+
   window.BD = {
     ICONS, esc, money, img, stars, deliveryBy, deliveryRange, fmtDate, fmtDateTime, fmtDay,
-    api, books, config, shippingFor, cart, buyNow, myOrders, toast, header, footer, wireChrome,
+    track, pixelItems, api, books, config, shippingFor, cart, buyNow, myOrders, toast, header, footer, wireChrome,
     openCart, closeCart, stepperHtml, wireStepper, addToCart, whatsappLink, MAX_QTY, LOGO,
   };
 })();

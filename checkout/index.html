@@ -136,8 +136,25 @@
   .spinner{width:38px;height:38px;border:3px solid #eee;border-top-color:var(--bd-accent);border-radius:50%;animation:spin .8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1750050426074837');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1750050426074837&ev=PageView&noscript=1"
+/></noscript>
 
 <header class="top">
   <div class="top-inner">
@@ -276,7 +293,12 @@
     renderSummary();
   }
 
+  let checkoutTracked = false;
   function renderSummary(){
+    if(!checkoutTracked){
+      checkoutTracked = true;
+      BD.track('InitiateCheckout', { ...BD.pixelItems(quote.lines.map(l => ({ id: l.book_id, qty: l.quantity }))), num_items: quote.lines.reduce((s,l) => s + l.quantity, 0), value: quote.total / 100, currency: 'INR' });
+    }
     const byId = new Map(books.map(b => [b.id, b]));
     $('items').innerHTML = quote.lines.map(l => {
       const b = byId.get(l.book_id) || {};
@@ -478,6 +500,7 @@
   function success(order, v, d){
     busy(false);
     const total = quote.total;
+    BD.track('Purchase', { ...BD.pixelItems(quote.lines.map(l => ({ id: l.book_id, qty: l.quantity }))), num_items: quote.lines.reduce((s,l) => s + l.quantity, 0), value: total / 100, currency: 'INR' }, 'order-' + order.order_id);
     source.clear();
     BD.myOrders.add({ id: order.order_id, t: v.access_token || order.access_token, total, date: new Date().toISOString(), items: quote.lines.length });
     const link = `/order/?id=${order.order_id}&t=${encodeURIComponent(v.access_token || order.access_token)}`;
